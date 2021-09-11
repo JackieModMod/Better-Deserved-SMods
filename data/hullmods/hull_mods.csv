@@ -1,0 +1,13 @@
+name,id,tier,rarity,tech/manufacturer,tags,uiTags,base value,unlocked,hidden,hiddenEverywhere,cost_frigate,cost_dest,cost_cruiser,cost_capital,script,desc,short,sprite,,,
+"#If you do not like these changes below, you must delete the appropriate entry below here, then delete the script. If the entry does not exist, delete the script only. The hullmod behavior default to the original instead.",,,,,,,,,,,,,,,,,,,,,
+ECM Package,ecm,2,,,"offensive, special, merc","Weapons, Support",4000,,,,10,15,20,25,data.hullmods.ECMPackage,"When deployed in combat, grants %s/%s/%s/%s ECM rating, depending on this ship's hull size.",Increases ship's ECM rating.,graphics/hullmods/ecm_package.png,,,
+Efficiency Overhaul,efficiency_overhaul,0,,,"req_spaceport, merc","Logistics, Requires Dock",4000,,,,3,6,9,15,data.hullmods.EfficiencyOverhaul,"Reduces supply use for maintenance, fuel use, and minimum crew required by %s.
+
+Increases the combat readiness recovery and repair rates by %s. The per-day supply consumption for CR recovery is increased to account for the increased recovery rate, but the total supply cost remains the same.",Reduces ongoing costs and enables more deployments.,graphics/hullmods/efficiency.png,,,
+Expanded Deck Crew,expanded_deck_crew,1,,,"special, merc",Fighters,4000,,,,5,8,15,20,data.hullmods.ExpandedDeckCrew,"Reduces the rate at which the fighter replacement rate decreases due to fighter losses by %s, and increases the rate at which it recovers by %s.
+
+Increases the crew required by %s per fighter bay.","Improves fighter replacement rate, increases crew requirements.",graphics/hullmods/expanded_deck_crew.png,,,
+Nav Relay,nav_relay,2,,,"engines, special, merc","Engines, Support",5000,,,,10,15,20,25,data.hullmods.NavRelay,"When deployed in combat, increases nav rating of your fleet by %s/%s/%s/%s, depending on this ship's hull size.
+
+The total nav rating of your fleet increases the top speed of your deployed ships.",Increases top speed of deployed ships.,graphics/hullmods/nav_relay.png,,,
+Operations Center,operations_center,1,,,special,Special,5000,,,,30,30,30,30,data.hullmods.OperationsCenter,Increases the command point recovery rate by %s when installed on the flagship.,Increases command point recovery rate when on flagship.,graphics/hullmods/operations_center.png,,,
