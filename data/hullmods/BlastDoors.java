@@ -41,7 +41,7 @@ public class BlastDoors extends BaseHullMod {
 			tooltip.addPara("S-mod Bonus: Hull Integrity Bonus increased to %s.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "30" + "%");
 			tooltip.addPara("S-mod Bonus: Reduced crew casualties increased to %s.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "75" + "%");
 			return;
-		} else if (ship.getMutableStats().getVariant().getSMods().contains("blast_doors")) {
+		} else if (ship.getVariant().getSMods().contains("blast_doors")) {
 			tooltip.addPara("S-mod Bonus: Hull Integrity Bonus increased to %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "30" + "%");
 			tooltip.addPara("S-mod Bonus: Reduced crew casualties increased to %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "75" + "%");
 		} else if (ship.getHullSpec().isBuiltInMod("blast_doors")) {

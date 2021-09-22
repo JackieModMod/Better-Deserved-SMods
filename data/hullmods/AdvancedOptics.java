@@ -27,7 +27,7 @@ public class AdvancedOptics extends BaseHullMod {
 		if (isForModSpec) {
 			tooltip.addPara("S-mod Bonus: %s Beam Damage.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "+5" + "%");
 			return;
-		} else if (ship.getMutableStats().getVariant().getSMods().contains("advancedoptics")) {
+		} else if (ship.getVariant().getSMods().contains("advancedoptics")) {
 			tooltip.addPara("S-mod Bonus: %s Beam Damage.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "+5" + "%");
 		} else if (ship.getHullSpec().isBuiltInMod("advancedoptics")) {
             tooltip.addPara("Built-in Bonus: %s Beam Damage.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "+5" + "%");

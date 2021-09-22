@@ -44,7 +44,7 @@ public class OmniShieldEmitter extends BaseHullMod {
 			tooltip.addPara("S-mod Bonus: Reduction of shield arc decreased to %s.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "17" + "%");
 			tooltip.addPara("S-mod Bonus: Reduces the amount of damage taken by shields by %s.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), (int) SHIELD_BONUS + "%");
 			return;
-		} else if (ship.getMutableStats().getVariant().getSMods().contains("adaptiveshields")) {
+		} else if (ship.getVariant().getSMods().contains("adaptiveshields")) {
 			tooltip.addPara("S-mod Bonus: Reduction of shield arc decreased to %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "17" + "%");
 			tooltip.addPara("S-mod Bonus: Reduces the amount of damage taken by shields by %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), (int) SHIELD_BONUS + "%");
 		} else if (ship.getHullSpec().isBuiltInMod("adaptiveshields")) {

@@ -11,3 +11,15 @@ Nav Relay,nav_relay,2,,,"engines, special, merc","Engines, Support",5000,,,,10,1
 
 The total nav rating of your fleet increases the top speed of your deployed ships.",Increases top speed of deployed ships.,graphics/hullmods/nav_relay.png,,,
 Operations Center,operations_center,1,,,special,Special,5000,,,,30,30,30,30,data.hullmods.OperationsCenter,Increases the command point recovery rate by %s when installed on the flagship.,Increases command point recovery rate when on flagship.,graphics/hullmods/operations_center.png,,,
+High Scatter Amplifier,high_scatter_amp,3,,,"offensive, merc",Weapons,5000,,,,5,10,15,25,data.hullmods.HighScatterAmp,Reduces the range of beam weapons by %s and makes them deal hard flux damage to shields.,Reduces beam weapon range; beam weapons deal hard flux to shields.,graphics/hullmods/high_scatter_amp.png,,,
+Militarized Subsystems,militarized_subsystems,0,,,"req_spaceport, merc","Special, Logistics, Requires Dock",6000,TRUE,,,5,10,15,25,data.hullmods.MilitarizedSubsystems,"Removes the penalties from a civilian-grade hull, and increases maximum burn level by %s.
+
+Increases flux dissipation by %s, and adds %s armor for the damage reduction calculation only.
+
+Increases minimum crew required by %s.","Removes sensor penalties, increases maximum burn level, improves combat performance, increases crew required.",graphics/hullmods/militarized_subsystems.png,,,
+Assault Package,assault_package,1,,,"defensive, civ_package","Special, Defenses",8000,,,,3,6,9,15,data.hullmods.AssaultPackage,"Increases the ship's hull integrity by %s, armor by %s, and flux capacity by %s.
+
+Will try to engage enemies and otherwise act as a combat ship in battle.","Increases hull integrity, armor, and flux capacity.",graphics/hullmods/assault_package.png,,,
+Escort Package,escort_package,1,,,"weapons, engines, civ_package","Special, Weapons, Engines",8000,,,,3,6,9,15,data.hullmods.EscortPackage,"Increases the ship's maneuverability by %s. Increases the range of all point-defense weapons by %s, and increases the damage dealt to fighters and missiles by %s.
+
+Will try to engage enemies and otherwise act as a combat ship in battle.","Increases maneuverability, point-defense range, and damage dealt to fighters and missiles.",graphics/hullmods/escort_package.png,,,

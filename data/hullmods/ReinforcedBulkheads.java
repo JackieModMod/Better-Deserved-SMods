@@ -31,7 +31,7 @@ public class ReinforcedBulkheads extends BaseHullMod {
 		if (isForModSpec) {
 			tooltip.addPara("S-mod Bonus: Hull Integrity Bonus increased to %s.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "45" + "%");
 			return;
-		} else if (ship.getMutableStats().getVariant().getSMods().contains("reinforcedhull")) {
+		} else if (ship.getVariant().getSMods().contains("reinforcedhull")) {
 			tooltip.addPara("S-mod Bonus: Hull Integrity Bonus increased to %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "45" + "%");
 		} else if (ship.getHullSpec().isBuiltInMod("reinforcedhull")) {
 			tooltip.addPara("Built-in Bonus: Hull Integrity Bonus increased to %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "45" + "%");

@@ -38,7 +38,7 @@ public class EfficiencyOverhaul extends BaseLogisticsHullMod {
 		if (isForModSpec) {
 			tooltip.addPara("S-mod Bonus: %s maximum combat readiness.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "+10" + "%");
 			return;
-		} else if (ship.getMutableStats().getVariant().getSMods().contains("efficiency_overhaul")) {
+		} else if (ship.getVariant().getSMods().contains("efficiency_overhaul")) {
 			tooltip.addPara("S-mod Bonus: %s maximum combat readiness.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "+10" + "%");
 		} else if (ship.getHullSpec().isBuiltInMod("efficiency_overhaul")) {
 			tooltip.addPara("Built-in Bonus: %s maximum combat readiness.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "+10" + "%");

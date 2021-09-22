@@ -37,7 +37,7 @@ public class DedicatedTargetingCore extends BaseHullMod {
 		if (isForModSpec) {
 			tooltip.addPara("S-mod Bonus: Range bonus increased to %s.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "40%/60%");
 			return;
-		} else if (ship.getMutableStats().getVariant().getSMods().contains("dedicated_targeting_core")) {
+		} else if (ship.getVariant().getSMods().contains("dedicated_targeting_core")) {
 			tooltip.addPara("S-mod Bonus: Range bonus increased to %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "40%/60%");
 		} else if (ship.getHullSpec().isBuiltInMod("dedicated_targeting_core")) {
 			tooltip.addPara("Built-in Bonus: Range bonus increased to %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "40%/60%");

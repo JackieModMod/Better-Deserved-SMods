@@ -36,7 +36,7 @@ public class OperationsCenter extends BaseHullMod {
 			tooltip.addPara("S-mod Bonus: Increases nav rating of your fleet by %s when deployed.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "2%");
 			tooltip.addPara("S-mod Bonus: Grants %s ECM rating when deployed.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "2%");
 			return;
-		} else if (ship.getMutableStats().getVariant().getSMods().contains("operations_center")) {
+		} else if (ship.getVariant().getSMods().contains("operations_center")) {
 			tooltip.addPara("S-mod Bonus: Increases nav rating of your fleet by %s when deployed.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "2%");
 			tooltip.addPara("S-mod Bonus: Grants %s ECM rating when deployed.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "2%");
 		} else if (ship.getHullSpec().isBuiltInMod("operations_center")) {

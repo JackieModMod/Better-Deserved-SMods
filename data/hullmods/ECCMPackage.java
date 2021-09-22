@@ -61,7 +61,7 @@ public class ECCMPackage extends BaseHullMod {
 	public void applyEffectsToFighterSpawnedByShip(ShipAPI fighter, ShipAPI ship, String id) {
 		if (fighter == null || ship == null) return;
 		MutableShipStatsAPI stats = fighter.getMutableStats();
-		if (!fighter.getVariant().hasHullMod("eccm") && (ship.getMutableStats().getVariant().getSMods().contains("eccm") || ship.getHullSpec().isBuiltInMod("eccm"))) {
+		if (!fighter.getVariant().hasHullMod("eccm") && (ship.getVariant().getSMods().contains("eccm") || ship.getHullSpec().isBuiltInMod("eccm"))) {
 			stats.getMissileGuidance().modifyFlat(id, GUIDANCE_IMPROVEMENT);
 			stats.getMissileAccelerationBonus().modifyPercent(id, MISSILE_ACCEL_BONUS);
 			stats.getMissileMaxTurnRateBonus().modifyPercent(id, MISSILE_RATE_BONUS);
@@ -74,7 +74,7 @@ public class ECCMPackage extends BaseHullMod {
 			tooltip.addPara("S-mod Bonus: Reduced chance for missiles to be affected by electronic counter-measures and flares increased to %s.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "66" + "%");
 			tooltip.addPara("S-mod Bonus: Weaker CPU core adjunct are installed in each missile fired by wings providing improved tracking algorithm (if any) and boosted engine performance.", Misc.getGrayColor(), 10f);
 			return;
-		} else if (ship.getMutableStats().getVariant().getSMods().contains("eccm")) {
+		} else if (ship.getVariant().getSMods().contains("eccm")) {
 			tooltip.addPara("S-mod Bonus: Reduced chance for missiles to be affected by electronic counter-measures and flares increased to %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "66" + "%");
 			tooltip.addPara("S-mod Bonus: Weaker CPU core adjunct are installed in each missile fired by wings providing improved tracking algorithm (if any) and boosted engine performance.", Misc.getPositiveHighlightColor(), 10f);
 		} else if (ship.getHullSpec().isBuiltInMod("eccm")) {

@@ -35,7 +35,7 @@ public class AcceleratedShieldEmitter extends BaseHullMod {
 			tooltip.addPara("S-mod Bonus: Increases the turn rate of the ship's shields and the rate at which the shields are raised by an additional %s.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "100" + "%");
 			tooltip.addPara("S-mod Bonus: Reduces the amount of damage taken by shields by %s.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), (int) SHIELD_BONUS + "%");
 			return;
-		} else if (ship.getMutableStats().getVariant().getSMods().contains("advancedshieldemitter")) {
+		} else if (ship.getVariant().getSMods().contains("advancedshieldemitter")) {
 			tooltip.addPara("S-mod Bonus: Increases the turn rate of the ship's shields and the rate at which the shields are raised by an additional %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "100" + "%");
 			tooltip.addPara("S-mod Bonus: Reduces the amount of damage taken by shields by %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), (int) SHIELD_BONUS + "%");
 		} else if (ship.getHullSpec().isBuiltInMod("advancedshieldemitter")) {

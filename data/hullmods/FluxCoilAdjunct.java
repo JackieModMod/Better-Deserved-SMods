@@ -42,7 +42,7 @@ public class FluxCoilAdjunct extends BaseHullMod {
 		if (isForModSpec) {
 			tooltip.addPara("S-mod Bonus: %s overload duration.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "-20" + "%");
 			return;
-		} else if (ship.getMutableStats().getVariant().getSMods().contains("fluxcoil")) {
+		} else if (ship.getVariant().getSMods().contains("fluxcoil")) {
 			tooltip.addPara("S-mod Bonus: %s overload duration.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "-20" + "%");
 		} else if (ship.getHullSpec().isBuiltInMod("fluxcoil")) {
 			tooltip.addPara("Built-in Bonus: %s overload duration.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "-20" + "%");

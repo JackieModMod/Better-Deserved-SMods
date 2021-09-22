@@ -36,7 +36,7 @@ public class ArmoredWeapons extends BaseHullMod {
 			tooltip.addPara("S-mod Bonus: Weapon durability bonus increased to %s.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "150" + "%");
 			tooltip.addPara("S-mod Bonus: Armor bonus increased to %s.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "15" + "%");
 			return;
-		} else if (ship.getMutableStats().getVariant().getSMods().contains("armoredweapons")) {
+		} else if (ship.getVariant().getSMods().contains("armoredweapons")) {
 			tooltip.addPara("S-mod Bonus: Weapon durability bonus increased to %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "150" + "%");
 			tooltip.addPara("S-mod Bonus: Armor bonus increased to %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "15" + "%");
 		} else if (ship.getHullSpec().isBuiltInMod("armoredweapons")) {

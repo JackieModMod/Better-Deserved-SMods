@@ -42,7 +42,7 @@ public class NavRelay extends BaseHullMod {
 			tooltip.addPara("S-mod Bonus: Increase the ship's top speed by %s.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "5" + "%");
 			tooltip.addPara("S-mod Bonus: Increase the ship's 0-flux speed boost by %s.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "10");
 			return;
-		} else if (ship.getMutableStats().getVariant().getSMods().contains("nav_relay")) {
+		} else if (ship.getVariant().getSMods().contains("nav_relay")) {
 			tooltip.addPara("S-mod Bonus: Increase the ship's top speed by %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "5" + "%");
 			tooltip.addPara("S-mod Bonus: Increase the ship's 0-flux speed boost by %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "10");
 		} else if (ship.getHullSpec().isBuiltInMod("nav_relay")) {

@@ -36,7 +36,7 @@ public class AdvancedTurretGyros extends BaseHullMod {
 			tooltip.addPara("S-mod Bonus: Turret turn rate bonus increased to %s.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "200" + "%");
 			tooltip.addPara("S-mod Bonus: %s weapon recoil.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "-66" + "%");
 			return;
-		} else if (ship.getMutableStats().getVariant().getSMods().contains("turretgyros")) {
+		} else if (ship.getVariant().getSMods().contains("turretgyros")) {
 			tooltip.addPara("S-mod Bonus: Turret turn rate bonus increased to %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "200" + "%");
 			tooltip.addPara("S-mod Bonus: %s weapon recoil.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "-66" + "%");
 		} else if (ship.getHullSpec().isBuiltInMod("turretgyros")) {

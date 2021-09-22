@@ -36,7 +36,7 @@ public class HardenedSubsystems extends BaseHullMod {
 			tooltip.addPara("S-mod Bonus: %s seconds peak operating time.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "+30");
 			tooltip.addPara("S-mod Bonus: Combat Readiness Degrade Reduction increased to %s.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "33" + "%");
 			return;
-		} else if (ship.getMutableStats().getVariant().getSMods().contains("hardened_subsystems")) {
+		} else if (ship.getVariant().getSMods().contains("hardened_subsystems")) {
 			tooltip.addPara("S-mod Bonus: %s seconds peak operating time.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "+30");
 			tooltip.addPara("S-mod Bonus: Combat Readiness Degrade Reduction increased to %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "33" + "%");
 		} else if (ship.getHullSpec().isBuiltInMod("hardened_subsystems")) {

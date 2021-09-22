@@ -44,7 +44,7 @@ public class ExpandedDeckCrew extends BaseHullMod {
 			tooltip.addPara("S-mod Bonus: Fighter Replacement Rate Reduction increased to %s.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "15" + "%");
 			tooltip.addPara("S-mod Bonus: Fighter Replacement Rate Recovery increased to %s.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "25" + "%");
 			return;
-		} else if (ship.getMutableStats().getVariant().getSMods().contains("expanded_deck_crew")) {
+		} else if (ship.getVariant().getSMods().contains("expanded_deck_crew")) {
 			tooltip.addPara("S-mod Bonus: Fighter Replacement Rate Reduction increased to %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "15" + "%");
 			tooltip.addPara("S-mod Bonus: Fighter Replacement Rate Recovery increased to %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "25" + "%");
 		} else if (ship.getHullSpec().isBuiltInMod("expanded_deck_crew")) {

@@ -35,7 +35,7 @@ public class InsulatedEngines extends BaseLogisticsHullMod {
 		if (isForModSpec) {
 			tooltip.addPara("S-mod Bonus: Reduces the time required to repair disabled engines by %s.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "33" + "%");
 			return;
-		} else if (ship.getMutableStats().getVariant().getSMods().contains("insulatedengine")) {
+		} else if (ship.getVariant().getSMods().contains("insulatedengine")) {
 			tooltip.addPara("S-mod Bonus: Reduces the time required to repair disabled engines by %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "33" + "%");
 		} else if (ship.getHullSpec().isBuiltInMod("insulatedengine")) {
 			tooltip.addPara("Built-in Bonus: Reduces the time required to repair disabled engines by %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "33" + "%");

@@ -31,7 +31,7 @@ public class ExtendedShieldEmitter extends BaseHullMod {
 			tooltip.addPara("S-mod Bonus: Increases the shield's coverage by an additional %s degrees.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "45");
 			tooltip.addPara("S-mod Bonus: Reduces the amount of damage taken by shields by %s.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), (int) SHIELD_BONUS + "%");
 			return;
-		} else if (ship.getMutableStats().getVariant().getSMods().contains("extendedshieldemitter")) {
+		} else if (ship.getVariant().getSMods().contains("extendedshieldemitter")) {
 			tooltip.addPara("S-mod Bonus: Increases the shield's coverage by an additional %s degrees.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "45");
 			tooltip.addPara("S-mod Bonus: Reduces the amount of damage taken by shields by %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), (int) SHIELD_BONUS + "%");
 		} else if (ship.getHullSpec().isBuiltInMod("extendedshieldemitter")) {

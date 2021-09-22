@@ -70,7 +70,7 @@ public class HeavyArmor extends BaseHullMod {
 		if (isForModSpec) {
 			tooltip.addPara("S-mod Penalty: Heavy Armor's armor bonus reduced to %s points.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "125/250/325/400");
 			return;
-		} else if (ship.getMutableStats().getVariant().getSMods().contains("heavyarmor")) {
+		} else if (ship.getVariant().getSMods().contains("heavyarmor")) {
 			tooltip.addPara("S-mod Penalty: Heavy Armor's armor bonus reduced to %s points.", 10f, Misc.getNegativeHighlightColor(), Misc.getHighlightColor(), "125/250/325/400");
 		} else if (ship.getHullSpec().isBuiltInMod("heavyarmor")) {
 			//No penalties!
@@ -80,7 +80,7 @@ public class HeavyArmor extends BaseHullMod {
     }
 
 	public boolean isApplicableToShip(ShipAPI ship) {
-		//if (ship.getMutableStats().getCargoMod().computeEffective(ship.getHullSpec().getCargo()) < 70) return false;
+		//if (ship.getCargoMod().computeEffective(ship.getHullSpec().getCargo()) < 70) return false;
 
 		return true;
 	}

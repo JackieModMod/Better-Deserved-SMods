@@ -19,6 +19,8 @@ public class AutomatedRepairUnit extends BaseHullMod {
 		if (stats.getVariant().getSMods().contains("autorepair") || stats.getVariant().getHullSpec().isBuiltInMod("autorepair")) {
 			stats.getCombatEngineRepairTimeMult().modifyMult(id, 1f - SREPAIR_BONUS * 0.01f);
 			stats.getCombatWeaponRepairTimeMult().modifyMult(id, 1f - SREPAIR_BONUS * 0.01f);
+			stats.getHullCombatRepairRatePercentPerSecond().modifyFlat(id, 1f);
+			stats.getMaxCombatHullRepairFraction().modifyFlat(id, 0.4f);
 			//stats.getHullBonus().modifyPercent(id, 5f);
 		} else {
 			stats.getCombatEngineRepairTimeMult().modifyMult(id, 1f - REPAIR_BONUS * 0.01f);
@@ -39,14 +41,18 @@ public class AutomatedRepairUnit extends BaseHullMod {
 	
     public void addPostDescriptionSection(TooltipMakerAPI tooltip, ShipAPI.HullSize hullSize, ShipAPI ship, float width, boolean isForModSpec) {
 		if (isForModSpec) {
-			tooltip.addPara("S-mod Bonus: Time reduction to repair weapons and engines increased to %s.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "80" + "%");
+			tooltip.addPara("S-mod Bonus: Time reduction to repair weapons and engines increased to %s", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "80" + "%");
+			tooltip.addPara("S-mod Bonus: When below 40 percent hull integrity, recover %s of your hull every second", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "1" + "%");
 			return;
-		} else if (ship.getMutableStats().getVariant().getSMods().contains("autorepair")) {
-			tooltip.addPara("S-mod Bonus: Time reduction to repair weapons and engines increased to %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "80" + "%");
+		} else if (ship.getVariant().getSMods().contains("autorepair")) {
+			tooltip.addPara("S-mod Bonus: Time reduction to repair weapons and engines increased to %s", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "80" + "%");
+			tooltip.addPara("S-mod Bonus: When below 40 percent hull integrity, recover %s of your hull every second", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "1" + "%");
 		} else if (ship.getHullSpec().isBuiltInMod("autorepair")) {
-			tooltip.addPara("Built-in Bonus: Time reduction to repair weapons and engines increased to %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "80" + "%");
+			tooltip.addPara("Built-in Bonus: Time reduction to repair weapons and engines increased to %s", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "80" + "%");
+			tooltip.addPara("Built-in Bonus: When below 40 percent hull integrity, recover %s of your hull every second", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "1" + "%");
         } else if (!isForModSpec) {
-			tooltip.addPara("S-mod Bonus: Time reduction to repair weapons and engines increased to %s.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "80" + "%");
+			tooltip.addPara("S-mod Bonus: Time reduction to repair weapons and engines increased to %s", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "80" + "%");
+			tooltip.addPara("S-mod Bonus: When below 40 percent hull integrity, recover %s of your hull every second", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "1" + "%");
 		}
     }
 

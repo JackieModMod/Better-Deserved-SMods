@@ -64,7 +64,7 @@ public class UnstableInjector extends BaseHullMod {
 			tooltip.addPara("S-mod Bonus: Increase the ship's top speed by %s.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "5");
 			tooltip.addPara("S-mod Bonus: Increased fighter replacement time reduced to %s.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "20" + "%");
 			return;
-		} else if (ship.getMutableStats().getVariant().getSMods().contains("unstable_injector")) {
+		} else if (ship.getVariant().getSMods().contains("unstable_injector")) {
 			tooltip.addPara("S-mod Bonus: Increase the ship's top speed by %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "5");
 			tooltip.addPara("S-mod Bonus: Increased fighter replacement time reduced to %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "20" + "%");
 		} else if (ship.getHullSpec().isBuiltInMod("unstable_injector")) {

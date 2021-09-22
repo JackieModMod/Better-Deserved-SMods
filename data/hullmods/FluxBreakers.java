@@ -35,7 +35,7 @@ public class FluxBreakers extends BaseHullMod {
 			tooltip.addPara("S-mod Bonus: +%s Flux Dissipation.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "5" + "%");
 			tooltip.addPara("S-mod Penalty: Flux Dissipation Bonus while venting reduced to %s.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "20" + "%");
 			return;
-		} else if (ship.getMutableStats().getVariant().getSMods().contains("fluxbreakers")) {
+		} else if (ship.getVariant().getSMods().contains("fluxbreakers")) {
 			tooltip.addPara("S-mod Bonus: +%s Flux Dissipation.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "5" + "%");
 			tooltip.addPara("S-mod Penalty: Flux Dissipation Bonus while venting reduced to %s.", 10f, Misc.getNegativeHighlightColor(), Misc.getHighlightColor(), "20" + "%");
 		} else if (ship.getHullSpec().isBuiltInMod("fluxbreakers")) {

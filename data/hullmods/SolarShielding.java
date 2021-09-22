@@ -36,7 +36,7 @@ public class SolarShielding extends BaseLogisticsHullMod {
 		if (isForModSpec) {
 			tooltip.addPara("S-mod Bonus: Energy damage reduction increased to %s.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "30" + "%");
 			return;
-		} else if (ship.getMutableStats().getVariant().getSMods().contains("solar_shielding")) {
+		} else if (ship.getVariant().getSMods().contains("solar_shielding")) {
 			tooltip.addPara("S-mod Bonus: Energy damage reduction increased to %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "30" + "%");
 		} else if (ship.getHullSpec().isBuiltInMod("solar_shielding")) {
 			tooltip.addPara("Built-in Bonus: Energy damage reduction increased to %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "30" + "%");

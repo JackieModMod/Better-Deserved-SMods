@@ -15,14 +15,17 @@ public class ExpandedMagazines extends BaseHullMod {
 
 	/*Thank you PureTilt!*/
 	public static final float AMMO_BONUS = 50f;
-	public static final float fireRate = 50f;
+	public static final float fireRate = 33f;
 	
 	public void applyEffectsBeforeShipCreation(HullSize hullSize, MutableShipStatsAPI stats, String id) {
-		stats.getBallisticAmmoBonus().modifyPercent(id, AMMO_BONUS);
-		stats.getEnergyAmmoBonus().modifyPercent(id, AMMO_BONUS);
 		if (stats.getVariant().getSMods().contains("magazines") || stats.getVariant().getHullSpec().isBuiltInMod("magazines")) {
 			stats.getDynamic().getStat("ENERGY_AMMO_REGEN").modifyMult("ExpandedMagazines", 1 + fireRate * 0.01f);
 			stats.getDynamic().getStat("BALLISTIC_AMMO_REGEN").modifyMult("ExpandedMagazines", 1 + fireRate * 0.01f);
+			stats.getBallisticAmmoBonus().modifyPercent(id, AMMO_BONUS+16f);
+			stats.getEnergyAmmoBonus().modifyPercent(id, AMMO_BONUS+16f);
+		} else {
+			stats.getBallisticAmmoBonus().modifyPercent(id, AMMO_BONUS);
+			stats.getEnergyAmmoBonus().modifyPercent(id, AMMO_BONUS);
 		}
 	}
 	
@@ -33,14 +36,18 @@ public class ExpandedMagazines extends BaseHullMod {
 
    public void addPostDescriptionSection(TooltipMakerAPI tooltip, ShipAPI.HullSize hullSize, ShipAPI ship, float width, boolean isForModSpec) {
 		if (isForModSpec) {
-			tooltip.addPara("S-mod Bonus: If applicable, increase the reload speed for ballistic and energy weapons by %s.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "50" + "%");
+			tooltip.addPara("S-mod Bonus: Ammo capacity bonus increased to %s.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "66" + "%");
+			tooltip.addPara("S-mod Bonus: If applicable, increase the reload speed for ballistic and energy weapons by %s.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "33" + "%");
 			return;
-		} else if (ship.getMutableStats().getVariant().getSMods().contains("magazines")) {
-			tooltip.addPara("S-mod Bonus: If applicable, increase the reload speed for ballistic and energy weapons by %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "50" + "%");
+		} else if (ship.getVariant().getSMods().contains("magazines")) {
+			tooltip.addPara("S-mod Bonus: Ammo capacity bonus increased to %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "66" + "%");
+			tooltip.addPara("S-mod Bonus: If applicable, increase the reload speed for ballistic and energy weapons by %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "33" + "%");
 		} else if (ship.getHullSpec().isBuiltInMod("magazines")) {
- 			tooltip.addPara("Built-in Bonus: If applicable, increase the reload speed for ballistic and energy weapons by %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "50" + "%");
+			tooltip.addPara("Built-in Bonus: Ammo capacity bonus increased to %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "66" + "%");
+ 			tooltip.addPara("Built-in Bonus: If applicable, increase the reload speed for ballistic and energy weapons by %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "33" + "%");
         } else if (!isForModSpec) {
-			tooltip.addPara("S-mod Bonus: If applicable, increase the reload speed for ballistic and energy weapons by %s.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "50" + "%");
+			tooltip.addPara("S-mod Bonus: Ammo capacity bonus increased to %s.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "66" + "%");
+			tooltip.addPara("S-mod Bonus: If applicable, increase the reload speed for ballistic and energy weapons by %s.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "33" + "%");
 		}
     }
 	

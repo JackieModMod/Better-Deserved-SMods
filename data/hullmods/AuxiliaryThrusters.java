@@ -38,7 +38,7 @@ public class AuxiliaryThrusters extends BaseHullMod {
 			tooltip.addPara("S-mod Bonus: Maneuverability's bonus increased to %s.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "66" + "%");
 			tooltip.addPara("S-mod Bonus: Increases the durability of the ship's engines by %s.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "25" + "%");
 			return;
-		} else if (ship.getMutableStats().getVariant().getSMods().contains("auxiliarythrusters")) {
+		} else if (ship.getVariant().getSMods().contains("auxiliarythrusters")) {
 			tooltip.addPara("S-mod Bonus: Maneuverability's bonus increased to %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "66" + "%");
 			tooltip.addPara("S-mod Bonus: Increases the durability of the ship's engines by %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "25" + "%");
 		} else if (ship.getHullSpec().isBuiltInMod("auxiliarythrusters")) {

@@ -67,7 +67,7 @@ public class IntegratedPointDefenseAI extends BaseHullMod {
 		if (isForModSpec) {
 			tooltip.addPara("S-mod Bonus: Increases the range of all point-defense weapons by %s.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "100");
 			return;
-		} else if (ship.getMutableStats().getVariant().getSMods().contains("pointdefenseai")) {
+		} else if (ship.getVariant().getSMods().contains("pointdefenseai")) {
 			tooltip.addPara("S-mod Bonus: Increases the range of all point-defense weapons by %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "100");
 		} else if (ship.getHullSpec().isBuiltInMod("pointdefenseai")) {
 			tooltip.addPara("Built-in Bonus: Increases the range of all point-defense weapons by %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "100");

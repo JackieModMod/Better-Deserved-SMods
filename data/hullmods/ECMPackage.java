@@ -45,7 +45,7 @@ public class ECMPackage extends BaseHullMod {
 			tooltip.addPara("S-mod Bonus: Extends the range of ballistic and energy weapons by %s.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "5" + "%");
 			tooltip.addPara("S-mod Bonus: Reduce the weapon range reduction due to superior enemy Electronic Warfare by %s.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "50" + "%");
 			return;
-		} else if (ship.getMutableStats().getVariant().getSMods().contains("ecm")) {
+		} else if (ship.getVariant().getSMods().contains("ecm")) {
 			tooltip.addPara("S-mod Bonus: Extends the range of ballistic and energy weapons by %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "5" + "%");
 			tooltip.addPara("S-mod Bonus: Reduce the weapon range reduction due to superior enemy Electronic Warfare by %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "50" + "%");
 		} else if (ship.getHullSpec().isBuiltInMod("ecm")) {
