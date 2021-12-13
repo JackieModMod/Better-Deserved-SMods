@@ -1,5 +1,6 @@
 package data.hullmods;
 
+import com.fs.starfarer.api.Global;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -39,7 +40,7 @@ public class DedicatedTargetingCore extends BaseHullMod {
 			return;
 		} else if (ship.getVariant().getSMods().contains("dedicated_targeting_core")) {
 			tooltip.addPara("S-mod Bonus: Range bonus increased to %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "40%/60%");
-		} else if (ship.getHullSpec().isBuiltInMod("dedicated_targeting_core")) {
+		} else if (Global.getSettings().getBoolean("BuiltInSMod") && ship.getHullSpec().isBuiltInMod("dedicated_targeting_core")) {
 			tooltip.addPara("Built-in Bonus: Range bonus increased to %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "40%/60%");
         } else if (!isForModSpec) {
 			tooltip.addPara("S-mod Bonus: Range bonus increased to %s.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "40%/60%");
@@ -47,7 +48,7 @@ public class DedicatedTargetingCore extends BaseHullMod {
     }
 	
 	public void applyEffectsBeforeShipCreation(HullSize hullSize, MutableShipStatsAPI stats, String id) {
-		if (stats.getVariant().getSMods().contains("dedicated_targeting_core") || stats.getVariant().getHullSpec().isBuiltInMod("dedicated_targeting_core")) {
+		if (stats.getVariant().getSMods().contains("dedicated_targeting_core") || (Global.getSettings().getBoolean("BuiltInSMod") && stats.getVariant().getHullSpec().isBuiltInMod("dedicated_targeting_core"))) {
 			stats.getBallisticWeaponRangeBonus().modifyPercent(id, (Float) smag.get(hullSize));
 			stats.getEnergyWeaponRangeBonus().modifyPercent(id, (Float) smag.get(hullSize));
 		} else {

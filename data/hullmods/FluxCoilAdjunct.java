@@ -1,5 +1,6 @@
 package data.hullmods;
 
+import com.fs.starfarer.api.Global;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,7 +14,7 @@ import com.fs.starfarer.api.util.Misc;
 @SuppressWarnings("unchecked")
 public class FluxCoilAdjunct extends BaseHullMod {
 
-	public static final float OVERLOAD_REDUCTION = 20f;
+	public static final float OVERLOAD_REDUCTION = 33f;
 	
 	private static Map mag = new HashMap();
 	static {
@@ -24,7 +25,7 @@ public class FluxCoilAdjunct extends BaseHullMod {
 	}
 	
 	public void applyEffectsBeforeShipCreation(HullSize hullSize, MutableShipStatsAPI stats, String id) {
-		if (stats.getVariant().getSMods().contains("fluxcoil") || stats.getVariant().getHullSpec().isBuiltInMod("fluxcoil")) {
+		if (stats.getVariant().getSMods().contains("fluxcoil") || (Global.getSettings().getBoolean("BuiltInSMod") && stats.getVariant().getHullSpec().isBuiltInMod("fluxcoil"))) {
 			stats.getOverloadTimeMod().modifyMult(id, 1f - OVERLOAD_REDUCTION / 100f);
 		}
 		stats.getFluxCapacity().modifyFlat(id, (Float) mag.get(hullSize));
@@ -40,14 +41,14 @@ public class FluxCoilAdjunct extends BaseHullMod {
 
     public void addPostDescriptionSection(TooltipMakerAPI tooltip, ShipAPI.HullSize hullSize, ShipAPI ship, float width, boolean isForModSpec) {
 		if (isForModSpec) {
-			tooltip.addPara("S-mod Bonus: %s overload duration.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "-20" + "%");
+			tooltip.addPara("S-mod Bonus: %s overload duration.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "-33" + "%");
 			return;
 		} else if (ship.getVariant().getSMods().contains("fluxcoil")) {
-			tooltip.addPara("S-mod Bonus: %s overload duration.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "-20" + "%");
-		} else if (ship.getHullSpec().isBuiltInMod("fluxcoil")) {
-			tooltip.addPara("Built-in Bonus: %s overload duration.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "-20" + "%");
+			tooltip.addPara("S-mod Bonus: %s overload duration.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "-33" + "%");
+		} else if (Global.getSettings().getBoolean("BuiltInSMod") && ship.getHullSpec().isBuiltInMod("fluxcoil")) {
+			tooltip.addPara("Built-in Bonus: %s overload duration.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "-33" + "%");
         } else if (!isForModSpec) {
-			tooltip.addPara("S-mod Bonus: %s overload duration.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "-20" + "%");
+			tooltip.addPara("S-mod Bonus: %s overload duration.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "-33" + "%");
 		}
     }
 

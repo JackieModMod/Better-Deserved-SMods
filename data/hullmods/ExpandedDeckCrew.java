@@ -1,5 +1,6 @@
 package data.hullmods;
 
+import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.combat.BaseHullMod;
 import com.fs.starfarer.api.combat.MutableShipStatsAPI;
 import com.fs.starfarer.api.combat.ShipAPI;
@@ -12,20 +13,18 @@ public class ExpandedDeckCrew extends BaseHullMod {
 
 	public static final float RATE_DECREASE_MODIFIER = 10f;
 	public static final float RATE_INCREASE_MODIFIER = 20f;
-	public static final float SRATE_DECREASE_MODIFIER = 15f;
-	public static final float SRATE_INCREASE_MODIFIER = 25f;
+	public static final float SRATE_DECREASE_MODIFIER = 25f;
 	
 	public static final float CREW_PER_DECK = 20f;
 	
 	
 	public void applyEffectsBeforeShipCreation(HullSize hullSize, MutableShipStatsAPI stats, String id) {
-		if (stats.getVariant().getSMods().contains("expanded_deck_crew") || stats.getVariant().getHullSpec().isBuiltInMod("expanded_deck_crew")) {
+		if (stats.getVariant().getSMods().contains("expanded_deck_crew") || Global.getSettings().getBoolean("BuiltInSMod") && stats.getVariant().getHullSpec().isBuiltInMod("expanded_deck_crew")) {
 			stats.getDynamic().getStat(Stats.REPLACEMENT_RATE_DECREASE_MULT).modifyMult(id, 1f - SRATE_DECREASE_MODIFIER / 100f);
-			stats.getDynamic().getStat(Stats.REPLACEMENT_RATE_INCREASE_MULT).modifyPercent(id, SRATE_INCREASE_MODIFIER);
 		} else {
 			stats.getDynamic().getStat(Stats.REPLACEMENT_RATE_DECREASE_MULT).modifyMult(id, 1f - RATE_DECREASE_MODIFIER / 100f);
-			stats.getDynamic().getStat(Stats.REPLACEMENT_RATE_INCREASE_MULT).modifyPercent(id, RATE_INCREASE_MODIFIER);
 		}
+                stats.getDynamic().getStat(Stats.REPLACEMENT_RATE_INCREASE_MULT).modifyPercent(id, RATE_INCREASE_MODIFIER);
 		
 		
 		int crew = (int) (stats.getNumFighterBays().getBaseValue() * CREW_PER_DECK);
@@ -41,18 +40,14 @@ public class ExpandedDeckCrew extends BaseHullMod {
 	
     public void addPostDescriptionSection(TooltipMakerAPI tooltip, ShipAPI.HullSize hullSize, ShipAPI ship, float width, boolean isForModSpec) {
 		if (isForModSpec) {
-			tooltip.addPara("S-mod Bonus: Fighter Replacement Rate Reduction increased to %s.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "15" + "%");
-			tooltip.addPara("S-mod Bonus: Fighter Replacement Rate Recovery increased to %s.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "25" + "%");
+			tooltip.addPara("S-mod Bonus: Fighter Replacement Rate Reduction increased to %s.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "25" + "%");
 			return;
 		} else if (ship.getVariant().getSMods().contains("expanded_deck_crew")) {
-			tooltip.addPara("S-mod Bonus: Fighter Replacement Rate Reduction increased to %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "15" + "%");
-			tooltip.addPara("S-mod Bonus: Fighter Replacement Rate Recovery increased to %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "25" + "%");
-		} else if (ship.getHullSpec().isBuiltInMod("expanded_deck_crew")) {
-			tooltip.addPara("Built-in Bonus: Fighter Replacement Rate Reduction increased to %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "15" + "%");
-			tooltip.addPara("Built-in Bonus: Fighter Replacement Rate Recovery increased to %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "25" + "%");
-        } else if (!isForModSpec) {
-			tooltip.addPara("S-mod Bonus: Fighter Replacement Rate Reduction increased to %s.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "15" + "%");
-			tooltip.addPara("S-mod Bonus: Fighter Replacement Rate Recovery increased to %s.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "25" + "%");
+			tooltip.addPara("S-mod Bonus: Fighter Replacement Rate Reduction increased to %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "25" + "%");
+		} else if (Global.getSettings().getBoolean("BuiltInSMod") && ship.getHullSpec().isBuiltInMod("expanded_deck_crew")) {
+			tooltip.addPara("Built-in Bonus: Fighter Replacement Rate Reduction increased to %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "25" + "%");
+                } else if (!isForModSpec) {
+			tooltip.addPara("S-mod Bonus: Fighter Replacement Rate Reduction increased to %s.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "25" + "%");
 		}
     }
 	

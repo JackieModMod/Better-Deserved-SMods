@@ -1,5 +1,6 @@
 package data.hullmods;
 
+import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.combat.BaseHullMod;
 import com.fs.starfarer.api.combat.MutableShipStatsAPI;
 import com.fs.starfarer.api.combat.ShieldAPI;
@@ -13,7 +14,6 @@ public class FrontShieldGenerator extends BaseHullMod {
 	
 	public static final float SHIELD_ARC = 90f;
 	public static final float SPEED_MULT = 0.8f;
-	public static float SHIELD_BONUS = 2f;
 	
 	
 //	private static Map mag = new HashMap();
@@ -35,10 +35,8 @@ public class FrontShieldGenerator extends BaseHullMod {
 	@Override
 	public void applyEffectsBeforeShipCreation(HullSize hullSize, MutableShipStatsAPI stats, String id) {
 		//stats.getMaxSpeed().modifyFlat(id, (Float) mag.get(hullSize) * -1f);
-		stats.getMaxSpeed().modifyMult(id, SPEED_MULT);
-		if (stats.getVariant().getSMods().contains("frontshield") || stats.getVariant().getHullSpec().isBuiltInMod("frontshield")) {
-			stats.getMaxSpeed().modifyMult(id, SPEED_MULT*1.125f);
-			stats.getShieldDamageTakenMult().modifyMult(id, 1f - SHIELD_BONUS * 0.01f);
+		if (stats.getVariant().getSMods().contains("frontshield") || (Global.getSettings().getBoolean("BuiltInSMod") && stats.getVariant().getHullSpec().isBuiltInMod("frontshield"))) {
+			stats.getMaxSpeed().modifyMult(id, SPEED_MULT*1.1875f);
 		} else {
 			stats.getMaxSpeed().modifyMult(id, SPEED_MULT);
 		}
@@ -64,18 +62,14 @@ public class FrontShieldGenerator extends BaseHullMod {
 	
     public void addPostDescriptionSection(TooltipMakerAPI tooltip, ShipAPI.HullSize hullSize, ShipAPI ship, float width, boolean isForModSpec) {
 		if (isForModSpec) {
-			tooltip.addPara("S-mod Bonus: Top speed reduction reduced to %s.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "10" + "%");
-			tooltip.addPara("S-mod Bonus: Reduces the amount of damage taken by shields by %s.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), (int) SHIELD_BONUS + "%");
+			tooltip.addPara("S-mod Bonus: Top speed reduction reduced to %s", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "5" + "%");
 			return;
 		} else if (ship.getVariant().getSMods().contains("frontshield")) {
-			tooltip.addPara("S-mod Bonus: Top speed reduction reduced to %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "10" + "%");
-			tooltip.addPara("S-mod Bonus: Reduces the amount of damage taken by shields by %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), (int) SHIELD_BONUS + "%");
-		} else if (ship.getHullSpec().isBuiltInMod("frontshield")) {
-			tooltip.addPara("Built-in Bonus: Top speed reduction reduced to %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "10" + "%");
-			tooltip.addPara("Built-in Bonus: Reduces the amount of damage taken by shields by %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), (int) SHIELD_BONUS + "%");
+			tooltip.addPara("S-mod Bonus: Top speed reduction reduced to %s", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "5" + "%");
+		} else if (Global.getSettings().getBoolean("BuiltInSMod") && ship.getHullSpec().isBuiltInMod("frontshield")) {
+			tooltip.addPara("Built-in Bonus: Top speed reduction reduced to %s", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "5" + "%");
         } else if (!isForModSpec) {
-			tooltip.addPara("S-mod Bonus: Top speed reduction reduced to %s.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "10" + "%");
-			tooltip.addPara("S-mod Bonus: Reduces the amount of damage taken by shields by %s.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), (int) SHIELD_BONUS + "%");
+			tooltip.addPara("S-mod Bonus: Top speed reduction reduced to %s", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "5" + "%");
 		}
     }
 
@@ -85,6 +79,9 @@ public class FrontShieldGenerator extends BaseHullMod {
 	}
 	
 	public String getUnapplicableReason(ShipAPI ship) {
+		if (ship != null && ship.getHullSpec().getDefenseType() == ShieldType.PHASE) {
+			return "Ship can not have shields";
+		} 
 		return "Ship already has shields";
 	}
 }

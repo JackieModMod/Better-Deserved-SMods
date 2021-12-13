@@ -32,19 +32,13 @@ public class HeavyArmor extends BaseHullMod {
 		
 		if (stats.getVariant().getSMods().contains("heavyarmor")) {
 			stats.getArmorBonus().modifyFlat(id, (Float) smag.get(hullSize));
-			
-			stats.getAcceleration().modifyMult(id, 1f - MANEUVER_PENALTY * 0.01f);
-			stats.getDeceleration().modifyMult(id, 1f - MANEUVER_PENALTY * 0.01f);
-			stats.getTurnAcceleration().modifyMult(id, 1f - MANEUVER_PENALTY * 0.01f);
-			stats.getMaxTurnRate().modifyMult(id, 1f - MANEUVER_PENALTY * 0.01f);
 		}  else {
 			stats.getArmorBonus().modifyFlat(id, (Float) mag.get(hullSize));
-			
-			stats.getAcceleration().modifyMult(id, 1f - MANEUVER_PENALTY * 0.01f);
-			stats.getDeceleration().modifyMult(id, 1f - MANEUVER_PENALTY * 0.01f);
-			stats.getTurnAcceleration().modifyMult(id, 1f - MANEUVER_PENALTY * 0.01f);
-			stats.getMaxTurnRate().modifyMult(id, 1f - MANEUVER_PENALTY * 0.01f);
 		}
+                stats.getAcceleration().modifyMult(id, 1f - MANEUVER_PENALTY * 0.01f);
+		stats.getDeceleration().modifyMult(id, 1f - MANEUVER_PENALTY * 0.01f);
+		stats.getTurnAcceleration().modifyMult(id, 1f - MANEUVER_PENALTY * 0.01f);
+                stats.getMaxTurnRate().modifyMult(id, 1f - MANEUVER_PENALTY * 0.01f);
 		
 //		stats.getDynamic().getMod(Stats.MAX_LOGISTICS_HULLMODS_MOD).modifyFlat(id, 1);
 //		//stats.getCargoMod().modifyFlat(id, -70);
@@ -72,9 +66,9 @@ public class HeavyArmor extends BaseHullMod {
 			return;
 		} else if (ship.getVariant().getSMods().contains("heavyarmor")) {
 			tooltip.addPara("S-mod Penalty: Heavy Armor's armor bonus reduced to %s points.", 10f, Misc.getNegativeHighlightColor(), Misc.getHighlightColor(), "125/250/325/400");
-		} else if (ship.getHullSpec().isBuiltInMod("heavyarmor")) {
+		//} else if (ship.getHullSpec().isBuiltInMod("heavyarmor")) {
 			//No penalties!
-        } else if (!isForModSpec) {
+                } else if (!isForModSpec) {
 			tooltip.addPara("S-mod Penalty: Heavy Armor's armor bonus reduced to %s points.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "125/250/325/400");
 		}
     }

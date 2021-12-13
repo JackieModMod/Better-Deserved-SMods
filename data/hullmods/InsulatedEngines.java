@@ -1,5 +1,6 @@
 package data.hullmods;
 
+import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.combat.MutableShipStatsAPI;
 import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.combat.ShipAPI.HullSize;
@@ -15,7 +16,7 @@ public class InsulatedEngines extends BaseLogisticsHullMod {
 	public static final float REPAIR_BONUS = 33f;
 	
 	public void applyEffectsBeforeShipCreation(HullSize hullSize, MutableShipStatsAPI stats, String id) {
-		if (stats.getVariant().getSMods().contains("insulatedengine") || stats.getVariant().getHullSpec().isBuiltInMod("insulatedengine")) {
+		if (stats.getVariant().getSMods().contains("insulatedengine") || (Global.getSettings().getBoolean("BuiltInSMod") && stats.getVariant().getHullSpec().isBuiltInMod("insulatedengine"))) {
 			stats.getCombatEngineRepairTimeMult().modifyMult(id, 1f - REPAIR_BONUS * 0.01f);
 		}
 		stats.getEngineHealthBonus().modifyPercent(id, HEALTH_BONUS);
@@ -37,7 +38,7 @@ public class InsulatedEngines extends BaseLogisticsHullMod {
 			return;
 		} else if (ship.getVariant().getSMods().contains("insulatedengine")) {
 			tooltip.addPara("S-mod Bonus: Reduces the time required to repair disabled engines by %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "33" + "%");
-		} else if (ship.getHullSpec().isBuiltInMod("insulatedengine")) {
+		} else if (Global.getSettings().getBoolean("BuiltInSMod") && ship.getHullSpec().isBuiltInMod("insulatedengine")) {
 			tooltip.addPara("Built-in Bonus: Reduces the time required to repair disabled engines by %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "33" + "%");
         } else if (!isForModSpec) {
 			tooltip.addPara("S-mod Bonus: Reduces the time required to repair disabled engines by %s.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "33" + "%");

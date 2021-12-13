@@ -1,5 +1,6 @@
 package data.hullmods;
 
+import com.fs.starfarer.api.Global;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -20,7 +21,7 @@ public class ConvertedHangar extends BaseHullMod {
 	public static final int ALL_FIGHTER_COST_PERCENT = 50;
 	public static final int BOMBER_COST_PERCENT = 100;
 	public static float SPEED_REDUCTION = 0.16666666f;
-	public static float DAMAGE_INCREASE = 0.33333333f;
+	public static float DAMAGE_INCREASE = 0.2f;
 	
 	private static Map mag = new HashMap();
 	static {
@@ -62,7 +63,7 @@ public class ConvertedHangar extends BaseHullMod {
 	}
 	
 	public void applyEffectsToFighterSpawnedByShip(ShipAPI fighter, ShipAPI ship, String id) {
-		if (ship.getVariant().getSMods().contains("converted_hangar") || ship.getVariant().getHullSpec().isBuiltInMod("converted_hangar")) {
+		if (ship.getVariant().getSMods().contains("converted_hangar") || (Global.getSettings().getBoolean("BuiltInSMod") && ship.getVariant().getHullSpec().isBuiltInMod("converted_hangar"))) {
 			MutableShipStatsAPI stats = fighter.getMutableStats();
 			stats.getMaxSpeed().modifyMult(id, 1f - SPEED_REDUCTION);
 			stats.getArmorDamageTakenMult().modifyPercent(id, DAMAGE_INCREASE * 100f);
@@ -92,17 +93,17 @@ public class ConvertedHangar extends BaseHullMod {
     public void addPostDescriptionSection(TooltipMakerAPI tooltip, ShipAPI.HullSize hullSize, ShipAPI ship, float width, boolean isForModSpec) {
 		if (isForModSpec) {
 			tooltip.addPara("S-mod Bonus: Fighter speed reduction reduced to %s", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "17" + "%");
-			tooltip.addPara("S-mod Bonus: Fighter increased damage taken reduced to %s", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "33" + "%");
+			tooltip.addPara("S-mod Bonus: Fighter increased damage taken reduced to %s", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "20" + "%");
 			return;
 		} else if (ship.getVariant().getSMods().contains("converted_hangar")) {
 			tooltip.addPara("S-mod Bonus: Fighter speed reduction reduced to %s", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "17" + "%");
-			tooltip.addPara("S-mod Bonus: Fighter increased damage taken reduced to %s", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "33" + "%");
-		} else if (ship.getHullSpec().isBuiltInMod("converted_hangar")) {
+			tooltip.addPara("S-mod Bonus: Fighter increased damage taken reduced to %s", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "20" + "%");
+		} else if (Global.getSettings().getBoolean("BuiltInSMod") && ship.getHullSpec().isBuiltInMod("converted_hangar")) {
 			tooltip.addPara("Built-in Bonus: Fighter speed reduction reduced to %s", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "17" + "%");
-			tooltip.addPara("Built-in Bonus: Fighter increased damage taken reduced to %s", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "33" + "%");
+			tooltip.addPara("Built-in Bonus: Fighter increased damage taken reduced to %s", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "20" + "%");
         } else if (!isForModSpec) {
 			tooltip.addPara("S-mod Bonus: Fighter speed reduction reduced to %s", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "17" + "%");
-			tooltip.addPara("S-mod Bonus: Fighter increased damage taken reduced to %s", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "33" + "%");
+			tooltip.addPara("S-mod Bonus: Fighter increased damage taken reduced to %s", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "20" + "%");
 		}
     }
 	

@@ -19,7 +19,7 @@ public class OperationsCenter extends BaseHullMod {
 	public static final String MOD_ID = "operations_center_mod";
 	
 	public void applyEffectsBeforeShipCreation(HullSize hullSize, MutableShipStatsAPI stats, String id) {
-		if (stats.getVariant().getSMods().contains("operations_center") || stats.getVariant().getHullSpec().isBuiltInMod("operations_center")) {
+		if (stats.getVariant().getSMods().contains("operations_center") || (Global.getSettings().getBoolean("BuiltInSMod") && stats.getVariant().getHullSpec().isBuiltInMod("operations_center"))) {
 			stats.getDynamic().getMod(Stats.COORDINATED_MANEUVERS_FLAT).modifyFlat(id, 2f);
 			stats.getDynamic().getMod(Stats.ELECTRONIC_WARFARE_FLAT).modifyFlat(id, 2f);
 		}
@@ -39,7 +39,7 @@ public class OperationsCenter extends BaseHullMod {
 		} else if (ship.getVariant().getSMods().contains("operations_center")) {
 			tooltip.addPara("S-mod Bonus: Increases nav rating of your fleet by %s when deployed.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "2%");
 			tooltip.addPara("S-mod Bonus: Grants %s ECM rating when deployed.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "2%");
-		} else if (ship.getHullSpec().isBuiltInMod("operations_center")) {
+		} else if (Global.getSettings().getBoolean("BuiltInSMod") && ship.getHullSpec().isBuiltInMod("operations_center")) {
 			tooltip.addPara("Built-in Bonus: Increases nav rating of your fleet by %s when deployed.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "2%");
 			tooltip.addPara("Built-in Bonus: Grants %s ECM rating when deployed.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "2%");
         } else if (!isForModSpec) {
@@ -63,7 +63,10 @@ public class OperationsCenter extends BaseHullMod {
 		boolean apply = ship == engine.getPlayerShip();
 		PersonAPI commander = null;
 		if (member.getMember() != null) {
-			member.getMember().getFleetCommander();
+			commander = member.getMember().getFleetCommander();
+			if (member.getMember().getFleetCommanderForStats() != null) {
+				commander = member.getMember().getFleetCommanderForStats();
+			}
 		}
 		apply |= commander != null && ship.getCaptain() == commander;
 		

@@ -1,5 +1,6 @@
 package data.hullmods;
 
+import com.fs.starfarer.api.Global;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -28,7 +29,7 @@ public class UnstableInjector extends BaseHullMod {
 	//private static final int BURN_LEVEL_BONUS = 1;
 	
 	public void applyEffectsBeforeShipCreation(HullSize hullSize, MutableShipStatsAPI stats, String id) {
-		if (stats.getVariant().getSMods().contains("unstable_injector") || stats.getVariant().getHullSpec().isBuiltInMod("unstable_injector")) {
+		if (stats.getVariant().getSMods().contains("unstable_injector") || (Global.getSettings().getBoolean("BuiltInSMod") && stats.getVariant().getHullSpec().isBuiltInMod("unstable_injector"))) {
 			stats.getMaxSpeed().modifyFlat(id, (Float) mag.get(hullSize)+5f);
 			stats.getFighterRefitTimeMult().modifyPercent(id, FIGHTER_RATE-5f);
 		} else {
@@ -67,7 +68,7 @@ public class UnstableInjector extends BaseHullMod {
 		} else if (ship.getVariant().getSMods().contains("unstable_injector")) {
 			tooltip.addPara("S-mod Bonus: Increase the ship's top speed by %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "5");
 			tooltip.addPara("S-mod Bonus: Increased fighter replacement time reduced to %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "20" + "%");
-		} else if (ship.getHullSpec().isBuiltInMod("unstable_injector")) {
+		} else if (Global.getSettings().getBoolean("BuiltInSMod") && ship.getHullSpec().isBuiltInMod("unstable_injector")) {
 			tooltip.addPara("S-mod Bonus: Increase the ship's top speed by %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "5");
 			tooltip.addPara("S-mod Bonus: Increased fighter replacement time reduced to %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "20" + "%");
         } else if (!isForModSpec) {

@@ -1,5 +1,6 @@
 package data.hullmods;
 
+import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.combat.MutableShipStatsAPI;
 import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.combat.ShipAPI.HullSize;
@@ -15,7 +16,7 @@ public class SolarShielding extends BaseLogisticsHullMod {
 	public static final float SENERGY_DAMAGE_REDUCTION = 0.7f;
 	
 	public void applyEffectsBeforeShipCreation(HullSize hullSize, MutableShipStatsAPI stats, String id) {
-		if (stats.getVariant().getSMods().contains("solar_shielding") || stats.getVariant().getHullSpec().isBuiltInMod("solar_shielding")) {
+		if (stats.getVariant().getSMods().contains("solar_shielding") || (Global.getSettings().getBoolean("BuiltInSMod") &&  stats.getVariant().getHullSpec().isBuiltInMod("solar_shielding"))) {
 			stats.getEnergyDamageTakenMult().modifyMult(id, SENERGY_DAMAGE_REDUCTION);
 			stats.getEnergyShieldDamageTakenMult().modifyMult(id, SENERGY_DAMAGE_REDUCTION);
 		} else {
@@ -38,7 +39,7 @@ public class SolarShielding extends BaseLogisticsHullMod {
 			return;
 		} else if (ship.getVariant().getSMods().contains("solar_shielding")) {
 			tooltip.addPara("S-mod Bonus: Energy damage reduction increased to %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "30" + "%");
-		} else if (ship.getHullSpec().isBuiltInMod("solar_shielding")) {
+		} else if (Global.getSettings().getBoolean("BuiltInSMod") && ship.getHullSpec().isBuiltInMod("solar_shielding")) {
 			tooltip.addPara("Built-in Bonus: Energy damage reduction increased to %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "30" + "%");
         } else if (!isForModSpec) {
 			tooltip.addPara("S-mod Bonus: Energy damage reduction increased to %s.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "30" + "%");

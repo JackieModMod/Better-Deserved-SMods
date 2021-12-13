@@ -1,5 +1,6 @@
 package data.hullmods;
 
+import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.combat.BaseHullMod;
 import com.fs.starfarer.api.combat.MutableShipStatsAPI;
 import com.fs.starfarer.api.combat.ShipAPI;
@@ -11,13 +12,13 @@ import com.fs.starfarer.api.impl.campaign.ids.Stats;
 public class ReinforcedBulkheads extends BaseHullMod {
 	
 	public static final float HULL_BONUS = 40f;
+        public static final float ARMOR_BONUS = 30f;
 
 	public void applyEffectsBeforeShipCreation(HullSize hullSize, MutableShipStatsAPI stats, String id) {
-		if (stats.getVariant().getSMods().contains("reinforcedhull") || stats.getVariant().getHullSpec().isBuiltInMod("reinforcedhull")) {
-			stats.getHullBonus().modifyPercent(id, HULL_BONUS+5f);
-		} else {
-			stats.getHullBonus().modifyPercent(id, HULL_BONUS);
+		if (stats.getVariant().getSMods().contains("reinforcedhull") || (Global.getSettings().getBoolean("BuiltInSMod") && stats.getVariant().getHullSpec().isBuiltInMod("reinforcedhull"))) {
+			stats.getEffectiveArmorBonus().modifyPercent(id, ARMOR_BONUS);
 		}
+                stats.getHullBonus().modifyPercent(id, HULL_BONUS);
 		stats.getDynamic().getMod(Stats.INDIVIDUAL_SHIP_RECOVERY_MOD).modifyFlat(id, 1000f);
 		stats.getBreakProb().modifyMult(id, 0f);
 	}
@@ -29,14 +30,14 @@ public class ReinforcedBulkheads extends BaseHullMod {
 	
     public void addPostDescriptionSection(TooltipMakerAPI tooltip, ShipAPI.HullSize hullSize, ShipAPI ship, float width, boolean isForModSpec) {
 		if (isForModSpec) {
-			tooltip.addPara("S-mod Bonus: Hull Integrity Bonus increased to %s.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "45" + "%");
+			tooltip.addPara("S-mod Bonus: Adds %s armor for the damage reduction calculation only", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "30");
 			return;
 		} else if (ship.getVariant().getSMods().contains("reinforcedhull")) {
-			tooltip.addPara("S-mod Bonus: Hull Integrity Bonus increased to %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "45" + "%");
-		} else if (ship.getHullSpec().isBuiltInMod("reinforcedhull")) {
-			tooltip.addPara("Built-in Bonus: Hull Integrity Bonus increased to %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "45" + "%");
+			tooltip.addPara("S-mod Bonus: Adds %s armor for the damage reduction calculation only", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "30");
+		} else if (Global.getSettings().getBoolean("BuiltInSMod") && ship.getHullSpec().isBuiltInMod("reinforcedhull")) {
+			tooltip.addPara("Built-in Bonus: Adds %s armor for the damage reduction calculation only", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "30");
         } else if (!isForModSpec) {
-			tooltip.addPara("S-mod Bonus: Hull Integrity Bonus increased to %s.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "45" + "%");
+			tooltip.addPara("S-mod Bonus: Adds %s armor for the damage reduction calculation only", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "30");
 		}
     }
 }

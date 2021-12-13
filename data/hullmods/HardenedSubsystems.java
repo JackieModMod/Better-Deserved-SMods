@@ -1,5 +1,6 @@
 package data.hullmods;
 
+import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.combat.BaseHullMod;
 import com.fs.starfarer.api.combat.MutableShipStatsAPI;
 import com.fs.starfarer.api.combat.ShipAPI;
@@ -15,13 +16,14 @@ public class HardenedSubsystems extends BaseHullMod {
 	public static final float DEGRADE_REDUCTION_PERCENT = 25f;
 	
 	public void applyEffectsBeforeShipCreation(HullSize hullSize, MutableShipStatsAPI stats, String id) {
-		if (stats.getVariant().getSMods().contains("hardened_subsystems") || stats.getVariant().getHullSpec().isBuiltInMod("hardened_subsystems")) {
+		if (stats.getVariant().getSMods().contains("hardened_subsystems") || (Global.getSettings().getBoolean("BuiltInSMod") && stats.getVariant().getHullSpec().isBuiltInMod("hardened_subsystems"))) {
 			stats.getPeakCRDuration().modifyFlat(id, SPEAK_BONUS_FLAT);
 			stats.getCRLossPerSecondPercent().modifyMult(id, 1f - SDEGRADE_REDUCTION_PERCENT / 100f);
 		} else {
 			stats.getCRLossPerSecondPercent().modifyMult(id, 1f - DEGRADE_REDUCTION_PERCENT / 100f);
+                        stats.getPeakCRDuration().modifyPercent(id, PEAK_BONUS_PERCENT);
 		}
-		stats.getPeakCRDuration().modifyPercent(id, PEAK_BONUS_PERCENT);
+		
 	}
 	
 
@@ -39,7 +41,7 @@ public class HardenedSubsystems extends BaseHullMod {
 		} else if (ship.getVariant().getSMods().contains("hardened_subsystems")) {
 			tooltip.addPara("S-mod Bonus: %s seconds peak operating time.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "+30");
 			tooltip.addPara("S-mod Bonus: Combat Readiness Degrade Reduction increased to %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "33" + "%");
-		} else if (ship.getHullSpec().isBuiltInMod("hardened_subsystems")) {
+		} else if (Global.getSettings().getBoolean("BuiltInSMod") && ship.getHullSpec().isBuiltInMod("hardened_subsystems")) {
 			tooltip.addPara("Built-in Bonus: %s seconds peak operating time.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "+30");
 			tooltip.addPara("Built-in Bonus: Combat Readiness Degrade Reduction increased to %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "33" + "%");
         } else if (!isForModSpec) {

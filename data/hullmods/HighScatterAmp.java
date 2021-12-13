@@ -1,5 +1,6 @@
 package data.hullmods;
 
+import com.fs.starfarer.api.Global;
 import org.lwjgl.util.vector.Vector2f;
 
 import com.fs.starfarer.api.combat.BaseHullMod;
@@ -10,27 +11,42 @@ import com.fs.starfarer.api.combat.DamagingProjectileAPI;
 import com.fs.starfarer.api.combat.MutableShipStatsAPI;
 import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.combat.ShipAPI.HullSize;
+import com.fs.starfarer.api.combat.WeaponAPI;
 import com.fs.starfarer.api.combat.listeners.DamageDealtModifier;
+import com.fs.starfarer.api.combat.listeners.WeaponBaseRangeModifier;
+import com.fs.starfarer.api.impl.campaign.ids.HullMods;
+import com.fs.starfarer.api.ui.Alignment;
 import com.fs.starfarer.api.ui.TooltipMakerAPI;
 import com.fs.starfarer.api.util.Misc;
+import java.awt.Color;
 
 public class HighScatterAmp extends BaseHullMod {
 
-	public static float RANGE_PENALTY_PERCENT = 50f;
-	public static float NONPD_RANGE_PENALTY_PERCENT = 30f;
-	public static float PD_RANGE_BONUS_PERCENT = 1.142857f;
+	//public static float RANGE_PENALTY_PERCENT = 50f;
+	public static float RANGE_FRIGATE = 500;
+	public static float RANGE_DESTROYER = 600;
+	public static float RANGE_LARGE = 700;
+	public static float SRANGE_FRIGATE = 600;
+	public static float SRANGE_DESTROYER = 700;
+	public static float SRANGE_LARGE = 800;
 	
+	public static float DAMAGE_BONUS_PERCENT = 10f;
+
+	@Override
+	public boolean isApplicableToShip(ShipAPI ship) {
+		return !ship.getVariant().getHullMods().contains(HullMods.ADVANCEDOPTICS);
+	}
 	
-	public void applyEffectsBeforeShipCreation(HullSize hullSize, MutableShipStatsAPI stats, String id) {
-		
-		if (stats.getVariant().getSMods().contains("high_scatter_amp") || stats.getVariant().getHullSpec().isBuiltInMod("high_scatter_amp")) {
-			stats.getBeamWeaponRangeBonus().modifyMult(id, 1f - NONPD_RANGE_PENALTY_PERCENT * 0.01f);
-			stats.getBeamPDWeaponRangeBonus().modifyMult(id, PD_RANGE_BONUS_PERCENT); //To counteract the top penalties.
-		} else {
-			stats.getBeamWeaponRangeBonus().modifyMult(id, 1f - RANGE_PENALTY_PERCENT * 0.01f);
+	public String getUnapplicableReason(ShipAPI ship) {
+		if (ship.getVariant().getHullMods().contains(HullMods.ADVANCEDOPTICS)) {
+			return "Incompatible with Advanced Optics";
 		}
-		
-		
+		return null;
+	}
+        
+	public void applyEffectsBeforeShipCreation(HullSize hullSize, MutableShipStatsAPI stats, String id) {
+		//stats.getBeamWeaponRangeBonus().modifyMult(id, 1f - RANGE_PENALTY_PERCENT * 0.01f);
+		stats.getBeamWeaponDamageMult().modifyPercent(id, DAMAGE_BONUS_PERCENT);
 		// test code for WeaponOPCostModifier, FighterOPCostModifier
 //		stats.addListener(new WeaponOPCostModifier() {
 //			public int getWeaponOPCost(MutableShipStatsAPI stats, WeaponSpecAPI weapon, int currCost) {
@@ -60,6 +76,12 @@ public class HighScatterAmp extends BaseHullMod {
 	@Override
 	public void applyEffectsAfterShipCreation(ShipAPI ship, String id) {
 		ship.addListener(new HighScatterAmpDamageDealtMod(ship));
+		if (ship.getVariant().getSMods().contains("high_scatter_amp") || (Global.getSettings().getBoolean("BuiltInSMod") && ship.getVariant().getHullSpec().isBuiltInMod("high_scatter_amp"))) {
+                    ship.addListener(new HighScatterAmpSRangeMod());
+		} else {
+                    ship.addListener(new HighScatterAmpRangeMod());
+		}
+		
 		
 		/* test code for WeaponRangeModifier
 		ship.addListener(new WeaponRangeModifier() {
@@ -78,28 +100,6 @@ public class HighScatterAmp extends BaseHullMod {
 		});
 		*/
 	}
-
-	public String getDescriptionParam(int index, HullSize hullSize) {
-		if (index == 0) return "" + (int)RANGE_PENALTY_PERCENT + "%";
-		return null;
-	}
-	
-    public void addPostDescriptionSection(TooltipMakerAPI tooltip, ShipAPI.HullSize hullSize, ShipAPI ship, float width, boolean isForModSpec) {
-		if (isForModSpec) {
-			tooltip.addPara("S-mod Bonus: Range reduction of non-PD beam weapons reduced to %s", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "30" + "%");
-			tooltip.addPara("S-mod Bonus: Range reduction of point-defense beam weapons reduced to %s", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "20" + "%");
-			return;
-		} else if (ship.getVariant().getSMods().contains("high_scatter_amp")) {
-			tooltip.addPara("S-mod Bonus: Range reduction of non-PD beam weapons reduced to %s", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "30" + "%");
-			tooltip.addPara("S-mod Bonus: Range reduction of point-defense beam weapons reduced to %s", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "20" + "%");
-		} else if (ship.getHullSpec().isBuiltInMod("high_scatter_amp")) {
-			tooltip.addPara("Built-in Bonus: Range reduction of non-PD beam weapons reduced to %s", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "30" + "%");
-			tooltip.addPara("Built-in Bonus: Range reduction of point-defense beam weapons reduced to %s", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "20" + "%");
-        } else if (!isForModSpec) {
-			tooltip.addPara("S-mod Bonus: Range reduction of non-PD beam weapons reduced to %s", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "30" + "%");
-			tooltip.addPara("S-mod Bonus: Range reduction of point-defense beam weapons reduced to %s", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "20" + "%");
-		}
-    }
 	
 	public static class HighScatterAmpDamageDealtMod implements DamageDealtModifier {
 		protected ShipAPI ship;
@@ -116,6 +116,118 @@ public class HighScatterAmp extends BaseHullMod {
 			}
 			return null;
 		}
+	}
+	
+	public static class HighScatterAmpRangeMod implements WeaponBaseRangeModifier {
+		public HighScatterAmpRangeMod() {
+		}
+		public float getWeaponBaseRangePercentMod(ShipAPI ship, WeaponAPI weapon) {
+			return 0;
+		}
+		public float getWeaponBaseRangeMultMod(ShipAPI ship, WeaponAPI weapon) {
+			return 1f;
+		}
+		public float getWeaponBaseRangeFlatMod(ShipAPI ship, WeaponAPI weapon) {
+			if (weapon.isBeam()) {
+				float range = weapon.getSpec().getMaxRange();
+				float max = range;
+				if (ship.isFighter() || ship.isFrigate()) {
+					max = RANGE_FRIGATE;
+				} else if (ship.isDestroyer()) {
+					max = RANGE_DESTROYER;
+				} else if (ship.isCruiser() || ship.isCapital()) {
+					max = RANGE_LARGE;
+				}
+				return Math.min(0f, max - range);
+			}
+			return 0f;
+		}
+	}
+        
+	public static class HighScatterAmpSRangeMod implements WeaponBaseRangeModifier {
+		public HighScatterAmpSRangeMod() {
+		}
+		public float getWeaponBaseRangePercentMod(ShipAPI ship, WeaponAPI weapon) {
+			return 0;
+		}
+		public float getWeaponBaseRangeMultMod(ShipAPI ship, WeaponAPI weapon) {
+			return 1f;
+		}
+		public float getWeaponBaseRangeFlatMod(ShipAPI ship, WeaponAPI weapon) {
+			if (weapon.isBeam()) {
+				float range = weapon.getSpec().getMaxRange();
+				float max = range;
+				if (ship.isFighter() || ship.isFrigate()) {
+					max = SRANGE_FRIGATE;
+				} else if (ship.isDestroyer()) {
+					max = SRANGE_DESTROYER;
+				} else if (ship.isCruiser() || ship.isCapital()) {
+					max = SRANGE_LARGE;
+				}
+				return Math.min(0f, max - range);
+			}
+			return 0f;
+		}
+	}
+
+	public String getDescriptionParam(int index, HullSize hullSize) {
+		//if (index == 0) return "" + (int)RANGE_PENALTY_PERCENT + "%";
+		return null;
+	}
+	
+	@Override
+	public boolean shouldAddDescriptionToTooltip(HullSize hullSize, ShipAPI ship, boolean isForModSpec) {
+		return false;
+	}
+
+	@Override
+	public void addPostDescriptionSection(TooltipMakerAPI tooltip, HullSize hullSize, ShipAPI ship, float width, boolean isForModSpec) {
+		float pad = 3f;
+		float opad = 10f;
+		Color h = Misc.getHighlightColor();
+		Color bad = Misc.getNegativeHighlightColor();
+		
+		tooltip.addPara("Beam weapons deal %s more damage and deal hard flux damage to shields.", opad, h,
+				"" + (int)DAMAGE_BONUS_PERCENT + "%"
+				);
+		if (isForModSpec) {
+                        tooltip.addPara("Reduces the base range of beam weapons to %s for frigates, %s for destroyers, "
+                                        + "and %s for larger ships.", opad, h,
+                                        "" + (int)RANGE_FRIGATE,
+                                        "" + (int)RANGE_DESTROYER,
+                                        "" + (int)RANGE_LARGE
+                                        );
+			tooltip.addPara("S-mod Bonus: Base range reduction reduced by %s", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "100");
+			return;
+		} else if (ship.getVariant().getSMods().contains("high_scatter_amp")) {
+                        tooltip.addPara("Reduces the base range of beam weapons to %s for frigates, %s for destroyers, "
+                                                                + "and %s for larger ships.", opad, Misc.getPositiveHighlightColor(),
+                                                                "" + (int)SRANGE_FRIGATE,
+                                                                "" + (int)SRANGE_DESTROYER,
+                                                                "" + (int)SRANGE_LARGE
+                                                                );
+			tooltip.addPara("S-mod Bonus: Base range reduction reduced!", Misc.getPositiveHighlightColor(), 10f);
+		} else if (Global.getSettings().getBoolean("BuiltInSMod") && ship.getHullSpec().isBuiltInMod("high_scatter_amp")) {
+                        tooltip.addPara("Reduces the base range of beam weapons to %s for frigates, %s for destroyers, "
+                                                                + "and %s for larger ships.", opad, Misc.getPositiveHighlightColor(),
+                                                                "" + (int)SRANGE_FRIGATE,
+                                                                "" + (int)SRANGE_DESTROYER,
+                                                                "" + (int)SRANGE_LARGE
+                                                                );
+			tooltip.addPara("Built-in Bonus: Base range reduction reduced!", Misc.getPositiveHighlightColor(), 10f);
+                } else if (!isForModSpec) {
+                        tooltip.addPara("Reduces the base range of beam weapons to %s for frigates, %s for destroyers, "
+                                        + "and %s for larger ships.", opad, h,
+                                        "" + (int)RANGE_FRIGATE,
+                                        "" + (int)RANGE_DESTROYER,
+                                        "" + (int)RANGE_LARGE
+                                        );
+			tooltip.addPara("S-mod Bonus: Base range reduction reduced by %s", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "100");
+		}
+		tooltip.addSectionHeading("Interactions with other modifiers", Alignment.MID, opad);
+		tooltip.addPara("The base range is reduced, thus percentage and multiplicative modifiers - such as from Integrated Targeting Unit, "
+				+ "skills, or similar sources - apply to the reduced base value.", opad);
+                
 	}
 }
 

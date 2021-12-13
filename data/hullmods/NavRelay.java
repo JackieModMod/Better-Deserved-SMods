@@ -1,5 +1,6 @@
 package data.hullmods;
 
+import com.fs.starfarer.api.Global;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -22,7 +23,7 @@ public class NavRelay extends BaseHullMod {
 	}
 	
 	public void applyEffectsBeforeShipCreation(HullSize hullSize, MutableShipStatsAPI stats, String id) {
-		if (stats.getVariant().getSMods().contains("nav_relay") || stats.getVariant().getHullSpec().isBuiltInMod("nav_relay")) {
+		if (stats.getVariant().getSMods().contains("nav_relay") || (Global.getSettings().getBoolean("BuiltInSMod") && stats.getVariant().getHullSpec().isBuiltInMod("nav_relay"))) {
 			stats.getMaxSpeed().modifyPercent(id, 5f);
 			stats.getZeroFluxSpeedBoost().modifyFlat(id, 10f);
 		}
@@ -45,9 +46,9 @@ public class NavRelay extends BaseHullMod {
 		} else if (ship.getVariant().getSMods().contains("nav_relay")) {
 			tooltip.addPara("S-mod Bonus: Increase the ship's top speed by %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "5" + "%");
 			tooltip.addPara("S-mod Bonus: Increase the ship's 0-flux speed boost by %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "10");
-		} else if (ship.getHullSpec().isBuiltInMod("nav_relay")) {
-			tooltip.addPara("S-mod Bonus: Increase the ship's top speed by %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "5" + "%");
-			tooltip.addPara("S-mod Bonus: Increase the ship's 0-flux speed boost by %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "10");
+		} else if (Global.getSettings().getBoolean("BuiltInSMod") && ship.getHullSpec().isBuiltInMod("nav_relay")) {
+			tooltip.addPara("Built-in Bonus: Increase the ship's top speed by %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "5" + "%");
+			tooltip.addPara("Built-in Bonus: Increase the ship's 0-flux speed boost by %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "10");
         } else if (!isForModSpec) {
 			tooltip.addPara("S-mod Bonus: Increase the ship's top speed by %s.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "5" + "%");
 			tooltip.addPara("S-mod Bonus: Increase the ship's 0-flux speed boost by %s.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "10");
