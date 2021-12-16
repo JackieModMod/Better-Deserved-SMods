@@ -12,8 +12,8 @@ public class AdvancedTurretGyros extends BaseHullMod {
 
 	public static final float TURRET_SPEED_BONUS = 75f;
 	public static final float STURRET_SPEED_BONUS = 200f;
-	public static final float RECOIL_BONUS = 33f;
-	public static final float MISSILE_SPEC_ROF_BONUS = 50f;
+	public static final float RECOIL_BONUS = 25f;
+	public static final float MISSILE_SPEC_ROF_BONUS = 33f;
 	
 	public void applyEffectsBeforeShipCreation(HullSize hullSize, MutableShipStatsAPI stats, String id) {
 		if (stats.getVariant().getSMods().contains("turretgyros") || (Global.getSettings().getBoolean("BuiltInSMod") && stats.getVariant().getHullSpec().isBuiltInMod("turretgyros"))) {
@@ -37,21 +37,21 @@ public class AdvancedTurretGyros extends BaseHullMod {
     public void addPostDescriptionSection(TooltipMakerAPI tooltip, ShipAPI.HullSize hullSize, ShipAPI ship, float width, boolean isForModSpec) {
 		if (isForModSpec) {
 			tooltip.addPara("S-mod Bonus: Turret turn rate bonus increased to %s.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "200" + "%");
-			tooltip.addPara("S-mod Bonus: %s weapon recoil.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "-33" + "%");
-			tooltip.addPara("S-mod Bonus: %s rate of fire for missile weapons", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "+50" + "%");
+			tooltip.addPara("S-mod Bonus: %s weapon recoil.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "-20" + "%");
+			tooltip.addPara("S-mod Bonus: %s rate of fire for missile weapons", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "+25" + "%");
 			return;
 		} else if (ship.getVariant().getSMods().contains("turretgyros")) {
 			tooltip.addPara("S-mod Bonus: Turret turn rate bonus increased to %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "200" + "%");
-			tooltip.addPara("S-mod Bonus: %s weapon recoil.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "-33" + "%");
-			tooltip.addPara("S-mod Bonus: %s rate of fire for missile weapons", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "+50" + "%");
+			tooltip.addPara("S-mod Bonus: %s weapon recoil.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "-20" + "%");
+			tooltip.addPara("S-mod Bonus: %s rate of fire for missile weapons", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "+25" + "%");
 		} else if (Global.getSettings().getBoolean("BuiltInSMod") && ship.getHullSpec().isBuiltInMod("turretgyros")) {
 			tooltip.addPara("Built-in Bonus: Turret turn rate bonus increased to %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "200" + "%");
-			tooltip.addPara("Built-in Bonus: %s weapon recoil.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "-33" + "%");
-			tooltip.addPara("Built-in Bonus: %s rate of fire for missile weapons", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "+50" + "%");
+			tooltip.addPara("Built-in Bonus: %s weapon recoil.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "-20" + "%");
+			tooltip.addPara("Built-in Bonus: %s rate of fire for missile weapons", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "+25" + "%");
         } else if (!isForModSpec) {
 			tooltip.addPara("S-mod Bonus: Turret turn rate bonus increased to %s.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "200" + "%");
-			tooltip.addPara("S-mod Bonus: %s weapon recoil.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "-33" + "%");
-			tooltip.addPara("S-mod Bonus: %s rate of fire for missile weapons", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "+50" + "%");
+			tooltip.addPara("S-mod Bonus: %s weapon recoil.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "-20" + "%");
+			tooltip.addPara("S-mod Bonus: %s rate of fire for missile weapons", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "+25" + "%");
 		}
     }
 

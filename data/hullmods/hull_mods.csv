@@ -23,3 +23,7 @@ Increases flux dissipation by %s, and adds %s armor for the damage reduction cal
 Increases minimum crew required by %s.
 
 Will try to engage enemies and otherwise act as a combat ship in battle.","Removes sensor penalties, increases maximum burn level, improves combat performance, increases crew required.",graphics/hullmods/militarized_subsystems.png
+,,,,,,,,,,,,,,,,,,
+Adaptive Phase Coils,adaptive_coils,2,,,"phase, merc",Phase,5000,,,,3,6,9,15,data.hullmods.AdaptivePhaseCoils,"Phase coils are less able to maintain a connection with normal space as the ship's hard flux levels rise, resulting in a greadly reduced top speed as the coils struggle to gain traction.
+
+This modification allows the coils to handle higher levels of hard flux, increasing the threshold at which speed bottoms out by %s. For standard-design coils with no other modifications, this takes the threshold from %s to %s.",Reduces impact of hard flux level on top speed while phased.,graphics/hullmods/phase_field.png

@@ -61,7 +61,7 @@ public class MilitarizedSubsystems extends BaseLogisticsHullMod {
 			stats.getEffectiveArmorBonus().modifyFlat(id, ARMOR_BONUS * mult);
 		}
 		
-		stats.getSuppliesPerMonth().modifyPercent(id, MAINTENANCE_PERCENT);
+		//stats.getSuppliesPerMonth().modifyPercent(id, MAINTENANCE_PERCENT);
 		stats.getMinCrewMod().modifyPercent(id, MAINTENANCE_PERCENT);
 		
 		stats.getDynamic().getMod(Stats.ACT_AS_COMBAT_SHIP).modifyFlat(id, 1f);
