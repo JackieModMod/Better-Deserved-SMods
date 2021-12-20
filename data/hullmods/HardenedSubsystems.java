@@ -19,6 +19,7 @@ public class HardenedSubsystems extends BaseHullMod {
 		if (stats.getVariant().getSMods().contains("hardened_subsystems") || (Global.getSettings().getBoolean("BuiltInSMod") && stats.getVariant().getHullSpec().isBuiltInMod("hardened_subsystems"))) {
 			stats.getPeakCRDuration().modifyFlat(id, SPEAK_BONUS_FLAT);
 			stats.getCRLossPerSecondPercent().modifyMult(id, 1f - SDEGRADE_REDUCTION_PERCENT / 100f);
+			stats.getPeakCRDuration().modifyPercent(id, PEAK_BONUS_PERCENT);
 		} else {
 			stats.getCRLossPerSecondPercent().modifyMult(id, 1f - DEGRADE_REDUCTION_PERCENT / 100f);
                         stats.getPeakCRDuration().modifyPercent(id, PEAK_BONUS_PERCENT);

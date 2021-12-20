@@ -31,9 +31,9 @@ public class ArmoredWeapons extends BaseHullMod {
 	
 	public String getDescriptionParam(int index, HullSize hullSize) {
 		if (index == 0) return "" + (int) HEALTH_BONUS + "%";
-		if (index == 1) return "" + (int) TURN_PENALTY + "%";
-		if (index == 2) return "" + (int) ARMOR_BONUS + "%";
-		if (index == 3) return "" + (int) RECOIL_BONUS + "%";
+		if (index == 1) return "" + (int) RECOIL_BONUS + "%";
+		if (index == 2) return "" + (int) TURN_PENALTY + "%";
+		if (index == 3) return "" + (int) ARMOR_BONUS + "%";
 		return null;
 	}
 
