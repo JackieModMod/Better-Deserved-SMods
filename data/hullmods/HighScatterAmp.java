@@ -19,16 +19,17 @@ import com.fs.starfarer.api.ui.Alignment;
 import com.fs.starfarer.api.ui.TooltipMakerAPI;
 import com.fs.starfarer.api.util.Misc;
 import java.awt.Color;
+import static java.awt.Color.black;
 
 public class HighScatterAmp extends BaseHullMod {
 
-	//public static float RANGE_PENALTY_PERCENT = 50f;
-	public static float RANGE_FRIGATE = 500;
-	public static float RANGE_DESTROYER = 600;
-	public static float RANGE_LARGE = 700;
-	public static float SRANGE_FRIGATE = 600;
-	public static float SRANGE_DESTROYER = 700;
-	public static float SRANGE_LARGE = 800;
+	public static float RANGE_THRESHOLD = 200f;
+        public static float SRANGE_THRESHOLD = 300f;
+	public static float RANGE_MULT = 0.5f;
+	
+//	public static float RANGE_FRIGATE = 500;
+//	public static float RANGE_DESTROYER = 600;
+//	public static float RANGE_LARGE = 700;
 	
 	public static float DAMAGE_BONUS_PERCENT = 10f;
 
@@ -117,8 +118,52 @@ public class HighScatterAmp extends BaseHullMod {
 			return null;
 		}
 	}
-	
+        
 	public static class HighScatterAmpRangeMod implements WeaponBaseRangeModifier {
+		public HighScatterAmpRangeMod() {
+		}
+		public float getWeaponBaseRangePercentMod(ShipAPI ship, WeaponAPI weapon) {
+			return 0;
+		}
+		public float getWeaponBaseRangeMultMod(ShipAPI ship, WeaponAPI weapon) {
+			return 1f;
+		}
+		public float getWeaponBaseRangeFlatMod(ShipAPI ship, WeaponAPI weapon) {
+			if (weapon.isBeam()) {
+				float range = weapon.getSpec().getMaxRange();
+				if (range < RANGE_THRESHOLD) return 0;
+				
+				float past = range - RANGE_THRESHOLD;
+				float penalty = past * (1f - RANGE_MULT);
+				return -penalty;
+			}
+			return 0f;
+		}
+	}
+        
+	public static class HighScatterAmpSRangeMod implements WeaponBaseRangeModifier {
+		public HighScatterAmpSRangeMod() {
+		}
+		public float getWeaponBaseRangePercentMod(ShipAPI ship, WeaponAPI weapon) {
+			return 0;
+		}
+		public float getWeaponBaseRangeMultMod(ShipAPI ship, WeaponAPI weapon) {
+			return 1f;
+		}
+		public float getWeaponBaseRangeFlatMod(ShipAPI ship, WeaponAPI weapon) {
+			if (weapon.isBeam()) {
+				float range = weapon.getSpec().getMaxRange();
+				if (range < SRANGE_THRESHOLD) return 0;
+				
+				float past = range - SRANGE_THRESHOLD;
+				float penalty = past * (1f - RANGE_MULT);
+				return -penalty;
+			}
+			return 0f;
+		}
+	}
+	
+	/*public static class HighScatterAmpRangeMod implements WeaponBaseRangeModifier {
 		public HighScatterAmpRangeMod() {
 		}
 		public float getWeaponBaseRangePercentMod(ShipAPI ship, WeaponAPI weapon) {
@@ -168,7 +213,7 @@ public class HighScatterAmp extends BaseHullMod {
 			}
 			return 0f;
 		}
-	}
+	}*/
 
 	public String getDescriptionParam(int index, HullSize hullSize) {
 		//if (index == 0) return "" + (int)RANGE_PENALTY_PERCENT + "%";
@@ -186,43 +231,66 @@ public class HighScatterAmp extends BaseHullMod {
 		float opad = 10f;
 		Color h = Misc.getHighlightColor();
 		Color bad = Misc.getNegativeHighlightColor();
+                Color[] colors = new Color[4];
+                colors[0] = Misc.getPositiveHighlightColor();
+                colors[1] = h;
 		
 		tooltip.addPara("Beam weapons deal %s more damage and deal hard flux damage to shields.", opad, h,
 				"" + (int)DAMAGE_BONUS_PERCENT + "%"
 				);
 		if (isForModSpec) {
-                        tooltip.addPara("Reduces the base range of beam weapons to %s for frigates, %s for destroyers, "
+                        tooltip.addPara("Reduces the portion of the range of beam weapons that is above %s units by %s. The base range is affected.", opad, h,
+                                        "" + (int)RANGE_THRESHOLD,
+                                        "" + (int)Math.round((1f - RANGE_MULT) * 100f) + "%"
+                                        );
+                        tooltip.addPara("S-mod Bonus: Base range threshold increased by %s", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "100");
+                        /*tooltip.addPara("Reduces the base range of beam weapons to %s for frigates, %s for destroyers, "
                                         + "and %s for larger ships.", opad, h,
                                         "" + (int)RANGE_FRIGATE,
                                         "" + (int)RANGE_DESTROYER,
                                         "" + (int)RANGE_LARGE
                                         );
 			tooltip.addPara("S-mod Bonus: Base range reduction reduced by %s", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "100");
-			return;
+			return;*/
 		} else if (ship.getVariant().getSMods().contains("high_scatter_amp")) {
-                        tooltip.addPara("Reduces the base range of beam weapons to %s for frigates, %s for destroyers, "
+                        tooltip.addPara("Reduces the portion of the range of beam weapons that is above %s units by %s. The base range is affected.", opad, colors,
+                                        "" + (int)SRANGE_THRESHOLD,
+                                        "" + (int)Math.round((1f - RANGE_MULT) * 100f) + "%"
+                                        );
+                        tooltip.addPara("S-mod Bonus: Base range threshold increased by %s", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "100");
+                        /*tooltip.addPara("Reduces the base range of beam weapons to %s for frigates, %s for destroyers, "
                                                                 + "and %s for larger ships.", opad, Misc.getPositiveHighlightColor(),
                                                                 "" + (int)SRANGE_FRIGATE,
                                                                 "" + (int)SRANGE_DESTROYER,
                                                                 "" + (int)SRANGE_LARGE
                                                                 );
-			tooltip.addPara("S-mod Bonus: Base range reduction reduced!", Misc.getPositiveHighlightColor(), 10f);
+			tooltip.addPara("S-mod Bonus: Base range reduction reduced!", Misc.getPositiveHighlightColor(), 10f);*/
 		} else if (Global.getSettings().getBoolean("BuiltInSMod") && ship.getHullSpec().isBuiltInMod("high_scatter_amp")) {
-                        tooltip.addPara("Reduces the base range of beam weapons to %s for frigates, %s for destroyers, "
+                            tooltip.addPara("Reduces the portion of the range of beam weapons that is above %s units by %s. The base range is affected.", opad, colors,
+                                        "" + (int)SRANGE_THRESHOLD,
+                                        "" + (int)Math.round((1f - RANGE_MULT) * 100f) + "%"
+                                        );
+                            tooltip.addPara("S-mod Bonus: Base range threshold increased by %s", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "100");    
+                            /*tooltip.addPara("Reduces the base range of beam weapons to %s for frigates, %s for destroyers, "
                                                                 + "and %s for larger ships.", opad, Misc.getPositiveHighlightColor(),
                                                                 "" + (int)SRANGE_FRIGATE,
                                                                 "" + (int)SRANGE_DESTROYER,
                                                                 "" + (int)SRANGE_LARGE
                                                                 );
-			tooltip.addPara("Built-in Bonus: Base range reduction reduced!", Misc.getPositiveHighlightColor(), 10f);
+			tooltip.addPara("Built-in Bonus: Base range reduction reduced!", Misc.getPositiveHighlightColor(), 10f);*/
                 } else if (!isForModSpec) {
-                        tooltip.addPara("Reduces the base range of beam weapons to %s for frigates, %s for destroyers, "
+                        tooltip.addPara("Reduces the portion of the range of beam weapons that is above %s units by %s. The base range is affected.", opad, h,
+                                        "" + (int)RANGE_THRESHOLD,
+                                        "" + (int)Math.round((1f - RANGE_MULT) * 100f) + "%"
+                                        );
+                        tooltip.addPara("S-mod Bonus: Base range threshold increased by %s", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "100");
+                        /*tooltip.addPara("Reduces the base range of beam weapons to %s for frigates, %s for destroyers, "
                                         + "and %s for larger ships.", opad, h,
                                         "" + (int)RANGE_FRIGATE,
                                         "" + (int)RANGE_DESTROYER,
                                         "" + (int)RANGE_LARGE
                                         );
-			tooltip.addPara("S-mod Bonus: Base range reduction reduced by %s", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "100");
+			tooltip.addPara("S-mod Bonus: Base range reduction reduced by %s", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "100");*/
 		}
 		tooltip.addSectionHeading("Interactions with other modifiers", Alignment.MID, opad);
 		tooltip.addPara("The base range is reduced, thus percentage and multiplicative modifiers - such as from Integrated Targeting Unit, "

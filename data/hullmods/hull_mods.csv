@@ -7,7 +7,6 @@ The total nav rating of your fleet increases the top speed of your deployed ship
 Operations Center,operations_center,1,,,special,Special,5000,,,,30,30,30,30,data.hullmods.OperationsCenter,Increases the command point recovery rate by %s when installed on the flagship.,Increases command point recovery rate when on flagship.,graphics/hullmods/operations_center.png
 ,,,,,,,,,,,,,,,,,,
 High Scatter Amplifier,high_scatter_amp,3,,,"offensive, merc",Weapons,5000,,,,4,8,12,20,data.hullmods.HighScatterAmp,<tooltip created in the script due to sections>,Reduces beam range; beams deal more damage and apply hard flux to shields.,graphics/hullmods/high_scatter_amp.png
-Shield Shunt,shield_shunt,1,,,"special, shields, merc","Special, Shields",3000,,,,3,5,7,10,data.hullmods.ShieldShunt,"Removes the ship's shields. The external emitter nodes are replaced with reinforced plating, increasing the ship's armor by %s.","Removes shields, increases armor.",graphics/hullmods/shield_shunt.png
 Expanded Deck Crew,expanded_deck_crew,1,,,"special, merc",Fighters,4000,,,,5,8,15,20,data.hullmods.ExpandedDeckCrew,"Reduces the rate at which the fighter replacement rate decreases due to fighter losses by %s, and increases the rate at which it recovers by %s.
 
 Increases the crew required by %s per fighter bay.","Improves fighter replacement rate, increases crew requirements.",graphics/hullmods/expanded_deck_crew.png
