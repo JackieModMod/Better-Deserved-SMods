@@ -10,7 +10,7 @@ import com.fs.starfarer.api.util.Misc;
 
 public class EfficiencyOverhaul extends BaseLogisticsHullMod {
 	public static final float MAINTENANCE_MULT = 0.8f;
-	public static final float MAX_CR_BONUS = 10f;
+	public static final float MAX_CR_BONUS = 20f;
 	
 	public static final float REPAIR_RATE_BONUS = 50f;
 	public static final float CR_RECOVERY_BONUS = 50f;
@@ -37,14 +37,14 @@ public class EfficiencyOverhaul extends BaseLogisticsHullMod {
 	
     public void addPostDescriptionSection(TooltipMakerAPI tooltip, ShipAPI.HullSize hullSize, ShipAPI ship, float width, boolean isForModSpec) {
 		if (isForModSpec) {
-			tooltip.addPara("S-mod Bonus: %s maximum combat readiness.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "+10" + "%");
+			tooltip.addPara("S-mod Bonus: %s maximum combat readiness.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "+20" + "%");
 			return;
 		} else if (ship.getVariant().getSMods().contains("efficiency_overhaul")) {
-			tooltip.addPara("S-mod Bonus: %s maximum combat readiness.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "+10" + "%");
+			tooltip.addPara("S-mod Bonus: %s maximum combat readiness.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "+20" + "%");
 		} else if (Global.getSettings().getBoolean("BuiltInSMod") && ship.getHullSpec().isBuiltInMod("efficiency_overhaul")) {
-			tooltip.addPara("Built-in Bonus: %s maximum combat readiness.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "+10" + "%");
+			tooltip.addPara("Built-in Bonus: %s maximum combat readiness.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "+20" + "%");
         } else if (!isForModSpec) {
-			tooltip.addPara("S-mod Bonus: %s maximum combat readiness.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "+10" + "%");
+			tooltip.addPara("S-mod Bonus: %s maximum combat readiness.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "+20" + "%");
 		}
     }
 

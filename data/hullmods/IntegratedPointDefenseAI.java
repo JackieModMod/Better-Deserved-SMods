@@ -3,6 +3,7 @@ package data.hullmods;
 import java.util.Iterator;
 import java.util.List;
 
+import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.combat.BaseHullMod;
 import com.fs.starfarer.api.combat.MutableShipStatsAPI;
 import com.fs.starfarer.api.combat.ShipAPI;
@@ -26,6 +27,7 @@ public class IntegratedPointDefenseAI extends BaseHullMod {
 		if (stats.getVariant().getSMods().contains("pointdefenseai") || stats.getVariant().getHullSpec().isBuiltInMod("pointdefenseai")) {
 			stats.getBeamPDWeaponRangeBonus().modifyFlat(id, PD_RANGE);
 			stats.getNonBeamPDWeaponRangeBonus().modifyFlat(id, PD_RANGE);
+			stats.getDamageToFighters().modifyPercent(id, DAMAGE_BONUS);
 		}
 		stats.getDynamic().getMod(Stats.PD_IGNORES_FLARES).modifyFlat(id, 1f);
 		stats.getDynamic().getMod(Stats.PD_BEST_TARGET_LEADING).modifyFlat(id, 1f);
@@ -65,13 +67,17 @@ public class IntegratedPointDefenseAI extends BaseHullMod {
 
     public void addPostDescriptionSection(TooltipMakerAPI tooltip, ShipAPI.HullSize hullSize, ShipAPI ship, float width, boolean isForModSpec) {
 		if (isForModSpec) {
+			tooltip.addPara("S-mod Bonus: All damage dealt to fighters is increased by %s.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "50%");
 			tooltip.addPara("S-mod Bonus: Increases the range of all point-defense weapons by %s.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "100");
 			return;
 		} else if (ship.getVariant().getSMods().contains("pointdefenseai")) {
+			tooltip.addPara("S-mod Bonus: All damage dealt to fighters is increased by %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "50%");
 			tooltip.addPara("S-mod Bonus: Increases the range of all point-defense weapons by %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "100");
-		} else if (ship.getHullSpec().isBuiltInMod("pointdefenseai")) {
+		} else if (Global.getSettings().getBoolean("BuiltInSMod") && ship.getHullSpec().isBuiltInMod("pointdefenseai")) {
+			tooltip.addPara("Built-in Bonus: All damage dealt to fighters is increased by %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "50%");
 			tooltip.addPara("Built-in Bonus: Increases the range of all point-defense weapons by %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "100");
         } else if (!isForModSpec) {
+			tooltip.addPara("S-mod Bonus: All damage dealt to fighters is increased by %s.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "50%");
 			tooltip.addPara("S-mod Bonus: Increases the range of all point-defense weapons by %s.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "100");
 		}
     }

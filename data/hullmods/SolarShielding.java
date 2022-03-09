@@ -13,7 +13,7 @@ public class SolarShielding extends BaseLogisticsHullMod {
 
 	public static final float CORONA_EFFECT_REDUCTION = 0.25f;
 	public static final float ENERGY_DAMAGE_REDUCTION = 0.8f;
-	public static final float SENERGY_DAMAGE_REDUCTION = 0.7f;
+	public static final float SENERGY_DAMAGE_REDUCTION = 0.67f;
 	
 	public void applyEffectsBeforeShipCreation(HullSize hullSize, MutableShipStatsAPI stats, String id) {
 		if (stats.getVariant().getSMods().contains("solar_shielding") || (Global.getSettings().getBoolean("BuiltInSMod") &&  stats.getVariant().getHullSpec().isBuiltInMod("solar_shielding"))) {
@@ -35,14 +35,14 @@ public class SolarShielding extends BaseLogisticsHullMod {
 
     public void addPostDescriptionSection(TooltipMakerAPI tooltip, ShipAPI.HullSize hullSize, ShipAPI ship, float width, boolean isForModSpec) {
 		if (isForModSpec) {
-			tooltip.addPara("S-mod Bonus: Energy damage reduction increased to %s.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "30" + "%");
+			tooltip.addPara("S-mod Bonus: Energy damage reduction increased to %s.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "33" + "%");
 			return;
 		} else if (ship.getVariant().getSMods().contains("solar_shielding")) {
-			tooltip.addPara("S-mod Bonus: Energy damage reduction increased to %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "30" + "%");
+			tooltip.addPara("S-mod Bonus: Energy damage reduction increased to %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "33" + "%");
 		} else if (Global.getSettings().getBoolean("BuiltInSMod") && ship.getHullSpec().isBuiltInMod("solar_shielding")) {
-			tooltip.addPara("Built-in Bonus: Energy damage reduction increased to %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "30" + "%");
+			tooltip.addPara("Built-in Bonus: Energy damage reduction increased to %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "33" + "%");
         } else if (!isForModSpec) {
-			tooltip.addPara("S-mod Bonus: Energy damage reduction increased to %s.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "30" + "%");
+			tooltip.addPara("S-mod Bonus: Energy damage reduction increased to %s.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "33" + "%");
 		}
     }
 

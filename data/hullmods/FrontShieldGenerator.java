@@ -28,7 +28,11 @@ public class FrontShieldGenerator extends BaseHullMod {
 	public void applyEffectsAfterShipCreation(ShipAPI ship, String id) {
 		ShieldAPI shield = ship.getShield();
 		if (shield == null) {
-			ship.setShield(ShieldType.FRONT, 0.5f, 1.2f, SHIELD_ARC);
+			if (ship.getVariant().getSMods().contains("frontshield") || (Global.getSettings().getBoolean("BuiltInSMod") && ship.getVariant().getHullSpec().isBuiltInMod("frontshield"))) {
+				ship.setShield(ShieldType.OMNI, 0.4f, 1.08f, SHIELD_ARC);
+			} else {
+				ship.setShield(ShieldType.FRONT, 0.5f, 1.2f, SHIELD_ARC);
+			}
 		}
 	}
 	
@@ -36,7 +40,7 @@ public class FrontShieldGenerator extends BaseHullMod {
 	public void applyEffectsBeforeShipCreation(HullSize hullSize, MutableShipStatsAPI stats, String id) {
 		//stats.getMaxSpeed().modifyFlat(id, (Float) mag.get(hullSize) * -1f);
 		if (stats.getVariant().getSMods().contains("frontshield") || (Global.getSettings().getBoolean("BuiltInSMod") && stats.getVariant().getHullSpec().isBuiltInMod("frontshield"))) {
-			stats.getMaxSpeed().modifyMult(id, SPEED_MULT*1.1875f);
+			//stats.getMaxSpeed().modifyMult(id, SPEED_MULT*1.1875f);
 		} else {
 			stats.getMaxSpeed().modifyMult(id, SPEED_MULT);
 		}
@@ -59,17 +63,21 @@ public class FrontShieldGenerator extends BaseHullMod {
 		
 		return null;
 	}
-	
     public void addPostDescriptionSection(TooltipMakerAPI tooltip, ShipAPI.HullSize hullSize, ShipAPI ship, float width, boolean isForModSpec) {
 		if (isForModSpec) {
-			tooltip.addPara("S-mod Bonus: Top speed reduction reduced to %s", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "5" + "%");
+			tooltip.addPara("S-mod Bonus: Unlocks the shield emitter to omni-directional with %s upkeep and %s improved efficiency.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "-20%", "+10%");
+			tooltip.addPara("S-mod Bonus: No top speed reduction.", Misc.getGrayColor(), 10f);
 			return;
 		} else if (ship.getVariant().getSMods().contains("frontshield")) {
-			tooltip.addPara("S-mod Bonus: Top speed reduction reduced to %s", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "5" + "%");
+			tooltip.addPara("S-mod Bonus: Unlocks the shield emitter to omni-directional with %s upkeep and %s improved efficiency.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "-20%", "+10%");
+			tooltip.addPara("S-mod Bonus: No top speed reduction.", Misc.getPositiveHighlightColor(), 10f);
 		} else if (Global.getSettings().getBoolean("BuiltInSMod") && ship.getHullSpec().isBuiltInMod("frontshield")) {
-			tooltip.addPara("Built-in Bonus: Top speed reduction reduced to %s", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "5" + "%");
+			tooltip.addPara("Built-in Bonus: Unlocks the shield emitter to omni-directional with %s upkeep and %s improved efficiency.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "-20%", "+10%");
+			tooltip.addPara("Built-in Bonus: No top speed reduction.", Misc.getPositiveHighlightColor(), 10f);
         } else if (!isForModSpec) {
-			tooltip.addPara("S-mod Bonus: Top speed reduction reduced to %s", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "5" + "%");
+			tooltip.addPara("S-mod Bonus: Unlocks the shield emitter to omni-directional with %s upkeep and %s improved efficiency.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "-20%", "+10%");
+			tooltip.addPara("S-mod Bonus: No top speed reduction.", Misc.getGrayColor(), 10f);
+			
 		}
     }
 

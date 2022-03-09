@@ -11,12 +11,10 @@ import com.fs.starfarer.api.util.Misc;
 public class ExtendedShieldEmitter extends BaseHullMod {
 
 	public static final float SHIELD_ARC_BONUS = 60f;
-	public static final float SHIELD_KE_REDUCTION = 5f;
 	
 	public void applyEffectsBeforeShipCreation(HullSize hullSize, MutableShipStatsAPI stats, String id) {
 		if (stats.getVariant().getSMods().contains("extendedshieldemitter") || (Global.getSettings().getBoolean("BuiltInSMod") && stats.getVariant().getHullSpec().isBuiltInMod("extendedshieldemitter"))) {
-			stats.getShieldArcBonus().modifyFlat(id, SHIELD_ARC_BONUS*1.5f);
-			stats.getKineticShieldDamageTakenMult().modifyMult(id, 1f - SHIELD_KE_REDUCTION / 100f);
+			stats.getShieldArcBonus().modifyFlat(id, SHIELD_ARC_BONUS*2f);
 		} else {
 			stats.getShieldArcBonus().modifyFlat(id, SHIELD_ARC_BONUS);
 		}
@@ -29,18 +27,14 @@ public class ExtendedShieldEmitter extends BaseHullMod {
 	
     public void addPostDescriptionSection(TooltipMakerAPI tooltip, ShipAPI.HullSize hullSize, ShipAPI ship, float width, boolean isForModSpec) {
 		if (isForModSpec) {
-			tooltip.addPara("S-mod Bonus: Increases the shield's coverage by an additional %s degrees.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "30");
-			tooltip.addPara("S-mod Bonus: %s kinetic damage taken by shields", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "-5%");
+			tooltip.addPara("S-mod Bonus: Increases the shield's coverage by an additional %s degrees.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "60");
 			return;
 		} else if (ship.getVariant().getSMods().contains("extendedshieldemitter")) {
-			tooltip.addPara("S-mod Bonus: Increases the shield's coverage by an additional %s degrees.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "30");
-			tooltip.addPara("S-mod Bonus: %s kinetic damage taken by shields", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "-5%");
+			tooltip.addPara("S-mod Bonus: Increases the shield's coverage by an additional %s degrees.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "60");
 		} else if (Global.getSettings().getBoolean("BuiltInSMod") && ship.getHullSpec().isBuiltInMod("extendedshieldemitter")) {
- 			tooltip.addPara("Built-in Bonus: Increases the shield's coverage by an additional %s degrees.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "30");
-			tooltip.addPara("Built-in Bonus: %s kinetic damage taken by shields", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "-5%");
+ 			tooltip.addPara("Built-in Bonus: Increases the shield's coverage by an additional %s degrees.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "60");
         } else if (!isForModSpec) {
-			tooltip.addPara("S-mod Bonus: Increases the shield's coverage by an additional %s degrees.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "30");
-			tooltip.addPara("S-mod Bonus: %s kinetic damage taken by shields", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "-5%");
+			tooltip.addPara("S-mod Bonus: Increases the shield's coverage by an additional %s degrees.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "60");
 		}
     }
 

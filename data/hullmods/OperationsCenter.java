@@ -17,13 +17,17 @@ public class OperationsCenter extends BaseHullMod {
 
 	public static final float RECOVERY_BONUS = 250f;
 	public static final String MOD_ID = "operations_center_mod";
+	public static float SPEED_BONUS = 15f;
+	public static float AIM_BONUS = 0.33f;
 	
-	public void applyEffectsBeforeShipCreation(HullSize hullSize, MutableShipStatsAPI stats, String id) {
-		if (stats.getVariant().getSMods().contains("operations_center") || (Global.getSettings().getBoolean("BuiltInSMod") && stats.getVariant().getHullSpec().isBuiltInMod("operations_center"))) {
-			stats.getDynamic().getMod(Stats.COORDINATED_MANEUVERS_FLAT).modifyFlat(id, 2f);
-			stats.getDynamic().getMod(Stats.ELECTRONIC_WARFARE_FLAT).modifyFlat(id, 2f);
+	public void applyEffectsToFighterSpawnedByShip(ShipAPI fighter, ShipAPI ship, String id) {
+		if (ship.getVariant().getSMods().contains("operations_center") || (Global.getSettings().getBoolean("BuiltInSMod") && ship.getVariant().getHullSpec().isBuiltInMod("operations_center"))) {
+			MutableShipStatsAPI stats = fighter.getMutableStats();
+			stats.getMaxSpeed().modifyPercent(id, SPEED_BONUS);
+			stats.getAcceleration().modifyPercent(id, SPEED_BONUS * 2f);
+			stats.getDeceleration().modifyPercent(id, SPEED_BONUS * 2f);
+			stats.getAutofireAimAccuracy().modifyFlat(id, AIM_BONUS);
 		}
-		
 	}
 	
 	public String getDescriptionParam(int index, HullSize hullSize) {
@@ -33,18 +37,18 @@ public class OperationsCenter extends BaseHullMod {
 
     public void addPostDescriptionSection(TooltipMakerAPI tooltip, ShipAPI.HullSize hullSize, ShipAPI ship, float width, boolean isForModSpec) {
 		if (isForModSpec) {
-			tooltip.addPara("S-mod Bonus: Increases nav rating of your fleet by %s when deployed.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "2%");
-			tooltip.addPara("S-mod Bonus: Grants %s ECM rating when deployed.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "2%");
+			tooltip.addPara("S-mod Bonus: Fighters gain %s top speed.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "+15%");
+			tooltip.addPara("S-mod Bonus: Fighters gain %s target leading accuracy.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "+33%");
 			return;
 		} else if (ship.getVariant().getSMods().contains("operations_center")) {
-			tooltip.addPara("S-mod Bonus: Increases nav rating of your fleet by %s when deployed.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "2%");
-			tooltip.addPara("S-mod Bonus: Grants %s ECM rating when deployed.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "2%");
+			tooltip.addPara("S-mod Bonus: Fighters gain %s top speed.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "+15%");
+			tooltip.addPara("S-mod Bonus: Fighters gain %s target leading accuracy.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "+33%");
 		} else if (Global.getSettings().getBoolean("BuiltInSMod") && ship.getHullSpec().isBuiltInMod("operations_center")) {
-			tooltip.addPara("Built-in Bonus: Increases nav rating of your fleet by %s when deployed.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "2%");
-			tooltip.addPara("Built-in Bonus: Grants %s ECM rating when deployed.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "2%");
+			tooltip.addPara("Built-in Bonus: Fighters gain %s top speed.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "+15%");
+			tooltip.addPara("Built-in Bonus: Fighters gain %s target leading accuracy.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "+33%");
         } else if (!isForModSpec) {
-			tooltip.addPara("S-mod Bonus: Increases nav rating of your fleet by %s when deployed.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "2%");
-			tooltip.addPara("S-mod Bonus: Grants %s ECM rating when deployed.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "2%");
+			tooltip.addPara("S-mod Bonus: Fighters gain %s top speed.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "+15%");
+			tooltip.addPara("S-mod Bonus: Fighters gain %s target leading accuracy.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "+33%");
 		}
     }
 	

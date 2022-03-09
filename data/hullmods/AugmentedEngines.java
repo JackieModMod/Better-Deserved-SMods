@@ -9,7 +9,7 @@ import com.fs.starfarer.api.util.Misc;
 
 public class AugmentedEngines extends BaseLogisticsHullMod {
 	private static final int BURN_LEVEL_BONUS = 2;
-	private static final float PROFILE_MULT = 0.8f;
+	public static final float MAINTENANCE_MULT = 0.7f;
 	
 //	private static final int STRENGTH_PENALTY = 50;
 //	private static final int PROFILE_PENALTY = 50;
@@ -18,9 +18,9 @@ public class AugmentedEngines extends BaseLogisticsHullMod {
 //		stats.getSensorProfile().modifyPercent(id, PROFILE_PENALTY);
 //		stats.getSensorStrength().modifyMult(id, 1f - STRENGTH_PENALTY * 0.01f);
 		if (stats.getVariant().getSMods().contains("augmentedengines") || stats.getVariant().getHullSpec().isBuiltInMod("augmentedengines")) {
-			stats.getSensorProfile().modifyMult(id, PROFILE_MULT);
+			stats.getFuelUseMod().modifyMult(id, MAINTENANCE_MULT);
 		}
-		
+
 		stats.getMaxBurnLevel().modifyFlat(id, BURN_LEVEL_BONUS);
 	}
 	
@@ -33,14 +33,14 @@ public class AugmentedEngines extends BaseLogisticsHullMod {
 
     public void addPostDescriptionSection(TooltipMakerAPI tooltip, ShipAPI.HullSize hullSize, ShipAPI ship, float width, boolean isForModSpec) {
 		if (isForModSpec) {
-			tooltip.addPara("S-mod Bonus: Ship's sensor profile is reduced by %s", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "20" + "%");
+			tooltip.addPara("S-mod Bonus: Reduce fuel use by %s.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "-30" + "%");
 			return;
 		} else if (ship.getVariant().getSMods().contains("augmentedengines")) {
-			tooltip.addPara("S-mod Bonus: Ship's sensor profile is reduced by %s", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "20" + "%");
+			tooltip.addPara("S-mod Bonus: Reduce fuel use by %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "-30" + "%");
 		} else if (ship.getHullSpec().isBuiltInMod("augmentedengines")) {
-			tooltip.addPara("Built-in Bonus: Ship's sensor profile is reduced by %s", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "20" + "%");
+			tooltip.addPara("Built-in Bonus: Reduce fuel use by %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "-30" + "%");
         } else if (!isForModSpec) {
-			tooltip.addPara("S-mod Bonus: Ship's sensor profile is reduced by %s", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "20" + "%");
+			tooltip.addPara("S-mod Bonus: Reduce fuel use by %s.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "-30" + "%");
 		}
     }
 	

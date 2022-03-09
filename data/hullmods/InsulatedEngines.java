@@ -13,15 +13,16 @@ public class InsulatedEngines extends BaseLogisticsHullMod {
 	public static final float PROFILE_MULT = 0.5f;
 	public static final float HEALTH_BONUS = 100f;
 	public static final float HULL_BONUS = 10f;
-	public static final float REPAIR_BONUS = 33f;
 	
 	public void applyEffectsBeforeShipCreation(HullSize hullSize, MutableShipStatsAPI stats, String id) {
 		if (stats.getVariant().getSMods().contains("insulatedengine") || (Global.getSettings().getBoolean("BuiltInSMod") && stats.getVariant().getHullSpec().isBuiltInMod("insulatedengine"))) {
-			stats.getCombatEngineRepairTimeMult().modifyMult(id, 1f - REPAIR_BONUS * 0.01f);
+			stats.getEngineHealthBonus().modifyPercent(id, HEALTH_BONUS*2);
+			stats.getHullBonus().modifyPercent(id, HULL_BONUS*1.5f);
+		} else {
+			stats.getEngineHealthBonus().modifyPercent(id, HEALTH_BONUS);
+			stats.getHullBonus().modifyPercent(id, HULL_BONUS);
 		}
-		stats.getEngineHealthBonus().modifyPercent(id, HEALTH_BONUS);
-		stats.getHullBonus().modifyPercent(id, HULL_BONUS);
-		stats.getHullBonus().modifyPercent(id, HULL_BONUS);
+		
 		stats.getSensorProfile().modifyMult(id, PROFILE_MULT);
 	}
 	
@@ -34,14 +35,18 @@ public class InsulatedEngines extends BaseLogisticsHullMod {
 	
     public void addPostDescriptionSection(TooltipMakerAPI tooltip, ShipAPI.HullSize hullSize, ShipAPI ship, float width, boolean isForModSpec) {
 		if (isForModSpec) {
-			tooltip.addPara("S-mod Bonus: Reduces the time required to repair disabled engines by %s.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "33" + "%");
+			tooltip.addPara("S-mod Bonus: %s ship's engine durability.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "+100" + "%");
+			tooltip.addPara("S-mod Bonus: Hull integrity bonus increased to %s.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "15" + "%");
 			return;
 		} else if (ship.getVariant().getSMods().contains("insulatedengine")) {
-			tooltip.addPara("S-mod Bonus: Reduces the time required to repair disabled engines by %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "33" + "%");
+			tooltip.addPara("S-mod Bonus: %s ship's engine durability.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "+100" + "%");
+			tooltip.addPara("S-mod Bonus: Hull integrity bonus increased to %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "15" + "%");
 		} else if (Global.getSettings().getBoolean("BuiltInSMod") && ship.getHullSpec().isBuiltInMod("insulatedengine")) {
-			tooltip.addPara("Built-in Bonus: Reduces the time required to repair disabled engines by %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "33" + "%");
+			tooltip.addPara("Built-in Bonus: %s ship's engine durability.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "+100" + "%");
+			tooltip.addPara("Built-in Bonus: Hull integrity bonus increased to %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "15" + "%");
         } else if (!isForModSpec) {
-			tooltip.addPara("S-mod Bonus: Reduces the time required to repair disabled engines by %s.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "33" + "%");
+			tooltip.addPara("S-mod Bonus: %s ship's engine durability.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "+100" + "%");
+			tooltip.addPara("S-mod Bonus: Hull integrity bonus increased to %s.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "15" + "%");
 		}
     }
 

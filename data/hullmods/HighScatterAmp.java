@@ -24,7 +24,7 @@ import static java.awt.Color.black;
 public class HighScatterAmp extends BaseHullMod {
 
 	public static float RANGE_THRESHOLD = 200f;
-        public static float SRANGE_THRESHOLD = 300f;
+        public static float SRANGE_MULT = 0.75f;
 	public static float RANGE_MULT = 0.5f;
 	
 //	public static float RANGE_FRIGATE = 500;
@@ -153,11 +153,11 @@ public class HighScatterAmp extends BaseHullMod {
 		public float getWeaponBaseRangeFlatMod(ShipAPI ship, WeaponAPI weapon) {
 			if (weapon.isBeam()) {
 				float range = weapon.getSpec().getMaxRange();
-				if (range < SRANGE_THRESHOLD) return 0;
+				if (range < RANGE_THRESHOLD) return 0;
 				
-				float past = range - SRANGE_THRESHOLD;
-				float penalty = past * (1f - RANGE_MULT);
-				return -penalty;
+				float past = range - RANGE_THRESHOLD;
+				float penalty = past * (SRANGE_MULT - 1f);
+				return penalty;
 			}
 			return 0f;
 		}
@@ -231,9 +231,9 @@ public class HighScatterAmp extends BaseHullMod {
 		float opad = 10f;
 		Color h = Misc.getHighlightColor();
 		Color bad = Misc.getNegativeHighlightColor();
-                Color[] colors = new Color[4];
-                colors[0] = Misc.getPositiveHighlightColor();
-                colors[1] = h;
+                Color[] colors = new Color[2];
+                colors[0] = h;
+                colors[1] = Misc.getPositiveHighlightColor();
 		
 		tooltip.addPara("Beam weapons deal %s more damage and deal hard flux damage to shields.", opad, h,
 				"" + (int)DAMAGE_BONUS_PERCENT + "%"
@@ -243,7 +243,7 @@ public class HighScatterAmp extends BaseHullMod {
                                         "" + (int)RANGE_THRESHOLD,
                                         "" + (int)Math.round((1f - RANGE_MULT) * 100f) + "%"
                                         );
-                        tooltip.addPara("S-mod Bonus: Base range threshold increased by %s", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "100");
+                        tooltip.addPara("S-mod Bonus: Base range reduction reduced to %s", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "25%");
                         /*tooltip.addPara("Reduces the base range of beam weapons to %s for frigates, %s for destroyers, "
                                         + "and %s for larger ships.", opad, h,
                                         "" + (int)RANGE_FRIGATE,
@@ -254,10 +254,10 @@ public class HighScatterAmp extends BaseHullMod {
 			return;*/
 		} else if (ship.getVariant().getSMods().contains("high_scatter_amp")) {
                         tooltip.addPara("Reduces the portion of the range of beam weapons that is above %s units by %s. The base range is affected.", opad, colors,
-                                        "" + (int)SRANGE_THRESHOLD,
-                                        "" + (int)Math.round((1f - RANGE_MULT) * 100f) + "%"
+                                        "" + (int)RANGE_THRESHOLD,
+                                        "" + (int)Math.round((1f - SRANGE_MULT) * 100f) + "%"
                                         );
-                        tooltip.addPara("S-mod Bonus: Base range threshold increased by %s", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "100");
+                        tooltip.addPara("S-mod Bonus: Base range reduction reduced to %s", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "25%");
                         /*tooltip.addPara("Reduces the base range of beam weapons to %s for frigates, %s for destroyers, "
                                                                 + "and %s for larger ships.", opad, Misc.getPositiveHighlightColor(),
                                                                 "" + (int)SRANGE_FRIGATE,
@@ -267,10 +267,10 @@ public class HighScatterAmp extends BaseHullMod {
 			tooltip.addPara("S-mod Bonus: Base range reduction reduced!", Misc.getPositiveHighlightColor(), 10f);*/
 		} else if (Global.getSettings().getBoolean("BuiltInSMod") && ship.getHullSpec().isBuiltInMod("high_scatter_amp")) {
                             tooltip.addPara("Reduces the portion of the range of beam weapons that is above %s units by %s. The base range is affected.", opad, colors,
-                                        "" + (int)SRANGE_THRESHOLD,
-                                        "" + (int)Math.round((1f - RANGE_MULT) * 100f) + "%"
+                                        "" + (int)RANGE_THRESHOLD,
+                                        "" + (int)Math.round((1f - SRANGE_MULT) * 100f) + "%"
                                         );
-                            tooltip.addPara("S-mod Bonus: Base range threshold increased by %s", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "100");    
+                            tooltip.addPara("S-mod Bonus: Base range reduction reduced to %s", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "25%");    
                             /*tooltip.addPara("Reduces the base range of beam weapons to %s for frigates, %s for destroyers, "
                                                                 + "and %s for larger ships.", opad, Misc.getPositiveHighlightColor(),
                                                                 "" + (int)SRANGE_FRIGATE,
@@ -283,7 +283,7 @@ public class HighScatterAmp extends BaseHullMod {
                                         "" + (int)RANGE_THRESHOLD,
                                         "" + (int)Math.round((1f - RANGE_MULT) * 100f) + "%"
                                         );
-                        tooltip.addPara("S-mod Bonus: Base range threshold increased by %s", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "100");
+                        tooltip.addPara("S-mod Bonus: Base range reduction reduced to %s", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "25%");
                         /*tooltip.addPara("Reduces the base range of beam weapons to %s for frigates, %s for destroyers, "
                                         + "and %s for larger ships.", opad, h,
                                         "" + (int)RANGE_FRIGATE,
