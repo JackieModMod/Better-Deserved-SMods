@@ -22,7 +22,7 @@ public class ECMPackage extends BaseHullMod {
 		mag.put(HullSize.CAPITAL_SHIP, 4f);
 	}
 	
-	public static final float EW_PENALTY_MULT = 0.5f;
+	public static final float EW_PENALTY_MULT = 0f;
 	
 	public void applyEffectsBeforeShipCreation(HullSize hullSize, MutableShipStatsAPI stats, String id) {
 		if (stats.getVariant().getSMods().contains("ecm") || (Global.getSettings().getBoolean("BuiltInSMod") && stats.getVariant().getHullSpec().isBuiltInMod("ecm"))) {
@@ -44,17 +44,17 @@ public class ECMPackage extends BaseHullMod {
     public void addPostDescriptionSection(TooltipMakerAPI tooltip, ShipAPI.HullSize hullSize, ShipAPI ship, float width, boolean isForModSpec) {
 		if (isForModSpec) {
 			tooltip.addPara("S-mod Bonus: Extends the range of ballistic and energy weapons by %s.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "5" + "%");
-			tooltip.addPara("S-mod Bonus: Reduce the weapon range reduction due to superior enemy Electronic Warfare by %s.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "50" + "%");
+			tooltip.addPara("S-mod Bonus: Immune from weapon range reduction due to superior enemy Electronic Warfare.", Misc.getGrayColor(), 10f);
 			return;
 		} else if (ship.getVariant().getSMods().contains("ecm")) {
 			tooltip.addPara("S-mod Bonus: Extends the range of ballistic and energy weapons by %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "5" + "%");
-			tooltip.addPara("S-mod Bonus: Reduce the weapon range reduction due to superior enemy Electronic Warfare by %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "50" + "%");
+			tooltip.addPara("S-mod Bonus: Immune from weapon range reduction due to superior enemy Electronic Warfare.", Misc.getPositiveHighlightColor(), 10f);
 		} else if (Global.getSettings().getBoolean("BuiltInSMod") && ship.getHullSpec().isBuiltInMod("ecm")) {
-                        tooltip.addPara("Built-in Bonus: Extends the range of ballistic and energy weapons by %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "5" + "%");
-			tooltip.addPara("Built-in Bonus: Reduce the weapon range reduction due to superior enemy Electronic Warfare by %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "50" + "%");
+                        tooltip.addPara("Built-in Bonus: Extends the range of ballistic and energy weapons by %s.", 10f, Misc.getPositiveHighlightColor());
+			tooltip.addPara("Built-in Bonus: Immune from weapon range reduction due to superior enemy Electronic Warfare.", Misc.getPositiveHighlightColor(), 10f);
                 } else if (!isForModSpec) {
 			tooltip.addPara("S-mod Bonus: Extends the range of ballistic and energy weapons by %s.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "5" + "%");
-			tooltip.addPara("S-mod Bonus: Reduce the weapon range reduction due to superior enemy Electronic Warfare by %s.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "50" + "%");
+			tooltip.addPara("S-mod Bonus: Immune from weapon range reduction due to superior enemy Electronic Warfare.", Misc.getGrayColor(),10f);
 		}
     }
 }

@@ -7,6 +7,7 @@ import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.combat.ShipAPI.HullSize;
 import com.fs.starfarer.api.ui.TooltipMakerAPI;
 import com.fs.starfarer.api.util.Misc;
+import com.fs.starfarer.api.loading.WeaponSlotAPI;
 
 public class ArmoredWeapons extends BaseHullMod {
 
@@ -17,12 +18,20 @@ public class ArmoredWeapons extends BaseHullMod {
 	
 	public void applyEffectsBeforeShipCreation(HullSize hullSize, MutableShipStatsAPI stats, String id) {
 		if (stats.getVariant().getSMods().contains("armoredweapons") || (Global.getSettings().getBoolean("BuiltInSMod") && stats.getVariant().getHullSpec().isBuiltInMod("armoredweapons"))) {
-			stats.getArmorBonus().modifyPercent(id, ARMOR_BONUS+5f);
+			float weapons = 0f;
+			for (WeaponSlotAPI slot : stats.getVariant().getHullSpec().getAllWeaponSlotsCopy()) {
+				if (slot.isDecorative()) continue;
+				if (slot.isHidden()) continue;
+				if (slot.isStationModule()) continue;
+				if (slot.isSystemSlot()) continue;
+				weapons++;
+			}
+			stats.getArmorBonus().modifyFlat(id, weapons*5f);
 			stats.getWeaponHealthBonus().modifyPercent(id, HEALTH_BONUS+50f);
 		} else {
-			stats.getArmorBonus().modifyPercent(id, ARMOR_BONUS);
 			stats.getWeaponHealthBonus().modifyPercent(id, HEALTH_BONUS);
 		}
+		stats.getArmorBonus().modifyPercent(id, ARMOR_BONUS);
 		stats.getMaxRecoilMult().modifyMult(id, 1f - (0.01f * RECOIL_BONUS));
 		stats.getRecoilPerShotMult().modifyMult(id, 1f - (0.01f * RECOIL_BONUS));
 		stats.getRecoilDecayMult().modifyMult(id, 1f - (0.01f * RECOIL_BONUS));
@@ -40,17 +49,17 @@ public class ArmoredWeapons extends BaseHullMod {
    public void addPostDescriptionSection(TooltipMakerAPI tooltip, ShipAPI.HullSize hullSize, ShipAPI ship, float width, boolean isForModSpec) {
 		if (isForModSpec) {
 			tooltip.addPara("S-mod Bonus: Weapon durability bonus increased to %s.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "150" + "%");
-			tooltip.addPara("S-mod Bonus: Armor bonus increased to %s.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "15" + "%");
+			tooltip.addPara("S-mod Bonus: %s armor per weapon mount.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "+5");
 			return;
 		} else if (ship.getVariant().getSMods().contains("armoredweapons")) {
 			tooltip.addPara("S-mod Bonus: Weapon durability bonus increased to %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "150" + "%");
-			tooltip.addPara("S-mod Bonus: Armor bonus increased to %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "15" + "%");
+			tooltip.addPara("S-mod Bonus: %s armor per weapon mount.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "+5");
 		} else if (Global.getSettings().getBoolean("BuiltInSMod") && ship.getHullSpec().isBuiltInMod("armoredweapons")) {
 			tooltip.addPara("Built-in Bonus: Weapon durability bonus increased to %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "150" + "%");
-			tooltip.addPara("Built-in Bonus: Armor bonus increased to %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "15" + "%");
+			tooltip.addPara("Built-in Bonus: A%s armor per weapon mount.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "+5");
         } else if (!isForModSpec) {
 			tooltip.addPara("S-mod Bonus: Weapon durability bonus increased to %s.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "150" + "%");
-			tooltip.addPara("S-mod Bonus: Armor bonus increased to %s.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "15" + "%");
+			tooltip.addPara("S-mod Bonus: %s armor per weapon mount.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "+5");
 		}
     }
 	

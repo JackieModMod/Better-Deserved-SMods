@@ -13,6 +13,8 @@ import com.fs.starfarer.api.ui.TooltipMakerAPI;
 import com.fs.starfarer.api.util.Misc;
 
 public class NavRelay extends BaseHullMod {
+	
+	public static float SPEED_BONUS = 5f;
 
 	private static Map mag = new HashMap();
 	static {
@@ -30,6 +32,15 @@ public class NavRelay extends BaseHullMod {
 		stats.getDynamic().getMod(Stats.COORDINATED_MANEUVERS_FLAT).modifyFlat(id, (Float) mag.get(hullSize));
 	}
 	
+	public void applyEffectsToFighterSpawnedByShip(ShipAPI fighter, ShipAPI ship, String id) {
+		if (ship.getVariant().getSMods().contains("nav_relay") || (Global.getSettings().getBoolean("BuiltInSMod") && ship.getVariant().getHullSpec().isBuiltInMod("nav_relay"))) {
+			MutableShipStatsAPI stats = fighter.getMutableStats();
+			stats.getMaxSpeed().modifyPercent(id, SPEED_BONUS);
+			stats.getAcceleration().modifyPercent(id, SPEED_BONUS * 2f);
+			stats.getDeceleration().modifyPercent(id, SPEED_BONUS * 2f);
+		}
+	}
+	
 	public String getDescriptionParam(int index, HullSize hullSize) {
 		if (index == 0) return "" + ((Float) mag.get(HullSize.FRIGATE)).intValue() + "%";
 		if (index == 1) return "" + ((Float) mag.get(HullSize.DESTROYER)).intValue() + "%";
@@ -41,16 +52,20 @@ public class NavRelay extends BaseHullMod {
     public void addPostDescriptionSection(TooltipMakerAPI tooltip, ShipAPI.HullSize hullSize, ShipAPI ship, float width, boolean isForModSpec) {
 		if (isForModSpec) {
 			tooltip.addPara("S-mod Bonus: Increase the ship's top speed by %s.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "5" + "%");
+			tooltip.addPara("S-mod Bonus: Fighters gain %s top speed.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "+5%");
 			tooltip.addPara("S-mod Bonus: Increase the ship's 0-flux speed boost by %s.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "10");
 			return;
 		} else if (ship.getVariant().getSMods().contains("nav_relay")) {
 			tooltip.addPara("S-mod Bonus: Increase the ship's top speed by %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "5" + "%");
+			tooltip.addPara("S-mod Bonus: Fighters gain %s top speed.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "+5%");
 			tooltip.addPara("S-mod Bonus: Increase the ship's 0-flux speed boost by %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "10");
 		} else if (Global.getSettings().getBoolean("BuiltInSMod") && ship.getHullSpec().isBuiltInMod("nav_relay")) {
 			tooltip.addPara("Built-in Bonus: Increase the ship's top speed by %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "5" + "%");
+			tooltip.addPara("Built-in Bonus: Fighters gain %s top speed.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "+15%");
 			tooltip.addPara("Built-in Bonus: Increase the ship's 0-flux speed boost by %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "10");
         } else if (!isForModSpec) {
 			tooltip.addPara("S-mod Bonus: Increase the ship's top speed by %s.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "5" + "%");
+			tooltip.addPara("S-mod Bonus: Fighters gain %s top speed.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "+5%");
 			tooltip.addPara("S-mod Bonus: Increase the ship's 0-flux speed boost by %s.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "10");
 		}
     }

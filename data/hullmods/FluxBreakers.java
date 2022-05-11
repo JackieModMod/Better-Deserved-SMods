@@ -10,19 +10,19 @@ import com.fs.starfarer.api.util.Misc;
 
 public class FluxBreakers extends BaseHullMod {
 
+	public static final float OVERLOAD_REDUCTION = 20f;
 	public static final float FLUX_RESISTANCE = 50f;
-        public static final float SFLUX_RESISTANCE = 75f;
 	public static final float VENT_RATE_BONUS = 25f;
 	public static final float SVENT_RATE_BONUS = 33f;
 	
 	public void applyEffectsBeforeShipCreation(HullSize hullSize, MutableShipStatsAPI stats, String id) {
 		if (stats.getVariant().getSMods().contains("fluxbreakers") || (Global.getSettings().getBoolean("BuiltInSMod") && stats.getVariant().getHullSpec().isBuiltInMod("fluxbreakers"))) {
-			stats.getEmpDamageTakenMult().modifyMult(id, 1f - SFLUX_RESISTANCE * 0.01f);
+			stats.getOverloadTimeMod().modifyMult(id, 1f - OVERLOAD_REDUCTION / 100f);
 			stats.getVentRateMult().modifyPercent(id, SVENT_RATE_BONUS);
 		} else {
-                        stats.getEmpDamageTakenMult().modifyMult(id, 1f - FLUX_RESISTANCE * 0.01f);
 			stats.getVentRateMult().modifyPercent(id, VENT_RATE_BONUS);
 		}
+		stats.getEmpDamageTakenMult().modifyMult(id, 1f - FLUX_RESISTANCE * 0.01f);
 	}
 	
 	public String getDescriptionParam(int index, HullSize hullSize) {
@@ -33,17 +33,17 @@ public class FluxBreakers extends BaseHullMod {
 
     public void addPostDescriptionSection(TooltipMakerAPI tooltip, ShipAPI.HullSize hullSize, ShipAPI ship, float width, boolean isForModSpec) {
 		if (isForModSpec) {
-			tooltip.addPara("S-mod Bonus: EMP damage reduction increased to %s", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "75" + "%");
+			tooltip.addPara("S-mod Bonus: %s overload duration", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "-20" + "%");
 			tooltip.addPara("S-mod Bonus: Flux Dissipation Bonus while venting increased to %s", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "33" + "%");
 			return;
 		} else if (ship.getVariant().getSMods().contains("fluxbreakers")) {
-			tooltip.addPara("S-mod Bonus: EMP damage reduction increased to %s", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "75" + "%");
+			tooltip.addPara("S-mod Bonus: %s overload duration.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "-20" + "%");
 			tooltip.addPara("S-mod Bonus: Flux Dissipation Bonus while venting increased to %s", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "33" + "%");
 		} else if (Global.getSettings().getBoolean("BuiltInSMod") && ship.getHullSpec().isBuiltInMod("fluxbreakers")) {
-			tooltip.addPara("Built-in Bonus: EMP damage reduction increased to %s", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "75" + "%");
+			tooltip.addPara("Built-in Bonus: %s overload duration.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "-20" + "%");
 			tooltip.addPara("Built-in Bonus: Flux Dissipation Bonus while venting increased to %s", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "33" + "%");
         } else if (!isForModSpec) {
-			tooltip.addPara("S-mod Bonus: EMP damage reduction increased to %s", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "75" + "%");
+			tooltip.addPara("S-mod Bonus: %s overload duration.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "-20" + "%");
 			tooltip.addPara("S-mod Bonus: Flux Dissipation Bonus while venting increased to %s", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "33" + "%");
 		}
     }

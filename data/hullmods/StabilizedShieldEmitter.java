@@ -11,7 +11,7 @@ import com.fs.starfarer.api.util.Misc;
 public class StabilizedShieldEmitter extends BaseHullMod {
 
 	public static final float SHIELD_UPKEEP_BONUS = 50f;
-	public static final float FLUX_SHUNT_DISSIPATION = 15f;
+	public static final float FLUX_SHUNT_DISSIPATION = 12f;
 	
 	public void applyEffectsBeforeShipCreation(HullSize hullSize, MutableShipStatsAPI stats, String id) {		
 		if (stats.getVariant().getSMods().contains("stabilizedshieldemitter") || (Global.getSettings().getBoolean("BuiltInSMod") && stats.getVariant().getHullSpec().isBuiltInMod("stabilizedshieldemitter"))) {
@@ -27,14 +27,14 @@ public class StabilizedShieldEmitter extends BaseHullMod {
 	
     public void addPostDescriptionSection(TooltipMakerAPI tooltip, ShipAPI.HullSize hullSize, ShipAPI ship, float width, boolean isForModSpec) {
 		if (isForModSpec) {
-			tooltip.addPara("S-mod Bonus: %s hard flux dissipation while shields are active.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "15" + "%");
+			tooltip.addPara("S-mod Bonus: %s hard flux dissipation while shields are active.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "12" + "%");
 			return;
 		} else if (ship.getVariant().getSMods().contains("stabilizedshieldemitter")) {
-			tooltip.addPara("S-mod Bonus: %s hard flux dissipation while shields are active.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "15" + "%");
+			tooltip.addPara("S-mod Bonus: %s hard flux dissipation while shields are active.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "12" + "%");
 		} else if (Global.getSettings().getBoolean("BuiltInSMod") && ship.getHullSpec().isBuiltInMod("stabilizedshieldemitter")) {
-			tooltip.addPara("Built-in Bonus: %s hard flux dissipation while shields are active.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "15" + "%");
+			tooltip.addPara("Built-in Bonus: %s hard flux dissipation while shields are active.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "12" + "%");
         } else if (!isForModSpec) {
-			tooltip.addPara("S-mod Bonus: %s hard flux dissipation while shields are active.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "15" + "%");
+			tooltip.addPara("S-mod Bonus: %s hard flux dissipation while shields are active.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "12" + "%");
 		}
     }
 
