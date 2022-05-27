@@ -69,12 +69,13 @@ public class ConvertedHangar extends BaseHullMod {
 	}
 	
 	public void applyEffectsToFighterSpawnedByShip(ShipAPI fighter, ShipAPI ship, String id) {
+		float effect = ship.getMutableStats().getDynamic().getValue(Stats.DMOD_EFFECT_MULT);
 		if (ship.getVariant().getSMods().contains("converted_hangar") || (Global.getSettings().getBoolean("BuiltInSMod") && ship.getVariant().getHullSpec().isBuiltInMod("converted_hangar"))) {
 			MutableShipStatsAPI stats = fighter.getMutableStats();
-			stats.getMaxSpeed().modifyMult(id, 1f - SPEED_REDUCTION);
-			stats.getArmorDamageTakenMult().modifyPercent(id, DAMAGE_INCREASE * 100f);
-			stats.getShieldDamageTakenMult().modifyPercent(id, DAMAGE_INCREASE * 100f);
-			stats.getHullDamageTakenMult().modifyPercent(id, DAMAGE_INCREASE * 100f);
+			stats.getMaxSpeed().modifyMult(id, 1f - SPEED_REDUCTION * effect);
+			stats.getArmorDamageTakenMult().modifyPercent(id, DAMAGE_INCREASE * 100f * effect);
+			stats.getShieldDamageTakenMult().modifyPercent(id, DAMAGE_INCREASE * 100f * effect);
+			stats.getHullDamageTakenMult().modifyPercent(id, DAMAGE_INCREASE * 100f * effect);
 			fighter.setHeavyDHullOverlay();
 		} else {
 			new DefectiveManufactory().applyEffectsToFighterSpawnedByShip(fighter, ship, id);
@@ -97,23 +98,29 @@ public class ConvertedHangar extends BaseHullMod {
 	}
 	
     public void addPostDescriptionSection(TooltipMakerAPI tooltip, ShipAPI.HullSize hullSize, ShipAPI ship, float width, boolean isForModSpec) {
+		float effect = 1f;
+		if (ship != null) effect = ship.getMutableStats().getDynamic().getValue(Stats.DMOD_EFFECT_MULT);
 		if (isForModSpec) {
-			tooltip.addPara("S-mod Bonus: Fighter speed reduction reduced to %s", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "17" + "%");
-			tooltip.addPara("S-mod Bonus: Fighter increased damage taken reduced to %s", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "20" + "%");
-			tooltip.addPara("S-mod Bonus: OP Cost Penalty reduced by %s", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "10" + "%");
+			tooltip.addPara("S-mod Bonus: Fighter speed reduction reduced to %s", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), Math.round(effect * 17) + "%");
+			tooltip.addPara("S-mod Bonus: Fighter increased damage taken reduced to %s", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), Math.round(effect * 20) + "%");
+			tooltip.addPara("S-mod Bonus: Fighter OP Cost Penalty reduced to %s", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "40" + "%");
+			tooltip.addPara("S-mod Bonus: Bomber OP Cost Penalty reduced to %s", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "80" + "%");
 			return;
 		} else if (ship.getVariant().getSMods().contains("converted_hangar")) {
-			tooltip.addPara("S-mod Bonus: Fighter speed reduction reduced to %s", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "17" + "%");
-			tooltip.addPara("S-mod Bonus: Fighter increased damage taken reduced to %s", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "20" + "%");
-			tooltip.addPara("S-mod Bonus: OP Cost Penalty reduced by %s", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "10" + "%");
+			tooltip.addPara("S-mod Bonus: Fighter speed reduction reduced to %s", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), Math.round(effect * 17) + "%");
+			tooltip.addPara("S-mod Bonus: Fighter increased damage taken reduced to %s", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), Math.round(effect * 20) + "%");
+			tooltip.addPara("S-mod Bonus: Fighter OP Cost Penalty reduced to %s", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "40" + "%");
+			tooltip.addPara("S-mod Bonus: Bomber OP Cost Penalty reduced to %s", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "80" + "%");
 		} else if (Global.getSettings().getBoolean("BuiltInSMod") && ship.getHullSpec().isBuiltInMod("converted_hangar")) {
-			tooltip.addPara("Built-in Bonus: Fighter speed reduction reduced to %s", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "17" + "%");
-			tooltip.addPara("Built-in Bonus: Fighter increased damage taken reduced to %s", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "20" + "%");
-			tooltip.addPara("Built-in Bonus: OP Cost Penalty reduced by %s", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "10" + "%");
+			tooltip.addPara("Built-in Bonus: Fighter speed reduction reduced to %s", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), Math.round(effect * 17) + "%");
+			tooltip.addPara("Built-in Bonus: Fighter increased damage taken reduced to %s", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), Math.round(effect * 20) + "%");
+			tooltip.addPara("Built-in Bonus: Fighter OP Cost Penalty reduced to %s", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "40" + "%");
+			tooltip.addPara("Built-in Bonus: Bomber OP Cost Penalty reduced to %s", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "80" + "%");
         } else if (!isForModSpec) {
-			tooltip.addPara("S-mod Bonus: Fighter speed reduction reduced to %s", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "17" + "%");
-			tooltip.addPara("S-mod Bonus: Fighter increased damage taken reduced to %s", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "20" + "%");
-			tooltip.addPara("S-mod Bonus: OP Cost Penalty reduced by %s", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "10" + "%");
+			tooltip.addPara("S-mod Bonus: Fighter speed reduction reduced to %s", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), Math.round(effect * 17) + "%");
+			tooltip.addPara("S-mod Bonus: Fighter increased damage taken reduced to %s", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), Math.round(effect * 20) + "%");
+			tooltip.addPara("S-mod Bonus: Fighter OP Cost Penalty reduced to %s", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "40" + "%");
+			tooltip.addPara("S-mod Bonus: Bomber OP Cost Penalty reduced to %s", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "80" + "%");
 		}
     }
 	

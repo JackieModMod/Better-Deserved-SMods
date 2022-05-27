@@ -217,14 +217,14 @@ public class BallisticRangefinder extends BaseHullMod {
 		label.setHighlight("" + (int)BONUS_SMALL_1, "" + (int)BONUS_MAX_1);
 		label.setHighlightColors(h, h);
 		if (isForModSpec) {
-			tooltip.addPara("S-mod Bonus: Allow %s weapons to receive the bonus regardless of slot type.", 10f, Misc.getGrayColor(), Misc.MOUNT_BALLISTIC, "Ballistic");
+			tooltip.addPara("S-mod Bonus: Allow small and medium %s weapons to receive the bonus regardless of slot type.", 10f, Misc.getGrayColor(), Misc.MOUNT_BALLISTIC, "Ballistic");
 			return;
 		} else if (ship.getVariant().getSMods().contains("ballistic_rangefinder")) {
-			tooltip.addPara("S-mod Bonus: Allow %s weapons to receive the bonus regardless of slot type.", 10f, Misc.getPositiveHighlightColor(), Misc.MOUNT_BALLISTIC, "Ballistic");
+			tooltip.addPara("S-mod Bonus: Allow small and medium %s weapons to receive the bonus regardless of slot type.", 10f, Misc.getPositiveHighlightColor(), Misc.MOUNT_BALLISTIC, "Ballistic");
 		} else if (Global.getSettings().getBoolean("BuiltInSMod") && ship.getHullSpec().isBuiltInMod("ballistic_rangefinder")) {
-			tooltip.addPara("Built-in Bonus: Allow %s weapons to receive the bonus regardless of slot type.", 10f, Misc.getPositiveHighlightColor(), Misc.MOUNT_BALLISTIC, "Ballistic");
+			tooltip.addPara("Built-in Bonus: Allow small and medium %s weapons to receive the bonus regardless of slot type.", 10f, Misc.getPositiveHighlightColor(), Misc.MOUNT_BALLISTIC, "Ballistic");
         } else if (!isForModSpec) {
-			tooltip.addPara("S-mod Bonus: Allow %s weapons to receive the bonus regardless of slot type.", 10f, Misc.getGrayColor(), Misc.MOUNT_BALLISTIC, "Ballistic");
+			tooltip.addPara("S-mod Bonus: Allow small and medium %s weapons to receive the bonus regardless of slot type.", 10f, Misc.getGrayColor(), Misc.MOUNT_BALLISTIC, "Ballistic");
 		}	
 
 		tooltip.addSectionHeading("Exceptions", Alignment.MID, opad);
