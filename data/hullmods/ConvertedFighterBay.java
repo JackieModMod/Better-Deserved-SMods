@@ -15,16 +15,15 @@ public class ConvertedFighterBay extends BaseLogisticsHullMod {
 
 	private static Map mag = new HashMap();
 	static {
-		mag.put(HullSize.FRIGATE, 90f);
-		mag.put(HullSize.DESTROYER, 180f);
-		mag.put(HullSize.CRUISER, 240f);
+		mag.put(HullSize.FRIGATE, 100f);
+		mag.put(HullSize.DESTROYER, 200f);
+		mag.put(HullSize.CRUISER, 250f);
 		mag.put(HullSize.CAPITAL_SHIP, 300f);
 	}
 	public static final int CREW_REQ_PER_BAY = 20;
 	public static final int MAX_CREW = 80;
 	public static final int CARGO_PER_BAY = 50;
-	public static final int ARMOR_PER_BAY = 50;
-	public static final float FLUX_PER_BAY = 0.03f;
+	public static final float FLUX_PER_BAY = 0.02f;
 	public static final int logisticMax = Global.getSettings().getInt("maxLogisticsHullmods");
 	
 	public void applyEffectsBeforeShipCreation(HullSize hullSize, MutableShipStatsAPI stats, String id) {
@@ -34,12 +33,13 @@ public class ConvertedFighterBay extends BaseLogisticsHullMod {
 		int crewReduction = CREW_REQ_PER_BAY * bays;
 		if (crewReduction > MAX_CREW) crewReduction = MAX_CREW;
 		int cargo = CARGO_PER_BAY * bays;
-		float flux = 1.1f + FLUX_PER_BAY * bays;
+		float flux = 1.05f + FLUX_PER_BAY * bays;
 		
 		stats.getMinCrewMod().modifyPercent(id, -crewReduction);
 		stats.getCargoMod().modifyFlat(id, cargo);
 		
 		if (stats.getVariant().getSMods().contains("converted_fighterbay") || (Global.getSettings().getBoolean("BuiltInSMod") && stats.getVariant().getHullSpec().isBuiltInMod("converted_fighterbay"))) {
+			stats.getFluxCapacity().modifyMult(id, flux);
 			stats.getFluxDissipation().modifyMult(id, flux);
 			stats.getArmorBonus().modifyFlat(id, (Float) mag.get(hullSize));
 		}
@@ -82,18 +82,18 @@ public class ConvertedFighterBay extends BaseLogisticsHullMod {
 	
     public void addPostDescriptionSection(TooltipMakerAPI tooltip, ShipAPI.HullSize hullSize, ShipAPI ship, float width, boolean isForModSpec) {
 		if (isForModSpec) {
-			tooltip.addPara("S-mod Bonus: Increase the ship's armor by %s/%s/%s/%s", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "90", "180", "240", "300");
-			tooltip.addPara("S-mod Bonus: Increases the ship's flux dissipation by %s and an additional %s per converted fighter bay", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "10%", "3%");
+			tooltip.addPara("S-mod Bonus: Increase the ship's armor by %s/%s/%s/%s", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "100", "200", "250", "300");
+			tooltip.addPara("S-mod Bonus: Increases the ship's flux stats by %s and an additional %s per converted fighter bay", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "5%", "2%");
 			return;
 		} else if (ship.getVariant().getSMods().contains("converted_fighterbay")) {
-			tooltip.addPara("S-mod Bonus: Increase the ship's armor by %s/%s/%s/%s", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "90", "180", "240", "300", "10", "20", "30", "50");
-			tooltip.addPara("S-mod Bonus: Increases the ship's flux dissipation by %s and an additional %s per converted fighter bay", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "10%", "3%");
+			tooltip.addPara("S-mod Bonus: Increase the ship's armor by %s/%s/%s/%s", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "100", "200", "250", "300");
+			tooltip.addPara("S-mod Bonus: Increases the ship's flux stats by %s and an additional %s per converted fighter bay", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "5%", "2%");
 		} else if (Global.getSettings().getBoolean("BuiltInSMod") && ship.getHullSpec().isBuiltInMod("converted_fighterbay")) {
-			tooltip.addPara("Built-in Bonus: Increase the ship's armor by %s/%s/%s/%s", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "90", "180", "240", "300", "10", "20", "30", "50");
-			tooltip.addPara("Built-in Bonus: Increases the ship's flux dissipation by %s and an additional %s per converted fighter bay", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "10%", "3%");
+			tooltip.addPara("Built-in Bonus: Increase the ship's armor by %s/%s/%s/%s", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "100", "200", "250", "300");
+			tooltip.addPara("Built-in Bonus: Increases the ship's flux stats by %s and an additional %s per converted fighter bay", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "5%", "2%");
         } else if (!isForModSpec) {
-			tooltip.addPara("S-mod Bonus: Increase the ship's armor by %s/%s/%s/%s", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "90", "180", "240", "300", "10", "20", "30", "50");
-			tooltip.addPara("S-mod Bonus: Increases the ship's flux dissipation by %s and an additional %s per converted fighter bay", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "10%", "3%");
+			tooltip.addPara("S-mod Bonus: Increase the ship's armor by %s/%s/%s/%s", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "100", "200", "250", "300");
+			tooltip.addPara("S-mod Bonus: Increases the ship's flux stats by %s and an additional %s per converted fighter bay", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "5%", "2%");
 		}
     }	
 }

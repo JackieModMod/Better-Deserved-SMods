@@ -13,7 +13,7 @@ public class AdvancedTurretGyros extends BaseHullMod {
 	public static final float TURRET_SPEED_BONUS = 75f;
 	public static final float STURRET_SPEED_BONUS = 200f;
 	public static final float TARGET_LEADING_BONUS = 1f;
-	public static final float MISSILE_SPEC_ROF_BONUS = 33f;
+	public static final float MISSILE_SPEC_ROF_BONUS = 25f;
 	
 	public void applyEffectsBeforeShipCreation(HullSize hullSize, MutableShipStatsAPI stats, String id) {
 		if (stats.getVariant().getSMods().contains("turretgyros") || (Global.getSettings().getBoolean("BuiltInSMod") && stats.getVariant().getHullSpec().isBuiltInMod("turretgyros"))) {

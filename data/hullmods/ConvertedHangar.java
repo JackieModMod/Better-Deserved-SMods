@@ -20,7 +20,7 @@ public class ConvertedHangar extends BaseHullMod {
 	//public static final int CARGO_REQ = 80;
 	public static final int ALL_FIGHTER_COST_PERCENT = 50;
 	public static final int BOMBER_COST_PERCENT = 100;
-	public static float SPEED_REDUCTION = 0.16666666f;
+	public static float SPEED_REDUCTION = 0.1666f;
 	public static float DAMAGE_INCREASE = 0.2f;
 	
 	private static Map mag = new HashMap();
