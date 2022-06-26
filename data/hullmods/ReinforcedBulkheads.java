@@ -11,6 +11,9 @@ import com.fs.starfarer.api.combat.ShipAPI.HullSize;
 import com.fs.starfarer.api.ui.TooltipMakerAPI;
 import com.fs.starfarer.api.util.Misc;
 import com.fs.starfarer.api.impl.campaign.ids.Stats;
+import com.fs.starfarer.api.loading.HullModSpecAPI;
+import java.util.Collection;
+import java.util.HashSet;
 
 public class ReinforcedBulkheads extends BaseHullMod {
 	
@@ -27,9 +30,20 @@ public class ReinforcedBulkheads extends BaseHullMod {
 	public void applyEffectsBeforeShipCreation(HullSize hullSize, MutableShipStatsAPI stats, String id) {
 		if (stats.getVariant().getSMods().contains("reinforcedhull") || (Global.getSettings().getBoolean("BuiltInSMod") && stats.getVariant().getHullSpec().isBuiltInMod("reinforcedhull"))) {
 			stats.getDynamic().getStat(Stats.DMOD_EFFECT_MULT).modifyMult(id, DMOD_EFFECT_MULT);
+                        if (stats.getVariant().hasDMods()) {
+                            Collection<String> hullmodsort = new HashSet();
+                            for (String hullmod : stats.getVariant().getHullMods()) {
+                                HullModSpecAPI hullmodspec = Global.getSettings().getHullModSpec(hullmod);
+                                if (hullmodspec.hasTag("dmod") && hullmodspec.isHidden()) {
+                                    hullmodsort.add(hullmod);
+                                }
+                            }
+                            stats.getVariant().getHullMods().removeAll(hullmodsort);
+                            stats.getVariant().getHullMods().addAll(hullmodsort);
+                        }
 			stats.getHullBonus().modifyFlat(id, (Float) mag.get(hullSize));
 		}
-                stats.getHullBonus().modifyPercent(id, HULL_BONUS);
+        stats.getHullBonus().modifyPercent(id, HULL_BONUS);
 		stats.getDynamic().getMod(Stats.INDIVIDUAL_SHIP_RECOVERY_MOD).modifyFlat(id, 1000f);
 		stats.getBreakProb().modifyMult(id, 0f);
 	}

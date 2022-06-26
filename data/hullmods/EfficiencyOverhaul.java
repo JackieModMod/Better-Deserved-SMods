@@ -23,8 +23,6 @@ public class EfficiencyOverhaul extends BaseLogisticsHullMod {
 	public void applyEffectsBeforeShipCreation(HullSize hullSize, MutableShipStatsAPI stats, String id) {
 		if (stats.getVariant().getSMods().contains("efficiency_overhaul") || (Global.getSettings().getBoolean("BuiltInSMod") && stats.getVariant().getHullSpec().isBuiltInMod("efficiency_overhaul"))) {
 			stats.getMaxCombatReadiness().modifyFlat(id, MAX_CR_BONUS * 0.01f, "Efficiency Overhaul");
-			stats.getBaseCRRecoveryRatePercentPerDay().modifyPercent(id, CR_RECOVERY_BONUS*2f);
-			stats.getRepairRatePercentPerDay().modifyPercent(id, REPAIR_RATE_BONUS*2f);
 		}
         
 		if (stats.getVariant().hasHullMod(HullMods.CIVGRADE) && !stats.getVariant().hasHullMod(HullMods.MILITARIZED_SUBSYSTEMS) && (stats.getVariant().getSMods().contains("efficiency_overhaul") || (Global.getSettings().getBoolean("BuiltInSMod") && stats.getVariant().getHullSpec().isBuiltInMod("efficiency_overhaul")))) {
