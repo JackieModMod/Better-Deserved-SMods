@@ -47,16 +47,20 @@ public class ArmoredWeapons extends BaseHullMod {
 	}
 
    public void addPostDescriptionSection(TooltipMakerAPI tooltip, ShipAPI.HullSize hullSize, ShipAPI ship, float width, boolean isForModSpec) {
+                float armorfromweapon = 0;
+                if (ship != null && ship.getMutableStats().getArmorBonus().getFlatBonus("armoredweapons") != null) {
+                    armorfromweapon = ship.getMutableStats().getArmorBonus().getFlatBonus("armoredweapons").getValue();
+                }
 		if (isForModSpec) {
 			tooltip.addPara("S-mod Bonus: Weapon durability bonus increased to %s.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "150" + "%");
 			tooltip.addPara("S-mod Bonus: %s armor per weapon mount.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "+5");
 			return;
 		} else if (ship.getVariant().getSMods().contains("armoredweapons")) {
 			tooltip.addPara("S-mod Bonus: Weapon durability bonus increased to %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "150" + "%");
-			tooltip.addPara("S-mod Bonus: %s armor per weapon mount.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "+5");
+			tooltip.addPara("S-mod Bonus: %s armor per weapon mount (%s).", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "+5", Misc.getRoundedValue(armorfromweapon));
 		} else if (Global.getSettings().getBoolean("BuiltInSMod") && ship.getHullSpec().isBuiltInMod("armoredweapons")) {
 			tooltip.addPara("Built-in Bonus: Weapon durability bonus increased to %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "150" + "%");
-			tooltip.addPara("Built-in Bonus: A%s armor per weapon mount.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "+5");
+			tooltip.addPara("Built-in Bonus: %s armor per weapon mount (%s).", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "+5", Misc.getRoundedValue(armorfromweapon));
         } else if (!isForModSpec) {
 			tooltip.addPara("S-mod Bonus: Weapon durability bonus increased to %s.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "150" + "%");
 			tooltip.addPara("S-mod Bonus: %s armor per weapon mount.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "+5");

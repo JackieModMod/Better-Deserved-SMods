@@ -16,9 +16,8 @@ public class AcceleratedShieldEmitter extends BaseHullMod {
 	
 	public void applyEffectsBeforeShipCreation(HullSize hullSize, MutableShipStatsAPI stats, String id) {
 		if (stats.getVariant().getSMods().contains("advancedshieldemitter") || (Global.getSettings().getBoolean("BuiltInSMod") && stats.getVariant().getHullSpec().isBuiltInMod("advancedshieldemitter"))) {
-			stats.getShieldTurnRateMult().modifyPercent(id, SHIELD_BONUS_TURN*2f);
-			stats.getShieldUnfoldRateMult().modifyPercent(id, SHIELD_BONUS_UNFOLD*2f);
-			stats.getBeamShieldDamageTakenMult().modifyMult(id, 1f - SHIELD_BEAM_REDUCTION / 100f);
+			stats.getShieldTurnRateMult().modifyPercent(id, SHIELD_BONUS_TURN*4f);
+			stats.getShieldUnfoldRateMult().modifyPercent(id, SHIELD_BONUS_UNFOLD*4f);
 		} else {
 			stats.getShieldTurnRateMult().modifyPercent(id, SHIELD_BONUS_TURN);
 			stats.getShieldUnfoldRateMult().modifyPercent(id, SHIELD_BONUS_UNFOLD);	
@@ -33,18 +32,14 @@ public class AcceleratedShieldEmitter extends BaseHullMod {
 
     public void addPostDescriptionSection(TooltipMakerAPI tooltip, ShipAPI.HullSize hullSize, ShipAPI ship, float width, boolean isForModSpec) {
 		if (isForModSpec) {
-			tooltip.addPara("S-mod Bonus: Increases the turn rate of the ship's shields and the rate at which the shields are raised by an additional %s.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "100" + "%");
-			tooltip.addPara("S-mod Bonus: %s beam damage taken by shields.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "-20%");
+			tooltip.addPara("S-mod Bonus: Increases the turn rate of the ship's shields and the rate at which the shields are raised by an additional %s.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "400" + "%");
 			return;
 		} else if (ship.getVariant().getSMods().contains("advancedshieldemitter")) {
-			tooltip.addPara("S-mod Bonus: Increases the turn rate of the ship's shields and the rate at which the shields are raised by an additional %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "100" + "%");
-			tooltip.addPara("S-mod Bonus: %s beam damage taken by shields.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "-20%");
+			tooltip.addPara("S-mod Bonus: Increases the turn rate of the ship's shields and the rate at which the shields are raised by an additional %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "400" + "%");
 		} else if (Global.getSettings().getBoolean("BuiltInSMod") && ship.getHullSpec().isBuiltInMod("advancedshieldemitter")) {
-			tooltip.addPara("Built-in Bonus: Increases the turn rate of the ship's shields and the rate at which the shields are raised by an additional %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "100" + "%");
-			tooltip.addPara("Built-in Bonus: %s beam damage taken by shields.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "-20%");
+			tooltip.addPara("Built-in Bonus: Increases the turn rate of the ship's shields and the rate at which the shields are raised by an additional %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "400" + "%");
                 } else if (!isForModSpec) {
-			tooltip.addPara("S-mod Bonus: Increases the turn rate of the ship's shields and the rate at which the shields are raised by an additional %s.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "100" + "%");
-			tooltip.addPara("S-mod Bonus: %s beam damage taken by shields.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "-20%");
+			tooltip.addPara("S-mod Bonus: Increases the turn rate of the ship's shields and the rate at which the shields are raised by an additional %s.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "400" + "%");
 		}
     }
 

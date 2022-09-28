@@ -83,13 +83,13 @@ public class ECCMPackage extends BaseHullMod {
 			return;
 		} else if (ship.getVariant().getSMods().contains("eccm")) {
 			tooltip.addPara("S-mod Bonus: Reduced chance for missiles to be affected by electronic counter-measures and flares increased to %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "66" + "%");
-			tooltip.addPara("S-mod Bonus: Weaker CPU core adjunct are installed in each missile fired by wings providing improved tracking algorithm (if any) and boosted engine performance.", Misc.getPositiveHighlightColor(), 10f);
+			tooltip.addPara("S-mod Bonus: Applies to missiles fired by wings.", Misc.getPositiveHighlightColor(), 10f);
 		} else if (Global.getSettings().getBoolean("BuiltInSMod") && ship.getHullSpec().isBuiltInMod("eccm")) {
 			tooltip.addPara("Built-in Bonus: Reduced chance for missiles to be affected by electronic counter-measures and flares increased to %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "66" + "%");
-			tooltip.addPara("Built-in Bonus: Weaker CPU core adjunct are installed in each missile fired by wings providing improved tracking algorithm (if any) and boosted engine performance.", Misc.getPositiveHighlightColor(), 10f);
+			tooltip.addPara("Built-in Bonus: Applies to missiles fired by wings.", Misc.getPositiveHighlightColor(), 10f);
         } else if (!isForModSpec) {
 			tooltip.addPara("S-mod Bonus: Reduced chance for missiles to be affected by electronic counter-measures and flares increased to %s.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "66" + "%");
-			tooltip.addPara("S-mod Bonus: Weaker CPU core adjunct are installed in each missile fired by wings providing improved tracking algorithm (if any) and boosted engine performance.", Misc.getGrayColor(), 10f);
+			tooltip.addPara("S-mod Bonus: Applies to missiles fired by wings.", Misc.getGrayColor(), 10f);
 		}
     }
 	

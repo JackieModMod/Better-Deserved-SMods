@@ -15,7 +15,7 @@ public class OmniShieldEmitter extends BaseHullMod {
 	public static float ARC_PENALTY = 25f;
         public static final float SARC_PENALTY = 15f;
 	public static final float SHIELD_UPKEEP_BONUS = 25f;
-        public static final float SSHIELD_BONUS = 7f;
+        public static final float SSHIELD_BONUS = 8f;
 	
 	public void applyEffectsBeforeShipCreation(HullSize hullSize, MutableShipStatsAPI stats, String id) {
 		if (stats.getVariant().getSMods().contains("adaptiveshields") || (Global.getSettings().getBoolean("BuiltInSMod") && stats.getVariant().getHullSpec().isBuiltInMod("adaptiveshields"))) {

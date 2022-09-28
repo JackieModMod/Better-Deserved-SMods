@@ -5,6 +5,7 @@ import com.fs.starfarer.api.combat.BaseHullMod;
 import com.fs.starfarer.api.combat.MutableShipStatsAPI;
 import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.combat.ShipAPI.HullSize;
+import com.fs.starfarer.api.impl.campaign.ids.Stats;
 import com.fs.starfarer.api.ui.TooltipMakerAPI;
 import com.fs.starfarer.api.util.Misc;
 
@@ -13,7 +14,9 @@ public class AutomatedRepairUnit extends BaseHullMod {
 	//public static final float REPAIR_RATE_BONUS = 50f;
 	//public static final float CR_RECOVERY_BONUS = 50f;
 	public static final float REPAIR_BONUS = 50f;
-	public static final float SREPAIR_BONUS = 80f;
+	public static final float SREPAIR_BONUS = 75f;
+        public static final float INSTA_REPAIR_BONUS = 0.15f;
+        public static final float CR_DEPLOYMENT_REDUCTION = 0.85f;
         public static final float HULL_DAMAGE_REDUCTION = 10f;
 	
 	
@@ -21,7 +24,9 @@ public class AutomatedRepairUnit extends BaseHullMod {
 		if (stats.getVariant().getSMods().contains("autorepair") || (Global.getSettings().getBoolean("BuiltInSMod") && stats.getVariant().getHullSpec().isBuiltInMod("autorepair"))) {
 			stats.getCombatEngineRepairTimeMult().modifyMult(id, 1f - SREPAIR_BONUS * 0.01f);
 			stats.getCombatWeaponRepairTimeMult().modifyMult(id, 1f - SREPAIR_BONUS * 0.01f);
-			stats.getHullDamageTakenMult().modifyMult(id, 1f - HULL_DAMAGE_REDUCTION / 100f);
+                        stats.getDynamic().getMod(Stats.INSTA_REPAIR_FRACTION).modifyFlat(id, INSTA_REPAIR_BONUS);
+                        stats.getCRPerDeploymentPercent().modifyMult(id, CR_DEPLOYMENT_REDUCTION);
+			//stats.getHullDamageTakenMult().modifyMult(id, 1f - HULL_DAMAGE_REDUCTION / 100f);
 		} else {
 			stats.getCombatEngineRepairTimeMult().modifyMult(id, 1f - REPAIR_BONUS * 0.01f);
 			stats.getCombatWeaponRepairTimeMult().modifyMult(id, 1f - REPAIR_BONUS * 0.01f);
@@ -41,18 +46,22 @@ public class AutomatedRepairUnit extends BaseHullMod {
 	
     public void addPostDescriptionSection(TooltipMakerAPI tooltip, ShipAPI.HullSize hullSize, ShipAPI ship, float width, boolean isForModSpec) {
 		if (isForModSpec) {
-			tooltip.addPara("S-mod Bonus: Time reduction to repair weapons and engines increased to %s", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "80" + "%");
-			tooltip.addPara("S-mod Bonus: %s hull damage taken", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "-10" + "%");
+			tooltip.addPara("S-mod Bonus: Time reduction to repair weapons and engines increased to %s", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "75" + "%");
+			tooltip.addPara("S-mod Bonus: %s of hull and armor damage taken during combat will be repaired after combat ends, at no cost", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "15" + "%");
+                        tooltip.addPara("S-mod Bonus: %s CR loss from deployment", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "-15" + "%");
 			return;
 		} else if (ship.getVariant().getSMods().contains("autorepair")) {
-			tooltip.addPara("S-mod Bonus: Time reduction to repair weapons and engines increased to %s", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "80" + "%");
-			tooltip.addPara("S-mod Bonus: %s hull damage taken", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "-10" + "%");
+			tooltip.addPara("S-mod Bonus: Time reduction to repair weapons and engines increased to %s", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "75" + "%");
+			tooltip.addPara("S-mod Bonus: %s of hull and armor damage taken during combat will be repaired after combat ends, at no cost", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "15" + "%");
+                        tooltip.addPara("S-mod Bonus: %s CR loss from deployment", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "-15" + "%");
 		} else if (Global.getSettings().getBoolean("BuiltInSMod") && ship.getHullSpec().isBuiltInMod("autorepair")) {
-			tooltip.addPara("Built-in Bonus: Time reduction to repair weapons and engines increased to %s", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "80" + "%");
-			tooltip.addPara("Built-in Bonus: %s hull damage taken", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "-10" + "%");
+			tooltip.addPara("Built-in Bonus: Time reduction to repair weapons and engines increased to %s", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "75" + "%");
+			tooltip.addPara("Built-in Bonus: %s of hull and armor damage taken during combat will be repaired after combat ends, at no cost", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "15" + "%");
+                        tooltip.addPara("Built-in Bonus: %s CR loss from deployment", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "-15" + "%");
         } else if (!isForModSpec) {
-			tooltip.addPara("S-mod Bonus: Time reduction to repair weapons and engines increased to %s", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "80" + "%");
-			tooltip.addPara("S-mod Bonus: %s hull damage taken", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "-10" + "%");
+			tooltip.addPara("S-mod Bonus: Time reduction to repair weapons and engines increased to %s", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "75" + "%");
+			tooltip.addPara("S-mod Bonus: %s of hull and armor damage taken during combat will be repaired after combat ends, at no cost", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "15" + "%");
+                        tooltip.addPara("S-mod Bonus: %s CR loss from deployment", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "-15" + "%");
 		}
     }
 

@@ -17,16 +17,20 @@ public class OperationsCenter extends BaseHullMod {
 
 	public static final float RECOVERY_BONUS = 250f;
 	public static final String MOD_ID = "operations_center_mod";
-	public static float SPEED_BONUS = 15f;
-	public static float AIM_BONUS = 0.33f;
-	
-	public void applyEffectsToFighterSpawnedByShip(ShipAPI fighter, ShipAPI ship, String id) {
-		if (ship.getVariant().getSMods().contains("operations_center") || (Global.getSettings().getBoolean("BuiltInSMod") && ship.getVariant().getHullSpec().isBuiltInMod("operations_center"))) {
-			MutableShipStatsAPI stats = fighter.getMutableStats();
-			stats.getMaxSpeed().modifyPercent(id, SPEED_BONUS);
-			stats.getAcceleration().modifyPercent(id, SPEED_BONUS * 2f);
-			stats.getDeceleration().modifyPercent(id, SPEED_BONUS * 2f);
-			stats.getAutofireAimAccuracy().modifyFlat(id, AIM_BONUS);
+        public static float DP_REDUCTION = 0.15f;
+	public static float DP_REDUCTION_MAX = 10f;
+        
+	public void applyEffectsBeforeShipCreation(HullSize hullSize, MutableShipStatsAPI stats, String id) {
+		if (stats.getVariant().getSMods().contains("operations_center") || (Global.getSettings().getBoolean("BuiltInSMod") && stats.getVariant().getHullSpec().isBuiltInMod("operations_center"))) {
+			float baseCost = stats.getSuppliesToRecover().getBaseValue();
+			float reduction = Math.min(DP_REDUCTION_MAX, Math.max(1, baseCost * DP_REDUCTION));
+			if (stats.getFleetMember() != null &&
+                                stats.getFleetMember().getVariant() != null && 
+                                (stats.getFleetMember().getCaptain().isPlayer() || stats.getFleetMember().getOwner() == 1)) {
+                            stats.getDynamic().getMod(Stats.DEPLOYMENT_POINTS_MOD).modifyFlat(id, -reduction);
+                            stats.getDynamic().getMod(Stats.ELECTRONIC_WARFARE_FLAT).modifyFlat(MOD_ID, 5f);
+                            stats.getDynamic().getMod(Stats.COORDINATED_MANEUVERS_FLAT).modifyFlat(MOD_ID, 5f);
+			} //I don't know how to find the enemy commander to apply.. so we will let any enemy ship be applicable?
 		}
 	}
 	
@@ -37,18 +41,18 @@ public class OperationsCenter extends BaseHullMod {
 
     public void addPostDescriptionSection(TooltipMakerAPI tooltip, ShipAPI.HullSize hullSize, ShipAPI ship, float width, boolean isForModSpec) {
 		if (isForModSpec) {
-			tooltip.addPara("S-mod Bonus: Fighters gain %s top speed.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "+15%");
-			tooltip.addPara("S-mod Bonus: Fighters gain %s target leading accuracy.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "+33%");
+			tooltip.addPara("S-mod Bonus: If flagship or neurally linked, gain %s ECM rating, %s Nav rating, and retain command point recovery", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "5%", "5%");
+			tooltip.addPara("S-mod Bonus: If flagship, deployment point cost reduced by %s or %s points, whichever is less", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "15%", "10");
 			return;
 		} else if (ship.getVariant().getSMods().contains("operations_center")) {
-			tooltip.addPara("S-mod Bonus: Fighters gain %s top speed.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "+15%");
-			tooltip.addPara("S-mod Bonus: Fighters gain %s target leading accuracy.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "+33%");
+			tooltip.addPara("S-mod Bonus: If flagship or neurally linked, gain %s ECM rating and %s Nav rating, and retain command point recovery", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "5%", "5%");
+			tooltip.addPara("S-mod Bonus: If flagship, deployment point cost reduced by %s or %s points, whichever is less", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "15%", "10");
 		} else if (Global.getSettings().getBoolean("BuiltInSMod") && ship.getHullSpec().isBuiltInMod("operations_center")) {
-			tooltip.addPara("Built-in Bonus: Fighters gain %s top speed.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "+15%");
-			tooltip.addPara("Built-in Bonus: Fighters gain %s target leading accuracy.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "+33%");
+			tooltip.addPara("Built-in Bonus: If flagship or neurally linked, gain %s ECM rating and %s Nav rating, and retain command point recovery", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "5%", "5%");
+			tooltip.addPara("Built-in Bonus: If flagship, deployment point cost reduced by %s or %s points, whichever is less", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "15%", "10");
         } else if (!isForModSpec) {
-			tooltip.addPara("S-mod Bonus: Fighters gain %s top speed.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "+15%");
-			tooltip.addPara("S-mod Bonus: Fighters gain %s target leading accuracy.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "+33%");
+			tooltip.addPara("S-mod Bonus: If flagship or neurally linked, gain %s ECM rating and %s Nav rating, and retain command point recovery", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "5%", "5%");
+			tooltip.addPara("S-mod Bonus: If flagship, deployment point cost reduced by %s or %s points, whichever is less", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "15%", "10");
 		}
     }
 	
@@ -72,12 +76,19 @@ public class OperationsCenter extends BaseHullMod {
 				commander = member.getMember().getFleetCommanderForStats();
 			}
 		}
-		apply |= commander != null && ship.getCaptain() == commander;
+                boolean hasSmod = ship.getVariant().getSMods().contains("operations_center") || (Global.getSettings().getBoolean("BuiltInSMod") && ship.getVariant().getHullSpec().isBuiltInMod("operations_center"));
+		apply |= commander != null && (ship.getCaptain() == commander || (hasSmod && ship.getOriginalCaptain() == commander));
 		
 		if (apply) {
 			ship.getMutableStats().getDynamic().getMod(Stats.COMMAND_POINT_RATE_FLAT).modifyFlat(MOD_ID, RECOVERY_BONUS * 0.01f);
+                        if (hasSmod) {
+                            ship.getMutableStats().getDynamic().getMod(Stats.ELECTRONIC_WARFARE_FLAT).modifyFlat(MOD_ID, 5f);
+                            ship.getMutableStats().getDynamic().getMod(Stats.COORDINATED_MANEUVERS_FLAT).modifyFlat(MOD_ID, 5f);
+                        }
 		} else {
 			ship.getMutableStats().getDynamic().getMod(Stats.COMMAND_POINT_RATE_FLAT).unmodify(MOD_ID);
+                        ship.getMutableStats().getDynamic().getMod(Stats.ELECTRONIC_WARFARE_FLAT).unmodify(MOD_ID);
+                        ship.getMutableStats().getDynamic().getMod(Stats.COORDINATED_MANEUVERS_FLAT).unmodify(MOD_ID);
 		}
 	}
 

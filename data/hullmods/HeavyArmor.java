@@ -18,10 +18,10 @@ public class HeavyArmor extends BaseHullMod {
 	private static Map mag = new HashMap();
 	private static Map smag = new HashMap();
 	static {
-		smag.put(HullSize.FRIGATE, 125f);
+		smag.put(HullSize.FRIGATE, 150f);
 		smag.put(HullSize.DESTROYER, 250f);
-		smag.put(HullSize.CRUISER, 325f);
-		smag.put(HullSize.CAPITAL_SHIP, 400f);
+		smag.put(HullSize.CRUISER, 350f);
+		smag.put(HullSize.CAPITAL_SHIP, 450f);
 		mag.put(HullSize.FRIGATE, 150f);
 		mag.put(HullSize.DESTROYER, 300f);
 		mag.put(HullSize.CRUISER, 400f);
@@ -62,14 +62,14 @@ public class HeavyArmor extends BaseHullMod {
 	
     public void addPostDescriptionSection(TooltipMakerAPI tooltip, ShipAPI.HullSize hullSize, ShipAPI ship, float width, boolean isForModSpec) {
 		if (isForModSpec) {
-			tooltip.addPara("S-mod Penalty: Heavy Armor's armor bonus reduced to %s points.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "125/250/325/400");
+			tooltip.addPara("S-mod Penalty: Heavy Armor's armor bonus reduced by %s points.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "-/50/50/50");
 			return;
 		} else if (ship.getVariant().getSMods().contains("heavyarmor")) {
-			tooltip.addPara("S-mod Penalty: Heavy Armor's armor bonus reduced to %s points.", 10f, Misc.getNegativeHighlightColor(), Misc.getHighlightColor(), "125/250/325/400");
+			tooltip.addPara("S-mod Penalty: Heavy Armor's armor bonus reduced by %s points.", 10f, Misc.getNegativeHighlightColor(), Misc.getHighlightColor(), "-/50/50/50");
 		//} else if (ship.getHullSpec().isBuiltInMod("heavyarmor")) {
 			//No penalties!
                 } else if (!isForModSpec) {
-			tooltip.addPara("S-mod Penalty: Heavy Armor's armor bonus reduced to %s points.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "125/250/325/400");
+			tooltip.addPara("S-mod Penalty: Heavy Armor's armor bonus reduced by %s points.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "-/50/50/50");
 		}
     }
 

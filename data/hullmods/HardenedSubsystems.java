@@ -12,18 +12,18 @@ public class HardenedSubsystems extends BaseHullMod {
 
 	public static final float SPEAK_BONUS_FLAT = 30f;
 	public static final float PEAK_BONUS_PERCENT = 50f;
-	public static final float SDEGRADE_REDUCTION_PERCENT = 33f;
 	public static final float DEGRADE_REDUCTION_PERCENT = 25f;
+        public static final float MALFUNCTION_REDUCTION = 0.5f;
 	
 	public void applyEffectsBeforeShipCreation(HullSize hullSize, MutableShipStatsAPI stats, String id) {
 		if (stats.getVariant().getSMods().contains("hardened_subsystems") || (Global.getSettings().getBoolean("BuiltInSMod") && stats.getVariant().getHullSpec().isBuiltInMod("hardened_subsystems"))) {
 			stats.getPeakCRDuration().modifyFlat(id, SPEAK_BONUS_FLAT);
-			stats.getCRLossPerSecondPercent().modifyMult(id, 1f - SDEGRADE_REDUCTION_PERCENT / 100f);
-			stats.getPeakCRDuration().modifyPercent(id, PEAK_BONUS_PERCENT);
-		} else {
-			stats.getCRLossPerSecondPercent().modifyMult(id, 1f - DEGRADE_REDUCTION_PERCENT / 100f);
-                        stats.getPeakCRDuration().modifyPercent(id, PEAK_BONUS_PERCENT);
+			stats.getWeaponMalfunctionChance().modifyMult(id, MALFUNCTION_REDUCTION);
+                        stats.getEngineMalfunctionChance().modifyMult(id, MALFUNCTION_REDUCTION);
+                        stats.getCriticalMalfunctionChance().modifyMult(id, MALFUNCTION_REDUCTION);
 		}
+                stats.getPeakCRDuration().modifyPercent(id, PEAK_BONUS_PERCENT);
+                stats.getCRLossPerSecondPercent().modifyMult(id, 1f - DEGRADE_REDUCTION_PERCENT / 100f);
 		
 	}
 	
@@ -37,17 +37,17 @@ public class HardenedSubsystems extends BaseHullMod {
     public void addPostDescriptionSection(TooltipMakerAPI tooltip, ShipAPI.HullSize hullSize, ShipAPI ship, float width, boolean isForModSpec) {
 		if (isForModSpec) {
 			tooltip.addPara("S-mod Bonus: %s seconds peak operating time.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "+30");
-			tooltip.addPara("S-mod Bonus: Combat Readiness Degrade Reduction increased to %s.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "33" + "%");
+			tooltip.addPara("S-mod Bonus: %s less chance to suffer from weapon, engine, and critical malfunctions", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "-50" + "%");
 			return;
 		} else if (ship.getVariant().getSMods().contains("hardened_subsystems")) {
 			tooltip.addPara("S-mod Bonus: %s seconds peak operating time.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "+30");
-			tooltip.addPara("S-mod Bonus: Combat Readiness Degrade Reduction increased to %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "33" + "%");
+			tooltip.addPara("S-mod Bonus: %s less chance to suffer from weapon, engine, and critical malfunctions", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "-50" + "%");
 		} else if (Global.getSettings().getBoolean("BuiltInSMod") && ship.getHullSpec().isBuiltInMod("hardened_subsystems")) {
 			tooltip.addPara("Built-in Bonus: %s seconds peak operating time.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "+30");
-			tooltip.addPara("Built-in Bonus: Combat Readiness Degrade Reduction increased to %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "33" + "%");
+			tooltip.addPara("Built-in Bonus: %s less chance to suffer from weapon, engine, and critical malfunctions", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "-50" + "%");
         } else if (!isForModSpec) {
 			tooltip.addPara("S-mod Bonus: %s seconds peak operating time.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "+30");
-			tooltip.addPara("S-mod Bonus: Combat Readiness Degrade Reduction increased to %s.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "33" + "%");
+			tooltip.addPara("S-mod Bonus: %s less chance to suffer from weapon, engine, and critical malfunctions", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "-50" + "%");
 		}
     }
 

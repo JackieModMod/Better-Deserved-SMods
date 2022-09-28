@@ -13,7 +13,7 @@ public class HardenedShieldEmitter extends BaseHullMod {
 
 	public static float PIERCE_MULT = 0.5f;
 	public static float SHIELD_BONUS = 15f;
-        public static float SSHIELD_BONUS = 20f;
+        public static float SSHIELD_BONUS = 22f;
 	
 	public void applyEffectsBeforeShipCreation(HullSize hullSize, MutableShipStatsAPI stats, String id) {
 		if (stats.getVariant().getSMods().contains("hardenedshieldemitter") || (Global.getSettings().getBoolean("BuiltInSMod") && stats.getVariant().getHullSpec().isBuiltInMod("hardenedshieldemitter"))) {

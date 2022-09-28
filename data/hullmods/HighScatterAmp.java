@@ -32,6 +32,7 @@ public class HighScatterAmp extends BaseHullMod {
 //	public static float RANGE_LARGE = 700;
 	
 	public static float DAMAGE_BONUS_PERCENT = 10f;
+        public static float SDAMAGE_BONUS_PERCENT = 10f;
 
 	@Override
 	public boolean isApplicableToShip(ShipAPI ship) {
@@ -47,7 +48,12 @@ public class HighScatterAmp extends BaseHullMod {
         
 	public void applyEffectsBeforeShipCreation(HullSize hullSize, MutableShipStatsAPI stats, String id) {
 		//stats.getBeamWeaponRangeBonus().modifyMult(id, 1f - RANGE_PENALTY_PERCENT * 0.01f);
-		stats.getBeamWeaponDamageMult().modifyPercent(id, DAMAGE_BONUS_PERCENT);
+                if (stats.getVariant().getSMods().contains("high_scatter_amp") || Global.getSettings().getBoolean("BuiltInSMod") && stats.getVariant().getHullSpec().isBuiltInMod("high_scatter_amp")) {
+                    stats.getBeamWeaponDamageMult().modifyPercent(id, SDAMAGE_BONUS_PERCENT);
+		} else {
+                    stats.getBeamWeaponDamageMult().modifyPercent(id, DAMAGE_BONUS_PERCENT);
+                }
+		
 		// test code for WeaponOPCostModifier, FighterOPCostModifier
 //		stats.addListener(new WeaponOPCostModifier() {
 //			public int getWeaponOPCost(MutableShipStatsAPI stats, WeaponSpecAPI weapon, int currCost) {
@@ -243,6 +249,7 @@ public class HighScatterAmp extends BaseHullMod {
                                         "" + (int)RANGE_THRESHOLD,
                                         "" + (int)Math.round((1f - RANGE_MULT) * 100f) + "%"
                                         );
+                        tooltip.addPara("S-mod Bonus: Beam damage bonus increased to %s", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "15%");
                         tooltip.addPara("S-mod Bonus: Base range reduction reduced to %s", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "25%");
                         /*tooltip.addPara("Reduces the base range of beam weapons to %s for frigates, %s for destroyers, "
                                         + "and %s for larger ships.", opad, h,
@@ -257,6 +264,7 @@ public class HighScatterAmp extends BaseHullMod {
                                         "" + (int)RANGE_THRESHOLD,
                                         "" + (int)Math.round((1f - SRANGE_MULT) * 100f) + "%"
                                         );
+                        tooltip.addPara("S-mod Bonus: Beam damage bonus increased to %s", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "15%");
                         tooltip.addPara("S-mod Bonus: Base range reduction reduced to %s", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "25%");
                         /*tooltip.addPara("Reduces the base range of beam weapons to %s for frigates, %s for destroyers, "
                                                                 + "and %s for larger ships.", opad, Misc.getPositiveHighlightColor(),
@@ -270,7 +278,8 @@ public class HighScatterAmp extends BaseHullMod {
                                         "" + (int)RANGE_THRESHOLD,
                                         "" + (int)Math.round((1f - SRANGE_MULT) * 100f) + "%"
                                         );
-                            tooltip.addPara("S-mod Bonus: Base range reduction reduced to %s", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "25%");    
+                            tooltip.addPara("Built-in Bonus: Beam damage bonus increased to %s", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "15%");
+                            tooltip.addPara("Built-in Bonus: Base range reduction reduced to %s", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "25%");    
                             /*tooltip.addPara("Reduces the base range of beam weapons to %s for frigates, %s for destroyers, "
                                                                 + "and %s for larger ships.", opad, Misc.getPositiveHighlightColor(),
                                                                 "" + (int)SRANGE_FRIGATE,
@@ -283,6 +292,7 @@ public class HighScatterAmp extends BaseHullMod {
                                         "" + (int)RANGE_THRESHOLD,
                                         "" + (int)Math.round((1f - RANGE_MULT) * 100f) + "%"
                                         );
+                        tooltip.addPara("S-mod Bonus: Beam damage bonus increased to %s", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "15%");
                         tooltip.addPara("S-mod Bonus: Base range reduction reduced to %s", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "25%");
                         /*tooltip.addPara("Reduces the base range of beam weapons to %s for frigates, %s for destroyers, "
                                         + "and %s for larger ships.", opad, h,
