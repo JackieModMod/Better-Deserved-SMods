@@ -58,30 +58,32 @@ public class AdvancedOptics extends BaseHullMod {
         Color color1 = new Color(Misc.getBasePlayerColor().getRed(), Misc.getBasePlayerColor().getGreen(), Misc.getBasePlayerColor().getBlue(), Math.round(Misc.getBasePlayerColor().getAlpha()/2f));
         Color color2 = new Color(Misc.getDarkPlayerColor().getRed(), Misc.getDarkPlayerColor().getGreen(), Misc.getDarkPlayerColor().getBlue(), Math.round(Misc.getDarkPlayerColor().getAlpha()/2f));
 		if (isForModSpec) {
+                        tooltip.addSectionHeading("S-mod bonus", Misc.getGrayColor(), Misc.setAlpha(Misc.scaleColorOnly(Misc.getGrayColor(), 0.4f), 175), Alignment.MID, 10f);
+
 			//tooltip.addPara("S-mod Bonus: %s Beam Damage.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "+5" + "%");
-                        tooltip.addPara("S-mod Bonus: Bonus range converted to base range increase", Misc.getGrayColor(), 10f);
-                        tooltip.addSectionHeading("Interactions with other modifiers", color1, color2, Alignment.MID, opad);
-                        tooltip.addPara("The base range is increased, thus percentage and multiplicative modifiers - such as from Integrated Targeting Unit, "
-				+ "skills, or similar sources - apply to the increased base value.", Misc.getGrayColor(), opad);
+                        tooltip.addPara("Bonus range converted to base range increase", Misc.getGrayColor(), 10f);
 			return;
 		} else if (ship.getVariant().getSMods().contains("advancedoptics")) {
+			tooltip.addSectionHeading("S-mod bonus", Misc.getStoryOptionColor(), Misc.getStoryDarkColor(), Alignment.MID, 10f);
+
 			//tooltip.addPara("S-mod Bonus: %s Beam Damage.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "+5" + "%");
-                        tooltip.addPara("S-mod Bonus: Bonus range converted to base range increase", Misc.getPositiveHighlightColor(), 10f);
+                        tooltip.addPara("Bonus range converted to base range increase", Misc.getPositiveHighlightColor(), 10f);
                         tooltip.addSectionHeading("Interactions with other modifiers", Alignment.MID, opad);
 		tooltip.addPara("The base range is increased, thus percentage and multiplicative modifiers - such as from Integrated Targeting Unit, "
 				+ "skills, or similar sources - apply to the increased base value.", opad);
 		} else if (Global.getSettings().getBoolean("BuiltInSMod") && ship.getHullSpec().isBuiltInMod("advancedoptics")) {
+			tooltip.addSectionHeading("Built-in bonus", Misc.getStoryOptionColor(), Misc.getStoryDarkColor(), Alignment.MID, 10f);
+
             //tooltip.addPara("Built-in Bonus: %s Beam Damage.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "+5" + "%");
-            tooltip.addPara("Built-in Bonus: Bonus range converted to base range increase", Misc.getPositiveHighlightColor(), 10f);
+            tooltip.addPara("Bonus range converted to base range increase", Misc.getPositiveHighlightColor(), 10f);
             tooltip.addSectionHeading("Interactions with other modifiers", Alignment.MID, opad);
 		tooltip.addPara("The base range is increased, thus percentage and multiplicative modifiers - such as from Integrated Targeting Unit, "
 				+ "skills, or similar sources - apply to the increased base value.", opad);
         } else if (!isForModSpec) {
+			tooltip.addSectionHeading("S-mod bonus", Misc.getGrayColor(), Misc.setAlpha(Misc.scaleColorOnly(Misc.getGrayColor(), 0.4f), 175), Alignment.MID, 10f);
+
 			//tooltip.addPara("S-mod Bonus: %s Beam Damage.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "+5" + "%");
-                        tooltip.addPara("S-mod Bonus: Bonus range converted to base range increase", Misc.getGrayColor(), 10f);
-                        tooltip.addSectionHeading("Interactions with other modifiers", color1, color2, Alignment.MID, opad);
-                        tooltip.addPara("The base range is increased, thus percentage and multiplicative modifiers - such as from Integrated Targeting Unit, "
-				+ "skills, or similar sources - apply to the increased base value.", Misc.getGrayColor(), opad);
+                        tooltip.addPara("Bonus range converted to base range increase", Misc.getGrayColor(), 10f);
 		}
     }
 	

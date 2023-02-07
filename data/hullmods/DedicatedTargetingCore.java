@@ -8,6 +8,7 @@ import com.fs.starfarer.api.combat.BaseHullMod;
 import com.fs.starfarer.api.combat.MutableShipStatsAPI;
 import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.combat.ShipAPI.HullSize;
+import com.fs.starfarer.api.ui.Alignment;
 import com.fs.starfarer.api.ui.TooltipMakerAPI;
 import com.fs.starfarer.api.util.Misc;
 
@@ -36,14 +37,18 @@ public class DedicatedTargetingCore extends BaseHullMod {
 	
     public void addPostDescriptionSection(TooltipMakerAPI tooltip, ShipAPI.HullSize hullSize, ShipAPI ship, float width, boolean isForModSpec) {
 		if (isForModSpec) {
-			tooltip.addPara("S-mod Bonus: Range bonus increased to %s.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "40%/60%");
+			tooltip.addSectionHeading("S-mod bonus", Misc.getGrayColor(), Misc.setAlpha(Misc.scaleColorOnly(Misc.getGrayColor(), 0.4f), 175), Alignment.MID, 10f);
+			tooltip.addPara("Range bonus increased to %s.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "40%/60%");
 			return;
 		} else if (ship.getVariant().getSMods().contains("dedicated_targeting_core")) {
-			tooltip.addPara("S-mod Bonus: Range bonus increased to %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "40%/60%");
+			tooltip.addSectionHeading("S-mod bonus", Misc.getStoryOptionColor(), Misc.getStoryDarkColor(), Alignment.MID, 10f);
+			tooltip.addPara("Range bonus increased to %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "40%/60%");
 		} else if (Global.getSettings().getBoolean("BuiltInSMod") && ship.getHullSpec().isBuiltInMod("dedicated_targeting_core")) {
-			tooltip.addPara("Built-in Bonus: Range bonus increased to %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "40%/60%");
+			tooltip.addSectionHeading("Built-in bonus", Misc.getStoryOptionColor(), Misc.getStoryDarkColor(), Alignment.MID, 10f);
+			tooltip.addPara("Range bonus increased to %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "40%/60%");
         } else if (!isForModSpec) {
-			tooltip.addPara("S-mod Bonus: Range bonus increased to %s.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "40%/60%");
+			tooltip.addSectionHeading("S-mod bonus", Misc.getGrayColor(), Misc.setAlpha(Misc.scaleColorOnly(Misc.getGrayColor(), 0.4f), 175), Alignment.MID, 10f);
+			tooltip.addPara("Range bonus increased to %s.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "40%/60%");
 		}
     }
 	

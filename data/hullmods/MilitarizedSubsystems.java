@@ -11,6 +11,7 @@ import com.fs.starfarer.api.combat.ShipAPI.HullSize;
 import com.fs.starfarer.api.fleet.FleetMemberAPI;
 import com.fs.starfarer.api.impl.campaign.ids.HullMods;
 import com.fs.starfarer.api.impl.campaign.ids.Stats;
+import com.fs.starfarer.api.ui.Alignment;
 import com.fs.starfarer.api.ui.TooltipMakerAPI;
 import com.fs.starfarer.api.util.Misc;
 
@@ -120,45 +121,49 @@ public class MilitarizedSubsystems extends BaseLogisticsHullMod {
 	
     public void addPostDescriptionSection(TooltipMakerAPI tooltip, ShipAPI.HullSize hullSize, ShipAPI ship, float width, boolean isForModSpec) {
 		if (isForModSpec) {
-			tooltip.addPara("S-mod Bonus: Flux dissipation bonus increased to %s", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "15" + "%");
-			tooltip.addPara("S-mod Bonus: Armor bonus for the damage reduction calculation increased to %s", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "20");
-			tooltip.addPara("S-mod Bonus: +%s Hull integrity", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "10%");
-			tooltip.addPara("S-mod Bonus: +%s Armor bonus", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "10%");
-			tooltip.addPara("S-mod Bonus: +%s Flux capacity", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "10%");
-			tooltip.addPara("S-mod Bonus: +%s Maneuverability", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "20" + "%");
-			tooltip.addPara("S-mod Bonus: +%s Point-defense weapon range", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "30");
-			tooltip.addPara("S-mod Bonus: +%s Damage to fighter and missile", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "25" + "%");
+			tooltip.addSectionHeading("S-mod bonus", Misc.getGrayColor(), Misc.setAlpha(Misc.scaleColorOnly(Misc.getGrayColor(), 0.4f), 175), Alignment.MID, 10f);
+			tooltip.addPara("Flux dissipation bonus increased to %s", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "15" + "%");
+			tooltip.addPara("Armor bonus for the damage reduction calculation increased to %s", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "20");
+			tooltip.addPara("+%s Hull integrity", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "10%");
+			tooltip.addPara("+%s Armor bonus", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "10%");
+			tooltip.addPara("+%s Flux capacity", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "10%");
+			tooltip.addPara("+%s Maneuverability", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "20" + "%");
+			tooltip.addPara("+%s Point-defense weapon range", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "30");
+			tooltip.addPara("+%s Damage to fighter and missile", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "25" + "%");
                         return;
 		} else if (ship.getVariant().getSMods().contains("militarized_subsystems")) {
+			tooltip.addSectionHeading("S-mod bonus", Misc.getStoryOptionColor(), Misc.getStoryDarkColor(), Alignment.MID, 10f);
 			float mult = getEffectMult(null);
-			tooltip.addPara("S-mod Bonus: Flux dissipation bonus increased to %s", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), ""+(int) Math.round(SFLUX_PERCENT * mult) + "%");
-			tooltip.addPara("S-mod Bonus: Armor bonus for the damage reduction calculation increased to %s", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), ""+(int) Math.round(SARMOR_BONUS * mult));
-			tooltip.addPara("S-mod Bonus: +%s Hull integrity", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), ""+(int) Math.round(SHULL_PERCENT * mult) + "%");
-			tooltip.addPara("S-mod Bonus: +%s Armor bonus", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), ""+(int) Math.round(SARMOR_PERCENT * mult) + "%");
-			tooltip.addPara("S-mod Bonus: +%s Flux capacity", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), ""+(int)Math.round(SFLUX_PERCENT * mult) + "%");
-                        tooltip.addPara("S-mod Bonus: +%s Maneuverability", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), ""+(int) Math.round(SMANEUVER_PERCENT * mult) + "%");
-			tooltip.addPara("S-mod Bonus: +%s Point-defense weapon range", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), ""+(int) Math.round(SPD_RANGE * mult));
-			tooltip.addPara("S-mod Bonus: +%s Damage to fighter and missile", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), ""+(int)Math.round(SFIGHTER_DAMAGE_BONUS * mult) + "%");
+			tooltip.addPara("Flux dissipation bonus increased to %s", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), ""+(int) Math.round(SFLUX_PERCENT * mult) + "%");
+			tooltip.addPara("Armor bonus for the damage reduction calculation increased to %s", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), ""+(int) Math.round(SARMOR_BONUS * mult));
+			tooltip.addPara("+%s Hull integrity", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), ""+(int) Math.round(SHULL_PERCENT * mult) + "%");
+			tooltip.addPara("+%s Armor bonus", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), ""+(int) Math.round(SARMOR_PERCENT * mult) + "%");
+			tooltip.addPara("+%s Flux capacity", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), ""+(int)Math.round(SFLUX_PERCENT * mult) + "%");
+                        tooltip.addPara("+%s Maneuverability", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), ""+(int) Math.round(SMANEUVER_PERCENT * mult) + "%");
+			tooltip.addPara("+%s Point-defense weapon range", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), ""+(int) Math.round(SPD_RANGE * mult));
+			tooltip.addPara("+%s Damage to fighter and missile", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), ""+(int)Math.round(SFIGHTER_DAMAGE_BONUS * mult) + "%");
                 } else if (Global.getSettings().getBoolean("BuiltInSMod") && ship.getHullSpec().isBuiltInMod("militarized_subsystems")) {
+			tooltip.addSectionHeading("Built-in bonus", Misc.getStoryOptionColor(), Misc.getStoryDarkColor(), Alignment.MID, 10f);
 			float mult = getEffectMult(null);
-			tooltip.addPara("Built-in Bonus: Flux dissipation bonus increased to %s", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), ""+(int) Math.round(SFLUX_PERCENT * mult) + "%");
-			tooltip.addPara("Built-in Bonus: Armor bonus for the damage reduction calculation increased to %s", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), ""+(int) Math.round(SARMOR_BONUS * mult));
-                        tooltip.addPara("Built-in Bonus: +%s Hull integrity", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), ""+(int) Math.round(SHULL_PERCENT * mult) + "%");
-			tooltip.addPara("Built-in Bonus: +%s Armor bonus", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), ""+(int) Math.round(SARMOR_PERCENT * mult) + "%");
-			tooltip.addPara("Built-in Bonus: +%s Flux capacity", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), ""+(int)Math.round(SFLUX_PERCENT * mult) + "%");
-			tooltip.addPara("Built-in Bonus: +%s Maneuverability", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), ""+(int) Math.round(SMANEUVER_PERCENT * mult) + "%");
-			tooltip.addPara("Built-in Bonus: +%s Point-defense weapon range", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), ""+(int) Math.round(SPD_RANGE * mult));
-			tooltip.addPara("Built-in Bonus: +%s Damage to fighter and missile", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), ""+(int)Math.round(SFIGHTER_DAMAGE_BONUS * mult) + "%");
+			tooltip.addPara("Flux dissipation bonus increased to %s", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), ""+(int) Math.round(SFLUX_PERCENT * mult) + "%");
+			tooltip.addPara("Armor bonus for the damage reduction calculation increased to %s", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), ""+(int) Math.round(SARMOR_BONUS * mult));
+                        tooltip.addPara("+%s Hull integrity", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), ""+(int) Math.round(SHULL_PERCENT * mult) + "%");
+			tooltip.addPara("+%s Armor bonus", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), ""+(int) Math.round(SARMOR_PERCENT * mult) + "%");
+			tooltip.addPara("+%s Flux capacity", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), ""+(int)Math.round(SFLUX_PERCENT * mult) + "%");
+			tooltip.addPara("+%s Maneuverability", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), ""+(int) Math.round(SMANEUVER_PERCENT * mult) + "%");
+			tooltip.addPara("+%s Point-defense weapon range", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), ""+(int) Math.round(SPD_RANGE * mult));
+			tooltip.addPara("+%s Damage to fighter and missile", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), ""+(int)Math.round(SFIGHTER_DAMAGE_BONUS * mult) + "%");
                 } else if (!isForModSpec) {
+			tooltip.addSectionHeading("S-mod bonus", Misc.getGrayColor(), Misc.setAlpha(Misc.scaleColorOnly(Misc.getGrayColor(), 0.4f), 175), Alignment.MID, 10f);
 			float mult = getEffectMult(null);
-			tooltip.addPara("S-mod Bonus: Flux dissipation bonus increased to %s", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), ""+(int) Math.round(SFLUX_PERCENT * mult) + "%");
-			tooltip.addPara("S-mod Bonus: Armor bonus for the damage reduction calculation increased to %s", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), ""+(int) Math.round(SARMOR_BONUS * mult));
-			tooltip.addPara("S-mod Bonus: +%s Hull integrity", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), ""+(int) Math.round(SHULL_PERCENT * mult) + "%");
-			tooltip.addPara("S-mod Bonus: +%s Armor bonus", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), ""+(int) Math.round(SARMOR_PERCENT * mult) + "%");
-			tooltip.addPara("S-mod Bonus: +%s Flux capacity", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), ""+(int)Math.round(SFLUX_PERCENT * mult) + "%");
-                        tooltip.addPara("S-mod Bonus: +%s Maneuverability", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), ""+(int) Math.round(SMANEUVER_PERCENT * mult) + "%");
-			tooltip.addPara("S-mod Bonus: +%s Point-defense weapon range", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), ""+(int) Math.round(SPD_RANGE * mult));
-			tooltip.addPara("S-mod Bonus: +%s Damage to fighter and missile", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), ""+(int)Math.round(SFIGHTER_DAMAGE_BONUS * mult) + "%");
+			tooltip.addPara("Flux dissipation bonus increased to %s", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), ""+(int) Math.round(SFLUX_PERCENT * mult) + "%");
+			tooltip.addPara("Armor bonus for the damage reduction calculation increased to %s", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), ""+(int) Math.round(SARMOR_BONUS * mult));
+			tooltip.addPara("+%s Hull integrity", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), ""+(int) Math.round(SHULL_PERCENT * mult) + "%");
+			tooltip.addPara("+%s Armor bonus", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), ""+(int) Math.round(SARMOR_PERCENT * mult) + "%");
+			tooltip.addPara("+%s Flux capacity", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), ""+(int)Math.round(SFLUX_PERCENT * mult) + "%");
+                        tooltip.addPara("+%s Maneuverability", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), ""+(int) Math.round(SMANEUVER_PERCENT * mult) + "%");
+			tooltip.addPara("+%s Point-defense weapon range", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), ""+(int) Math.round(SPD_RANGE * mult));
+			tooltip.addPara("+%s Damage to fighter and missile", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), ""+(int)Math.round(SFIGHTER_DAMAGE_BONUS * mult) + "%");
 		}
     }
 

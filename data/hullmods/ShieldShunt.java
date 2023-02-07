@@ -6,6 +6,7 @@ import com.fs.starfarer.api.combat.MutableShipStatsAPI;
 import com.fs.starfarer.api.combat.ShieldAPI.ShieldType;
 import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.combat.ShipAPI.HullSize;
+import com.fs.starfarer.api.ui.Alignment;
 import com.fs.starfarer.api.ui.TooltipMakerAPI;
 import com.fs.starfarer.api.util.Misc;
 
@@ -41,18 +42,18 @@ public class ShieldShunt extends BaseHullMod {
         
     public void addPostDescriptionSection(TooltipMakerAPI tooltip, ShipAPI.HullSize hullSize, ShipAPI ship, float width, boolean isForModSpec) {
 		if (isForModSpec) {
-			tooltip.addPara("S-mod Bonus: Increases the ship's hull integrity by %s.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "15%");
-			tooltip.addPara("S-mod Bonus: Decreases the amount of damage taken from EMP weapons (such as Ion Cannons) by %s.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "50%");
+			tooltip.addSectionHeading("S-mod bonus", Misc.getGrayColor(), Misc.setAlpha(Misc.scaleColorOnly(Misc.getGrayColor(), 0.4f), 175), Alignment.MID, 10f);
+			tooltip.addPara("Armor bonus increased to %s.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "30%");
 			return;
 		} else if (ship.getVariant().getSMods().contains("shield_shunt")) {
-			tooltip.addPara("S-mod Bonus: Increases the ship's hull integrity by %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "15%");
-			tooltip.addPara("S-mod Bonus: Decreases the amount of damage taken from EMP weapons (such as Ion Cannons) by %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "50%");
+			tooltip.addSectionHeading("S-mod bonus", Misc.getStoryOptionColor(), Misc.getStoryDarkColor(), Alignment.MID, 10f);
+			tooltip.addPara("Armor bonus increased to %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "30%");
 		} else if (Global.getSettings().getBoolean("BuiltInSMod") && ship.getHullSpec().isBuiltInMod("shield_shunt")) {
-			tooltip.addPara("Built-in Bonus: Increases the ship's hull integrity by %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "15%");
-			tooltip.addPara("Built-in Bonus: Decreases the amount of damage taken from EMP weapons (such as Ion Cannons) by %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "50%");
+			tooltip.addSectionHeading("Built-in bonus", Misc.getStoryOptionColor(), Misc.getStoryDarkColor(), Alignment.MID, 10f);
+			tooltip.addPara("Armor bonus increased to %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "30%");
                 } else if (!isForModSpec) {
-			tooltip.addPara("S-mod Bonus: Increases the ship's hull integrity by %s.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "15%");
-			tooltip.addPara("S-mod Bonus: Decreases the amount of damage taken from EMP weapons (such as Ion Cannons) by %s.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "50%");
+					tooltip.addSectionHeading("S-mod bonus", Misc.getGrayColor(), Misc.setAlpha(Misc.scaleColorOnly(Misc.getGrayColor(), 0.4f), 175), Alignment.MID, 10f);
+			tooltip.addPara("Armor bonus increased to %s.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "30%");
 		}
     }
 

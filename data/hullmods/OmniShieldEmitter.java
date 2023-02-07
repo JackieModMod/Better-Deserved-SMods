@@ -7,20 +7,21 @@ import com.fs.starfarer.api.combat.ShieldAPI;
 import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.combat.ShieldAPI.ShieldType;
 import com.fs.starfarer.api.combat.ShipAPI.HullSize;
+import com.fs.starfarer.api.ui.Alignment;
 import com.fs.starfarer.api.ui.TooltipMakerAPI;
 import com.fs.starfarer.api.util.Misc;
 
 public class OmniShieldEmitter extends BaseHullMod {
     
 	public static float ARC_PENALTY = 25f;
-        public static final float SARC_PENALTY = 15f;
+       // public static final float SARC_PENALTY = 15f;
 	public static final float SHIELD_UPKEEP_BONUS = 25f;
         public static final float SSHIELD_BONUS = 8f;
 	
 	public void applyEffectsBeforeShipCreation(HullSize hullSize, MutableShipStatsAPI stats, String id) {
 		if (stats.getVariant().getSMods().contains("adaptiveshields") || (Global.getSettings().getBoolean("BuiltInSMod") && stats.getVariant().getHullSpec().isBuiltInMod("adaptiveshields"))) {
-			stats.getShieldArcBonus().modifyMult(id, 1f - SARC_PENALTY * 0.01f);
-			stats.getShieldDamageTakenMult().modifyMult(id, 1f - SSHIELD_BONUS * 0.01f);
+			//stats.getShieldArcBonus().modifyMult(id, 1f - SARC_PENALTY * 0.01f);
+			//stats.getShieldDamageTakenMult().modifyMult(id, 1f - SSHIELD_BONUS * 0.01f);
 		} else {
 			stats.getShieldArcBonus().modifyMult(id, 1f - ARC_PENALTY * 0.01f);
 		}
@@ -44,18 +45,18 @@ public class OmniShieldEmitter extends BaseHullMod {
 	
     public void addPostDescriptionSection(TooltipMakerAPI tooltip, ShipAPI.HullSize hullSize, ShipAPI ship, float width, boolean isForModSpec) {
 		if (isForModSpec) {
-			tooltip.addPara("S-mod Bonus: Reduction of shield arc decreased to %s.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "15" + "%");
-			tooltip.addPara("S-mod Bonus: Reduces the amount of damage taken by shields by %s.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), (int) SSHIELD_BONUS + "%");
+			tooltip.addSectionHeading("S-mod bonus", Misc.getGrayColor(), Misc.setAlpha(Misc.scaleColorOnly(Misc.getGrayColor(), 0.4f), 175), Alignment.MID, 10f);
+			tooltip.addPara("No reduction of shield arc.", Misc.getGrayColor(), 10f);
 			return;
 		} else if (ship.getVariant().getSMods().contains("adaptiveshields")) {
-			tooltip.addPara("S-mod Bonus: Reduction of shield arc decreased to %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "15" + "%");
-			tooltip.addPara("S-mod Bonus: Reduces the amount of damage taken by shields by %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), (int) SSHIELD_BONUS + "%");
+			tooltip.addSectionHeading("S-mod bonus", Misc.getStoryOptionColor(), Misc.getStoryDarkColor(), Alignment.MID, 10f); 
+			tooltip.addPara("No reduction of shield arc.", Misc.getPositiveHighlightColor(), 10f);
 		} else if (Global.getSettings().getBoolean("BuiltInSMod") && ship.getHullSpec().isBuiltInMod("adaptiveshields")) {
-			tooltip.addPara("Built-in Bonus: Reduction of shield arc decreased to %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "15" + "%");
-			tooltip.addPara("Built-in Bonus: Reduces the amount of damage taken by shields by %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), (int) SSHIELD_BONUS + "%");
+			tooltip.addSectionHeading("Built-in bonus", Misc.getStoryOptionColor(), Misc.getStoryDarkColor(), Alignment.MID, 10f);
+			tooltip.addPara("No reduction of shield arc.", Misc.getPositiveHighlightColor(), 10f);
                 } else if (!isForModSpec) {
-			tooltip.addPara("S-mod Bonus: Reduction of shield arc decreased to %s.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "15" + "%");
-			tooltip.addPara("S-mod Bonus: Reduces the amount of damage taken by shields by %s.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), (int) SSHIELD_BONUS + "%");
+			tooltip.addSectionHeading("S-mod bonus", Misc.getGrayColor(), Misc.setAlpha(Misc.scaleColorOnly(Misc.getGrayColor(), 0.4f), 175), Alignment.MID, 10f);
+			tooltip.addPara("No reduction of shield arc.", Misc.getGrayColor(), 10f);
 		}
     }
 

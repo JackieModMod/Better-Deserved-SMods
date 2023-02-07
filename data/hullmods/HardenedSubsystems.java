@@ -5,6 +5,7 @@ import com.fs.starfarer.api.combat.BaseHullMod;
 import com.fs.starfarer.api.combat.MutableShipStatsAPI;
 import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.combat.ShipAPI.HullSize;
+import com.fs.starfarer.api.ui.Alignment;
 import com.fs.starfarer.api.ui.TooltipMakerAPI;
 import com.fs.starfarer.api.util.Misc;
 
@@ -36,18 +37,22 @@ public class HardenedSubsystems extends BaseHullMod {
 	
     public void addPostDescriptionSection(TooltipMakerAPI tooltip, ShipAPI.HullSize hullSize, ShipAPI ship, float width, boolean isForModSpec) {
 		if (isForModSpec) {
-			tooltip.addPara("S-mod Bonus: %s seconds peak operating time.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "+30");
-			tooltip.addPara("S-mod Bonus: %s less chance to suffer from weapon, engine, and critical malfunctions", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "-50" + "%");
+			tooltip.addSectionHeading("S-mod bonus", Misc.getGrayColor(), Misc.setAlpha(Misc.scaleColorOnly(Misc.getGrayColor(), 0.4f), 175), Alignment.MID, 10f);
+			tooltip.addPara("%s seconds peak operating time.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "+30");
+			tooltip.addPara("%s less chance to suffer from weapon, engine, and critical malfunctions", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "-50" + "%");
 			return;
 		} else if (ship.getVariant().getSMods().contains("hardened_subsystems")) {
-			tooltip.addPara("S-mod Bonus: %s seconds peak operating time.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "+30");
-			tooltip.addPara("S-mod Bonus: %s less chance to suffer from weapon, engine, and critical malfunctions", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "-50" + "%");
+			tooltip.addSectionHeading("S-mod bonus", Misc.getStoryOptionColor(), Misc.getStoryDarkColor(), Alignment.MID, 10f);
+			tooltip.addPara("%s seconds peak operating time.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "+30");
+			tooltip.addPara("%s less chance to suffer from weapon, engine, and critical malfunctions", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "-50" + "%");
 		} else if (Global.getSettings().getBoolean("BuiltInSMod") && ship.getHullSpec().isBuiltInMod("hardened_subsystems")) {
-			tooltip.addPara("Built-in Bonus: %s seconds peak operating time.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "+30");
-			tooltip.addPara("Built-in Bonus: %s less chance to suffer from weapon, engine, and critical malfunctions", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "-50" + "%");
+			tooltip.addSectionHeading("Built-in bonus", Misc.getStoryOptionColor(), Misc.getStoryDarkColor(), Alignment.MID, 10f);
+			tooltip.addPara("%s seconds peak operating time.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "+30");
+			tooltip.addPara("%s less chance to suffer from weapon, engine, and critical malfunctions", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "-50" + "%");
         } else if (!isForModSpec) {
-			tooltip.addPara("S-mod Bonus: %s seconds peak operating time.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "+30");
-			tooltip.addPara("S-mod Bonus: %s less chance to suffer from weapon, engine, and critical malfunctions", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "-50" + "%");
+			tooltip.addSectionHeading("S-mod bonus", Misc.getGrayColor(), Misc.setAlpha(Misc.scaleColorOnly(Misc.getGrayColor(), 0.4f), 175), Alignment.MID, 10f);
+			tooltip.addPara("%s seconds peak operating time.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "+30");
+			tooltip.addPara("%s less chance to suffer from weapon, engine, and critical malfunctions", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "-50" + "%");
 		}
     }
 

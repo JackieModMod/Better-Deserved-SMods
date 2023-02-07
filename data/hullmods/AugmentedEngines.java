@@ -1,9 +1,11 @@
 package data.hullmods;
 
+import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.combat.MutableShipStatsAPI;
 import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.combat.ShipAPI.HullSize;
 import com.fs.starfarer.api.impl.hullmods.BaseLogisticsHullMod;
+import com.fs.starfarer.api.ui.Alignment;
 import com.fs.starfarer.api.ui.TooltipMakerAPI;
 import com.fs.starfarer.api.util.Misc;
 
@@ -17,7 +19,7 @@ public class AugmentedEngines extends BaseLogisticsHullMod {
 	public void applyEffectsBeforeShipCreation(HullSize hullSize, MutableShipStatsAPI stats, String id) {
 //		stats.getSensorProfile().modifyPercent(id, PROFILE_PENALTY);
 //		stats.getSensorStrength().modifyMult(id, 1f - STRENGTH_PENALTY * 0.01f);
-		if (stats.getVariant().getSMods().contains("augmentedengines") || stats.getVariant().getHullSpec().isBuiltInMod("augmentedengines")) {
+		if (stats.getVariant().getSMods().contains("augmentedengines") || (Global.getSettings().getBoolean("BuiltInSMod") && stats.getVariant().getHullSpec().isBuiltInMod("augmentedengines"))) {
 			stats.getFuelUseMod().modifyMult(id, MAINTENANCE_MULT);
 		}
 
@@ -33,14 +35,18 @@ public class AugmentedEngines extends BaseLogisticsHullMod {
 
     public void addPostDescriptionSection(TooltipMakerAPI tooltip, ShipAPI.HullSize hullSize, ShipAPI ship, float width, boolean isForModSpec) {
 		if (isForModSpec) {
-			tooltip.addPara("S-mod Bonus: Reduce fuel use by %s.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "-30" + "%");
+			tooltip.addSectionHeading("S-mod bonus", Misc.getGrayColor(), Misc.setAlpha(Misc.scaleColorOnly(Misc.getGrayColor(), 0.4f), 175), Alignment.MID, 10f);
+			tooltip.addPara("Reduce fuel use by %s.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "-30" + "%");
 			return;
 		} else if (ship.getVariant().getSMods().contains("augmentedengines")) {
-			tooltip.addPara("S-mod Bonus: Reduce fuel use by %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "-30" + "%");
-		} else if (ship.getHullSpec().isBuiltInMod("augmentedengines")) {
-			tooltip.addPara("Built-in Bonus: Reduce fuel use by %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "-30" + "%");
+			tooltip.addSectionHeading("S-mod bonus", Misc.getStoryOptionColor(), Misc.getStoryDarkColor(), Alignment.MID, 10f);
+			tooltip.addPara("Reduce fuel use by %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "-30" + "%");
+		} else if (Global.getSettings().getBoolean("BuiltInSMod") && ship.getHullSpec().isBuiltInMod("augmentedengines")) {
+			tooltip.addSectionHeading("Built-in bonus", Misc.getStoryOptionColor(), Misc.getStoryDarkColor(), Alignment.MID, 10f);
+			tooltip.addPara("Reduce fuel use by %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "-30" + "%");
         } else if (!isForModSpec) {
-			tooltip.addPara("S-mod Bonus: Reduce fuel use by %s.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "-30" + "%");
+			tooltip.addSectionHeading("S-mod bonus", Misc.getGrayColor(), Misc.setAlpha(Misc.scaleColorOnly(Misc.getGrayColor(), 0.4f), 175), Alignment.MID, 10f);
+			tooltip.addPara("Reduce fuel use by %s.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "-30" + "%");
 		}
     }
 	

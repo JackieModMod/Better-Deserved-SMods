@@ -6,6 +6,7 @@ import com.fs.starfarer.api.combat.MutableShipStatsAPI;
 import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.combat.ShipAPI.HullSize;
 import com.fs.starfarer.api.impl.campaign.ids.Stats;
+import com.fs.starfarer.api.ui.Alignment;
 import com.fs.starfarer.api.ui.TooltipMakerAPI;
 import com.fs.starfarer.api.util.Misc;
 
@@ -31,14 +32,18 @@ public class HardenedShieldEmitter extends BaseHullMod {
         
     public void addPostDescriptionSection(TooltipMakerAPI tooltip, ShipAPI.HullSize hullSize, ShipAPI ship, float width, boolean isForModSpec) {
 		if (isForModSpec) {
-			tooltip.addPara("S-mod Bonus: Shield damage reduction increased to %s", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), (int) SSHIELD_BONUS + "%");
+			tooltip.addSectionHeading("S-mod bonus", Misc.getGrayColor(), Misc.setAlpha(Misc.scaleColorOnly(Misc.getGrayColor(), 0.4f), 175), Alignment.MID, 10f);
+			tooltip.addPara("Shield damage reduction increased to %s", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), (int) SSHIELD_BONUS + "%");
 			return;
 		} else if (ship.getVariant().getSMods().contains("hardenedshieldemitter")) {
-			tooltip.addPara("S-mod Bonus: Shield damage reduction increased to %s", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), (int) SSHIELD_BONUS + "%");
+			tooltip.addSectionHeading("S-mod bonus", Misc.getStoryOptionColor(), Misc.getStoryDarkColor(), Alignment.MID, 10f);
+			tooltip.addPara("Shield damage reduction increased to %s", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), (int) SSHIELD_BONUS + "%");
 		} else if (Global.getSettings().getBoolean("BuiltInSMod") && ship.getHullSpec().isBuiltInMod("hardenedshieldemitter")) {
-			tooltip.addPara("Built-in Bonus: Shield damage reduction increased to %s", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), (int) SSHIELD_BONUS + "%");
+			tooltip.addSectionHeading("Built-in bonus", Misc.getStoryOptionColor(), Misc.getStoryDarkColor(), Alignment.MID, 10f);
+			tooltip.addPara("Shield damage reduction increased to %s", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), (int) SSHIELD_BONUS + "%");
                 } else if (!isForModSpec) {
-			tooltip.addPara("S-mod Bonus: Shield damage reduction increased to %s", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), (int) SSHIELD_BONUS + "%");
+			tooltip.addSectionHeading("S-mod bonus", Misc.getGrayColor(), Misc.setAlpha(Misc.scaleColorOnly(Misc.getGrayColor(), 0.4f), 175), Alignment.MID, 10f);
+			tooltip.addPara("Shield damage reduction increased to %s", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), (int) SSHIELD_BONUS + "%");
 		}
     }
 

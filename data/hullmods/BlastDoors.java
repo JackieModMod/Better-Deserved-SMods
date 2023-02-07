@@ -5,6 +5,7 @@ import com.fs.starfarer.api.combat.BaseHullMod;
 import com.fs.starfarer.api.combat.MutableShipStatsAPI;
 import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.combat.ShipAPI.HullSize;
+import com.fs.starfarer.api.ui.Alignment;
 import com.fs.starfarer.api.ui.TooltipMakerAPI;
 import com.fs.starfarer.api.util.Misc;
 
@@ -39,18 +40,22 @@ public class BlastDoors extends BaseHullMod {
 	
     public void addPostDescriptionSection(TooltipMakerAPI tooltip, ShipAPI.HullSize hullSize, ShipAPI ship, float width, boolean isForModSpec) {
 		if (isForModSpec) {
-			tooltip.addPara("S-mod Bonus: %s high explosive damage taken by hull and armor", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "-25%");
-			tooltip.addPara("S-mod Bonus: %s armor damage taken", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "-10%");
+			tooltip.addSectionHeading("S-mod bonus", Misc.getGrayColor(), Misc.setAlpha(Misc.scaleColorOnly(Misc.getGrayColor(), 0.4f), 175), Alignment.MID, 10f);
+			tooltip.addPara("%s high explosive damage taken by hull and armor", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "-25%");
+			tooltip.addPara("%s armor damage taken", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "-10%");
 			return;
 		} else if (ship.getVariant().getSMods().contains("blast_doors")) {
-			tooltip.addPara("S-mod Bonus: %s high explosive damage taken by hull and armor", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "-25%");
-			tooltip.addPara("S-mod Bonus: %s armor damage taken", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "-10%");
+			tooltip.addSectionHeading("S-mod bonus", Misc.getStoryOptionColor(), Misc.getStoryDarkColor(), Alignment.MID, 10f);
+			tooltip.addPara("%s high explosive damage taken by hull and armor", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "-25%");
+			tooltip.addPara("%s armor damage taken", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "-10%");
 		} else if (Global.getSettings().getBoolean("BuiltInSMod") && ship.getHullSpec().isBuiltInMod("blast_doors")) {
-			tooltip.addPara("Built-in Bonus: %s high explosive damage taken by hull and armor", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "-25%");
-			tooltip.addPara("Built-in  Bonus: %s armor damage taken", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "-10%");
+			tooltip.addSectionHeading("Built-in bonus", Misc.getStoryOptionColor(), Misc.getStoryDarkColor(), Alignment.MID, 10f);
+			tooltip.addPara("%s high explosive damage taken by hull and armor", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "-25%");
+			tooltip.addPara("%s armor damage taken", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "-10%");
         } else if (!isForModSpec) {
-			tooltip.addPara("S-mod Bonus: %s high explosive damage taken by hull and armor", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "-25%");
-			tooltip.addPara("S-mod Bonus: %s armor damage taken", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "-10%");
+			tooltip.addSectionHeading("S-mod bonus", Misc.getGrayColor(), Misc.setAlpha(Misc.scaleColorOnly(Misc.getGrayColor(), 0.4f), 175), Alignment.MID, 10f);
+			tooltip.addPara("%s high explosive damage taken by hull and armor", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "-25%");
+			tooltip.addPara("%s armor damage taken", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "-10%");
 		}
     }
 }

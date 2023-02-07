@@ -10,6 +10,7 @@ import com.fs.starfarer.api.combat.MutableShipStatsAPI;
 import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.combat.ShipAPI.HullSize;
 import com.fs.starfarer.api.impl.campaign.ids.Stats;
+import com.fs.starfarer.api.ui.Alignment;
 import com.fs.starfarer.api.ui.TooltipMakerAPI;
 import com.fs.starfarer.api.util.Misc;
 
@@ -41,18 +42,22 @@ public class OperationsCenter extends BaseHullMod {
 
     public void addPostDescriptionSection(TooltipMakerAPI tooltip, ShipAPI.HullSize hullSize, ShipAPI ship, float width, boolean isForModSpec) {
 		if (isForModSpec) {
-			tooltip.addPara("S-mod Bonus: If flagship or neurally linked, gain %s ECM rating, %s Nav rating, and retain command point recovery", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "5%", "5%");
-			tooltip.addPara("S-mod Bonus: If flagship, deployment point cost reduced by %s or %s points, whichever is less", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "15%", "10");
+			tooltip.addSectionHeading("S-mod bonus", Misc.getGrayColor(), Misc.setAlpha(Misc.scaleColorOnly(Misc.getGrayColor(), 0.4f), 175), Alignment.MID, 10f);
+			tooltip.addPara("If flagship or neurally linked, gain %s ECM rating, %s Nav rating, and retain command point recovery.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "5%", "5%");
+			tooltip.addPara("If flagship, deployment point cost reduced by %s or %s points, whichever is less.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "15%", "10");
 			return;
 		} else if (ship.getVariant().getSMods().contains("operations_center")) {
-			tooltip.addPara("S-mod Bonus: If flagship or neurally linked, gain %s ECM rating and %s Nav rating, and retain command point recovery", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "5%", "5%");
-			tooltip.addPara("S-mod Bonus: If flagship, deployment point cost reduced by %s or %s points, whichever is less", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "15%", "10");
+			tooltip.addSectionHeading("S-mod bonus", Misc.getStoryOptionColor(), Misc.getStoryDarkColor(), Alignment.MID, 10f);
+			tooltip.addPara("If flagship or neurally linked, gain %s ECM rating and %s Nav rating, and retain command point recovery.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "5%", "5%");
+			tooltip.addPara("If flagship, deployment point cost reduced by %s or %s points, whichever is less.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "15%", "10");
 		} else if (Global.getSettings().getBoolean("BuiltInSMod") && ship.getHullSpec().isBuiltInMod("operations_center")) {
-			tooltip.addPara("Built-in Bonus: If flagship or neurally linked, gain %s ECM rating and %s Nav rating, and retain command point recovery", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "5%", "5%");
-			tooltip.addPara("Built-in Bonus: If flagship, deployment point cost reduced by %s or %s points, whichever is less", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "15%", "10");
+			tooltip.addSectionHeading("Built-in bonus", Misc.getStoryOptionColor(), Misc.getStoryDarkColor(), Alignment.MID, 10f);
+			tooltip.addPara("If flagship or neurally linked, gain %s ECM rating and %s Nav rating, and retain command point recovery.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "5%", "5%");
+			tooltip.addPara("If flagship, deployment point cost reduced by %s or %s points, whichever is less.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "15%", "10");
         } else if (!isForModSpec) {
-			tooltip.addPara("S-mod Bonus: If flagship or neurally linked, gain %s ECM rating and %s Nav rating, and retain command point recovery", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "5%", "5%");
-			tooltip.addPara("S-mod Bonus: If flagship, deployment point cost reduced by %s or %s points, whichever is less", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "15%", "10");
+			tooltip.addSectionHeading("S-mod bonus", Misc.getGrayColor(), Misc.setAlpha(Misc.scaleColorOnly(Misc.getGrayColor(), 0.4f), 175), Alignment.MID, 10f);
+			tooltip.addPara("If flagship or neurally linked, gain %s ECM rating and %s Nav rating, and retain command point recovery.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "5%", "5%");
+			tooltip.addPara("If flagship, deployment point cost reduced by %s or %s points, whichever is less.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "15%", "10");
 		}
     }
 	

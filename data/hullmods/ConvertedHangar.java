@@ -11,6 +11,7 @@ import com.fs.starfarer.api.combat.ShipAPI.HullSize;
 import com.fs.starfarer.api.impl.campaign.ids.HullMods;
 import com.fs.starfarer.api.impl.campaign.ids.Stats;
 import com.fs.starfarer.api.impl.hullmods.DefectiveManufactory;
+import com.fs.starfarer.api.ui.Alignment;
 import com.fs.starfarer.api.ui.TooltipMakerAPI;
 import com.fs.starfarer.api.util.Misc;
 
@@ -101,26 +102,30 @@ public class ConvertedHangar extends BaseHullMod {
 		float effect = 1f;
 		if (ship != null) effect = ship.getMutableStats().getDynamic().getValue(Stats.DMOD_EFFECT_MULT);
 		if (isForModSpec) {
-			tooltip.addPara("S-mod Bonus: Fighter speed reduction reduced to %s", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), Math.round(effect * 17) + "%");
-			tooltip.addPara("S-mod Bonus: Fighter increased damage taken reduced to %s", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), Math.round(effect * 20) + "%");
-			tooltip.addPara("S-mod Bonus: Fighter OP Cost Penalty reduced to %s", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "40" + "%");
-			tooltip.addPara("S-mod Bonus: Bomber OP Cost Penalty reduced to %s", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "80" + "%");
+			tooltip.addSectionHeading("S-mod bonus", Misc.getGrayColor(), Misc.setAlpha(Misc.scaleColorOnly(Misc.getGrayColor(), 0.4f), 175), Alignment.MID, 10f);
+			tooltip.addPara("Fighter speed reduction reduced to %s", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), Math.round(effect * 17) + "%");
+			tooltip.addPara("Fighter increased damage taken reduced to %s", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), Math.round(effect * 20) + "%");
+			tooltip.addPara("Fighter OP Cost Penalty reduced to %s", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "40" + "%");
+			tooltip.addPara("Bomber OP Cost Penalty reduced to %s", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "80" + "%");
 			return;
 		} else if (ship.getVariant().getSMods().contains("converted_hangar")) {
-			tooltip.addPara("S-mod Bonus: Fighter speed reduction reduced to %s", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), Math.round(effect * 17) + "%");
-			tooltip.addPara("S-mod Bonus: Fighter increased damage taken reduced to %s", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), Math.round(effect * 20) + "%");
-			tooltip.addPara("S-mod Bonus: Fighter OP Cost Penalty reduced to %s", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "40" + "%");
-			tooltip.addPara("S-mod Bonus: Bomber OP Cost Penalty reduced to %s", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "80" + "%");
+			tooltip.addSectionHeading("S-mod bonus", Misc.getStoryOptionColor(), Misc.getStoryDarkColor(), Alignment.MID, 10f);
+			tooltip.addPara("Fighter speed reduction reduced to %s", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), Math.round(effect * 17) + "%");
+			tooltip.addPara("Fighter increased damage taken reduced to %s", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), Math.round(effect * 20) + "%");
+			tooltip.addPara("Fighter OP Cost Penalty reduced to %s", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "40" + "%");
+			tooltip.addPara("Bomber OP Cost Penalty reduced to %s", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "80" + "%");
 		} else if (Global.getSettings().getBoolean("BuiltInSMod") && ship.getHullSpec().isBuiltInMod("converted_hangar")) {
-			tooltip.addPara("Built-in Bonus: Fighter speed reduction reduced to %s", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), Math.round(effect * 17) + "%");
-			tooltip.addPara("Built-in Bonus: Fighter increased damage taken reduced to %s", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), Math.round(effect * 20) + "%");
-			tooltip.addPara("Built-in Bonus: Fighter OP Cost Penalty reduced to %s", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "40" + "%");
-			tooltip.addPara("Built-in Bonus: Bomber OP Cost Penalty reduced to %s", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "80" + "%");
+			tooltip.addSectionHeading("Built-in bonus", Misc.getStoryOptionColor(), Misc.getStoryDarkColor(), Alignment.MID, 10f);
+			tooltip.addPara("Fighter speed reduction reduced to %s", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), Math.round(effect * 17) + "%");
+			tooltip.addPara("Fighter increased damage taken reduced to %s", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), Math.round(effect * 20) + "%");
+			tooltip.addPara("Fighter OP Cost Penalty reduced to %s", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "40" + "%");
+			tooltip.addPara("Bomber OP Cost Penalty reduced to %s", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "80" + "%");
         } else if (!isForModSpec) {
-			tooltip.addPara("S-mod Bonus: Fighter speed reduction reduced to %s", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), Math.round(effect * 17) + "%");
-			tooltip.addPara("S-mod Bonus: Fighter increased damage taken reduced to %s", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), Math.round(effect * 20) + "%");
-			tooltip.addPara("S-mod Bonus: Fighter OP Cost Penalty reduced to %s", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "40" + "%");
-			tooltip.addPara("S-mod Bonus: Bomber OP Cost Penalty reduced to %s", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "80" + "%");
+			tooltip.addSectionHeading("S-mod bonus", Misc.getGrayColor(), Misc.setAlpha(Misc.scaleColorOnly(Misc.getGrayColor(), 0.4f), 175), Alignment.MID, 10f);
+			tooltip.addPara("Fighter speed reduction reduced to %s", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), Math.round(effect * 17) + "%");
+			tooltip.addPara("Fighter increased damage taken reduced to %s", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), Math.round(effect * 20) + "%");
+			tooltip.addPara("Fighter OP Cost Penalty reduced to %s", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "40" + "%");
+			tooltip.addPara("Bomber OP Cost Penalty reduced to %s", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "80" + "%");
 		}
     }
 	

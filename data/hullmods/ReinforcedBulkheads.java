@@ -12,6 +12,7 @@ import com.fs.starfarer.api.ui.TooltipMakerAPI;
 import com.fs.starfarer.api.util.Misc;
 import com.fs.starfarer.api.impl.campaign.ids.Stats;
 import com.fs.starfarer.api.loading.HullModSpecAPI;
+import com.fs.starfarer.api.ui.Alignment;
 import java.util.Collection;
 import java.util.HashSet;
 
@@ -55,18 +56,22 @@ public class ReinforcedBulkheads extends BaseHullMod {
 	
     public void addPostDescriptionSection(TooltipMakerAPI tooltip, ShipAPI.HullSize hullSize, ShipAPI ship, float width, boolean isForModSpec) {
 		if (isForModSpec) {
-			tooltip.addPara("S-mod Bonus: Increases the ship hull integrity by an additional %s/%s/%s/%s.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "250", "400", "500", "1000");
-			tooltip.addPara("S-mod Bonus: Reduces most negative effects of d-mods by %s", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "50%");
+			tooltip.addSectionHeading("S-mod bonus", Misc.getGrayColor(), Misc.setAlpha(Misc.scaleColorOnly(Misc.getGrayColor(), 0.4f), 175), Alignment.MID, 10f);
+			tooltip.addPara("Increases the ship hull integrity by an additional %s/%s/%s/%s.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "250", "400", "500", "1000");
+			tooltip.addPara("Reduces most negative effects of d-mods by %s", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "50%");
 			return;
 		} else if (ship.getVariant().getSMods().contains("reinforcedhull")) {
-			tooltip.addPara("S-mod Bonus: Increases the ship hull integrity by an additional %s/%s/%s/%s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "250", "400", "500", "1000");
-			tooltip.addPara("S-mod Bonus: Reduces most negative effects of d-mods by %s", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "50%");
+			tooltip.addSectionHeading("S-mod bonus", Misc.getStoryOptionColor(), Misc.getStoryDarkColor(), Alignment.MID, 10f);
+			tooltip.addPara("Increases the ship hull integrity by an additional %s/%s/%s/%s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "250", "400", "500", "1000");
+			tooltip.addPara("Reduces most negative effects of d-mods by %s", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "50%");
 		} else if (Global.getSettings().getBoolean("BuiltInSMod") && ship.getHullSpec().isBuiltInMod("reinforcedhull")) {
-			tooltip.addPara("Built-in Bonus: Increases the ship hull integrity by an additional %s/%s/%s/%s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "250", "400", "500", "1000");
-			tooltip.addPara("Built-in Bonus: Reduces most negative effects of d-mods by %s", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "50%");
+			tooltip.addSectionHeading("Built-in bonus", Misc.getStoryOptionColor(), Misc.getStoryDarkColor(), Alignment.MID, 10f);
+			tooltip.addPara("Increases the ship hull integrity by an additional %s/%s/%s/%s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "250", "400", "500", "1000");
+			tooltip.addPara("Reduces most negative effects of d-mods by %s", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "50%");
         } else if (!isForModSpec) {
-			tooltip.addPara("S-mod Bonus: Increases the ship hull integrity by an additional %s/%s/%s/%s.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "250", "400", "500", "1000");
-			tooltip.addPara("S-mod Bonus: Reduces most negative effects of d-mods by %s", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "50%");
+			tooltip.addSectionHeading("S-mod bonus", Misc.getGrayColor(), Misc.setAlpha(Misc.scaleColorOnly(Misc.getGrayColor(), 0.4f), 175), Alignment.MID, 10f);
+			tooltip.addPara("Increases the ship hull integrity by an additional %s/%s/%s/%s.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "250", "400", "500", "1000");
+			tooltip.addPara("Reduces most negative effects of d-mods by %s", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "50%");
 		}
     }
 }

@@ -5,6 +5,7 @@ import com.fs.starfarer.api.combat.MutableShipStatsAPI;
 import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.combat.ShipAPI.HullSize;
 import com.fs.starfarer.api.impl.hullmods.BaseLogisticsHullMod;
+import com.fs.starfarer.api.ui.Alignment;
 import com.fs.starfarer.api.ui.TooltipMakerAPI;
 import com.fs.starfarer.api.util.Misc;
 
@@ -35,18 +36,22 @@ public class InsulatedEngines extends BaseLogisticsHullMod {
 	
     public void addPostDescriptionSection(TooltipMakerAPI tooltip, ShipAPI.HullSize hullSize, ShipAPI ship, float width, boolean isForModSpec) {
 		if (isForModSpec) {
-			tooltip.addPara("S-mod Bonus: %s ship's engine durability.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "+100" + "%");
-			tooltip.addPara("S-mod Bonus: Sensor profile reduction increased to %s.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "75" + "%");
+			tooltip.addSectionHeading("S-mod bonus", Misc.getGrayColor(), Misc.setAlpha(Misc.scaleColorOnly(Misc.getGrayColor(), 0.4f), 175), Alignment.MID, 10f);
+			tooltip.addPara("%s ship's engine durability.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "+100" + "%");
+			tooltip.addPara("Sensor profile reduction increased to %s.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "75" + "%");
 			return;
 		} else if (ship.getVariant().getSMods().contains("insulatedengine")) {
-			tooltip.addPara("S-mod Bonus: %s ship's engine durability.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "+100" + "%");
-			tooltip.addPara("S-mod Bonus: Sensor profile reduction increased to %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "75" + "%");
+			tooltip.addSectionHeading("S-mod bonus", Misc.getStoryOptionColor(), Misc.getStoryDarkColor(), Alignment.MID, 10f);
+			tooltip.addPara("%s ship's engine durability.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "+100" + "%");
+			tooltip.addPara("Sensor profile reduction increased to %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "75" + "%");
 		} else if (Global.getSettings().getBoolean("BuiltInSMod") && ship.getHullSpec().isBuiltInMod("insulatedengine")) {
-			tooltip.addPara("Built-in Bonus: %s ship's engine durability.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "+100" + "%");
-			tooltip.addPara("Built-in Bonus: Sensor profile reduction increased to %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "75" + "%");
+			tooltip.addSectionHeading("Built-in bonus", Misc.getStoryOptionColor(), Misc.getStoryDarkColor(), Alignment.MID, 10f);
+			tooltip.addPara("%s ship's engine durability.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "+100" + "%");
+			tooltip.addPara("Sensor profile reduction increased to %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "75" + "%");
         } else if (!isForModSpec) {
-			tooltip.addPara("S-mod Bonus: %s ship's engine durability.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "+100" + "%");
-			tooltip.addPara("S-mod Bonus: Sensor profile reduction increased to %s.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "75" + "%");
+			tooltip.addSectionHeading("S-mod bonus", Misc.getGrayColor(), Misc.setAlpha(Misc.scaleColorOnly(Misc.getGrayColor(), 0.4f), 175), Alignment.MID, 10f);
+			tooltip.addPara("%s ship's engine durability.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "+100" + "%");
+			tooltip.addPara("Sensor profile reduction increased to %s.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "75" + "%");
 		}
     }
 

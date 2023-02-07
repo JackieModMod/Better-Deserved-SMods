@@ -5,6 +5,7 @@ import com.fs.starfarer.api.combat.BaseHullMod;
 import com.fs.starfarer.api.combat.MutableShipStatsAPI;
 import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.combat.ShipAPI.HullSize;
+import com.fs.starfarer.api.ui.Alignment;
 import com.fs.starfarer.api.ui.TooltipMakerAPI;
 import com.fs.starfarer.api.util.Misc;
 
@@ -52,23 +53,26 @@ public class ExtendedShieldEmitter extends BaseHullMod {
 	
     public void addPostDescriptionSection(TooltipMakerAPI tooltip, ShipAPI.HullSize hullSize, ShipAPI ship, float width, boolean isForModSpec) {
 		if (isForModSpec) {
-			tooltip.addPara("S-mod Bonus: Increases the shield's coverage by an additional %s degrees.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "60");
-			tooltip.addPara("S-mod Bonus: Excessive shield arc beyond 360 degree increase ship's flux capacity", Misc.getGrayColor(), 10f);
+			tooltip.addSectionHeading("S-mod bonus", Misc.getGrayColor(), Misc.setAlpha(Misc.scaleColorOnly(Misc.getGrayColor(), 0.4f), 175), Alignment.MID, 10f);
+			tooltip.addPara("Increases the shield's coverage by an additional %s degrees.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "60");
+			tooltip.addPara("Excessive shield arc beyond 360 degree increase ship's flux capacity", Misc.getGrayColor(), 10f);
 			return;
 		} else if (ship.getVariant().getSMods().contains("extendedshieldemitter")) {
-			tooltip.addPara("S-mod Bonus: Increases the shield's coverage by an additional %s degrees.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "60");
+			tooltip.addSectionHeading("S-mod bonus", Misc.getStoryOptionColor(), Misc.getStoryDarkColor(), Alignment.MID, 10f);
+			tooltip.addPara("Increases the shield's coverage by an additional %s degrees.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "60");
 			float SHIELD_MODIFIED_ARC = ship.getMutableStats().getShieldArcBonus().computeEffective(ship.getVariant().getHullSpec().getShieldSpec().getArc());
             if (SHIELD_MODIFIED_ARC > SHIELD_EXCESS_ARC) {
             float FLUX_CAPACITY_SHIELD_ARC_BONUS = (SHIELD_MODIFIED_ARC-SHIELD_EXCESS_ARC)/SHIELD_EXCESS_ARC_DIVISOR*ship.getMutableStats().getVariant().getHullSpec().getShieldSpec().getUpkeepCost();
 				if (FLUX_CAPACITY_SHIELD_ARC_BONUS > 12f*ship.getHullSpec().getShieldSpec().getUpkeepCost()) {
 					FLUX_CAPACITY_SHIELD_ARC_BONUS = 12f*ship.getHullSpec().getShieldSpec().getUpkeepCost();
 				}
-				tooltip.addPara("S-mod Bonus: Increased flux capacity from excessive shield arc: %s", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), ""+Misc.	getRoundedValue(FLUX_CAPACITY_SHIELD_ARC_BONUS));
+				tooltip.addPara("Increased flux capacity from excessive shield arc: %s", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), ""+Misc.	getRoundedValue(FLUX_CAPACITY_SHIELD_ARC_BONUS));
             } else {
-				tooltip.addPara("S-mod Bonus: Excessive shield arc beyond 360 degree increase ship's flux capacity", Misc.getPositiveHighlightColor(), 10f);
+				tooltip.addPara("Excessive shield arc beyond 360 degree increase ship's flux capacity", Misc.getPositiveHighlightColor(), 10f);
 			}
 			
 		} else if (Global.getSettings().getBoolean("BuiltInSMod") && ship.getHullSpec().isBuiltInMod("extendedshieldemitter")) {
+			tooltip.addSectionHeading("Built-in bonus", Misc.getStoryOptionColor(), Misc.getStoryDarkColor(), Alignment.MID, 10f);
  			tooltip.addPara("Built-in Bonus: Increases the shield's coverage by an additional %s degrees.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "60");
 			float SHIELD_MODIFIED_ARC = ship.getMutableStats().getShieldArcBonus().computeEffective(ship.getVariant().getHullSpec().getShieldSpec().getArc());
             if (SHIELD_MODIFIED_ARC > SHIELD_EXCESS_ARC) {
@@ -76,13 +80,14 @@ public class ExtendedShieldEmitter extends BaseHullMod {
 				if (FLUX_CAPACITY_SHIELD_ARC_BONUS > 12f*ship.getHullSpec().getShieldSpec().getUpkeepCost()) {
 					FLUX_CAPACITY_SHIELD_ARC_BONUS = 12f*ship.getHullSpec().getShieldSpec().getUpkeepCost();
 				}
-				tooltip.addPara("Built-in Bonus: Increased flux capacity from excessive shield arc: %s", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), ""+Misc.	getRoundedValue(FLUX_CAPACITY_SHIELD_ARC_BONUS));
+				tooltip.addPara("Increased flux capacity from excessive shield arc: %s", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), ""+Misc.	getRoundedValue(FLUX_CAPACITY_SHIELD_ARC_BONUS));
             } else {
-				tooltip.addPara("Built-in Bonus: Excessive shield arc beyond 360 degree increase ship's flux capacity", Misc.getPositiveHighlightColor(), 10f);
+				tooltip.addPara("Excessive shield arc beyond 360 degree increase ship's flux capacity", Misc.getPositiveHighlightColor(), 10f);
 			}
         } else if (!isForModSpec) {
-			tooltip.addPara("S-mod Bonus: Increases the shield's coverage by an additional %s degrees.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "60");
-			tooltip.addPara("S-mod Bonus: Excessive shield arc beyond 360 degree increase ship's flux capacity", Misc.getGrayColor(), 10f);
+			tooltip.addSectionHeading("S-mod bonus", Misc.getGrayColor(), Misc.setAlpha(Misc.scaleColorOnly(Misc.getGrayColor(), 0.4f), 175), Alignment.MID, 10f);
+			tooltip.addPara("Increases the shield's coverage by an additional %s degrees.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "60");
+			tooltip.addPara("Excessive shield arc beyond 360 degree increase ship's flux capacity", Misc.getGrayColor(), 10f);
 		}
     }
 

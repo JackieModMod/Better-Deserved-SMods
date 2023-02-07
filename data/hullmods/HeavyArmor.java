@@ -7,21 +7,17 @@ import com.fs.starfarer.api.combat.BaseHullMod;
 import com.fs.starfarer.api.combat.MutableShipStatsAPI;
 import com.fs.starfarer.api.combat.ShipAPI;
 import com.fs.starfarer.api.combat.ShipAPI.HullSize;
+import com.fs.starfarer.api.ui.Alignment;
 import com.fs.starfarer.api.ui.TooltipMakerAPI;
 import com.fs.starfarer.api.util.Misc;
 
 public class HeavyArmor extends BaseHullMod {
 
 	public static final float MANEUVER_PENALTY = 10f;
-	
+	public static final float SMANEUVER_PENALTY = 25f;
 	
 	private static Map mag = new HashMap();
-	private static Map smag = new HashMap();
 	static {
-		smag.put(HullSize.FRIGATE, 150f);
-		smag.put(HullSize.DESTROYER, 250f);
-		smag.put(HullSize.CRUISER, 350f);
-		smag.put(HullSize.CAPITAL_SHIP, 450f);
 		mag.put(HullSize.FRIGATE, 150f);
 		mag.put(HullSize.DESTROYER, 300f);
 		mag.put(HullSize.CRUISER, 400f);
@@ -31,10 +27,17 @@ public class HeavyArmor extends BaseHullMod {
 	public void applyEffectsBeforeShipCreation(HullSize hullSize, MutableShipStatsAPI stats, String id) {
 		
 		if (stats.getVariant().getSMods().contains("heavyarmor")) {
-			stats.getArmorBonus().modifyFlat(id, (Float) smag.get(hullSize));
+			stats.getAcceleration().modifyMult(id, 1f - SMANEUVER_PENALTY * 0.01f);
+                        stats.getDeceleration().modifyMult(id, 1f - SMANEUVER_PENALTY * 0.01f);
+                        stats.getTurnAcceleration().modifyMult(id, 1f - SMANEUVER_PENALTY * 0.01f);
+                        stats.getMaxTurnRate().modifyMult(id, 1f - SMANEUVER_PENALTY * 0.01f);
 		}  else {
-			stats.getArmorBonus().modifyFlat(id, (Float) mag.get(hullSize));
+			stats.getAcceleration().modifyMult(id, 1f - MANEUVER_PENALTY * 0.01f);
+                        stats.getDeceleration().modifyMult(id, 1f - MANEUVER_PENALTY * 0.01f);
+                        stats.getTurnAcceleration().modifyMult(id, 1f - MANEUVER_PENALTY * 0.01f);
+                        stats.getMaxTurnRate().modifyMult(id, 1f - MANEUVER_PENALTY * 0.01f);
 		}
+                stats.getArmorBonus().modifyFlat(id, (Float) mag.get(hullSize));
                 stats.getAcceleration().modifyMult(id, 1f - MANEUVER_PENALTY * 0.01f);
 		stats.getDeceleration().modifyMult(id, 1f - MANEUVER_PENALTY * 0.01f);
 		stats.getTurnAcceleration().modifyMult(id, 1f - MANEUVER_PENALTY * 0.01f);
@@ -50,7 +53,8 @@ public class HeavyArmor extends BaseHullMod {
 	}
 	
 	public String getDescriptionParam(int index, HullSize hullSize) {
-		if (index == 0) return "" + ((Float) mag.get(HullSize.FRIGATE)).intValue();
+		if (index == 0) return "" + ((Float) mag.get(HullSize.FRIGATE))
+			.intValue();
 		if (index == 1) return "" + ((Float) mag.get(HullSize.DESTROYER)).intValue();
 		if (index == 2) return "" + ((Float) mag.get(HullSize.CRUISER)).intValue();
 		if (index == 3) return "" + ((Float) mag.get(HullSize.CAPITAL_SHIP)).intValue();
@@ -62,14 +66,17 @@ public class HeavyArmor extends BaseHullMod {
 	
     public void addPostDescriptionSection(TooltipMakerAPI tooltip, ShipAPI.HullSize hullSize, ShipAPI ship, float width, boolean isForModSpec) {
 		if (isForModSpec) {
-			tooltip.addPara("S-mod Penalty: Heavy Armor's armor bonus reduced by %s points.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "-/50/50/50");
+			tooltip.addSectionHeading("S-mod penalty", Misc.getGrayColor(), Misc.setAlpha(Misc.scaleColorOnly(Misc.getGrayColor(), 0.4f), 175), Alignment.MID, 10f);
+			tooltip.addPara("Maneuverability penalty increased to %s.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "25%");
 			return;
 		} else if (ship.getVariant().getSMods().contains("heavyarmor")) {
-			tooltip.addPara("S-mod Penalty: Heavy Armor's armor bonus reduced by %s points.", 10f, Misc.getNegativeHighlightColor(), Misc.getHighlightColor(), "-/50/50/50");
+			tooltip.addSectionHeading("S-mod penalty", Misc.getNegativeHighlightColor(),  Misc.setAlpha(Misc.scaleColorOnly(Misc.getNegativeHighlightColor(), 0.4f), 175), Alignment.MID, 10f);
+			tooltip.addPara("Maneuverability penalty increased to %s.", 10f, Misc.getNegativeHighlightColor(), Misc.getHighlightColor(), "25%");
 		//} else if (ship.getHullSpec().isBuiltInMod("heavyarmor")) {
 			//No penalties!
                 } else if (!isForModSpec) {
-			tooltip.addPara("S-mod Penalty: Heavy Armor's armor bonus reduced by %s points.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "-/50/50/50");
+					tooltip.addSectionHeading("S-mod penalty", Misc.getGrayColor(), Misc.setAlpha(Misc.scaleColorOnly(Misc.getGrayColor(), 0.4f), 175), Alignment.MID, 10f);
+			tooltip.addPara("Maneuverability penalty increased to %s.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "25%");
 		}
     }
 
