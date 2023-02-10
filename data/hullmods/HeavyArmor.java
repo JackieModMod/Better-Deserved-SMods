@@ -38,10 +38,6 @@ public class HeavyArmor extends BaseHullMod {
                         stats.getMaxTurnRate().modifyMult(id, 1f - MANEUVER_PENALTY * 0.01f);
 		}
                 stats.getArmorBonus().modifyFlat(id, (Float) mag.get(hullSize));
-                stats.getAcceleration().modifyMult(id, 1f - MANEUVER_PENALTY * 0.01f);
-		stats.getDeceleration().modifyMult(id, 1f - MANEUVER_PENALTY * 0.01f);
-		stats.getTurnAcceleration().modifyMult(id, 1f - MANEUVER_PENALTY * 0.01f);
-                stats.getMaxTurnRate().modifyMult(id, 1f - MANEUVER_PENALTY * 0.01f);
 		
 //		stats.getDynamic().getMod(Stats.MAX_LOGISTICS_HULLMODS_MOD).modifyFlat(id, 1);
 //		//stats.getCargoMod().modifyFlat(id, -70);

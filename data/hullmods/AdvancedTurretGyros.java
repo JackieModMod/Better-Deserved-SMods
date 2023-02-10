@@ -43,7 +43,7 @@ public class AdvancedTurretGyros extends BaseHullMod {
 	
 	public void applyEffectsBeforeShipCreation(HullSize hullSize, MutableShipStatsAPI stats, String id) {
 		if (stats.getVariant().getSMods().contains("turretgyros") || (Global.getSettings().getBoolean("BuiltInSMod") && stats.getVariant().getHullSpec().isBuiltInMod("turretgyros"))) {
-			stats.getDamageToFrigates().modifyFlat(id, (Float) DAMAGE_TO_FRIGATES.get(hullSize));
+			stats.getDamageToFrigates().modifyPercent(id, (Float) DAMAGE_TO_FRIGATES.get(hullSize));
 			stats.getDamageToDestroyers().modifyPercent(id, (Float) DAMAGE_TO_DESTROYERS.get(hullSize));
 			stats.getDamageToCruisers().modifyPercent(id, (Float) DAMAGE_TO_CRUISERS.get(hullSize));
 			stats.getDamageToFighters().modifyPercent(id, DAMAGE_TO_FIGHTERS);

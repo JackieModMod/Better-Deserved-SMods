@@ -28,6 +28,8 @@ public class OperationsCenter extends BaseHullMod {
 			if (stats.getFleetMember() != null &&
                                 stats.getFleetMember().getVariant() != null && 
                                 (stats.getFleetMember().getCaptain().isPlayer() || stats.getFleetMember().getOwner() == 1)) {
+                            stats.getSuppliesPerMonth().modifyFlat(id, -reduction);
+                            stats.getSuppliesToRecover().modifyFlat(id, -reduction);
                             stats.getDynamic().getMod(Stats.DEPLOYMENT_POINTS_MOD).modifyFlat(id, -reduction);
                             stats.getDynamic().getMod(Stats.ELECTRONIC_WARFARE_FLAT).modifyFlat(MOD_ID, 5f);
                             stats.getDynamic().getMod(Stats.COORDINATED_MANEUVERS_FLAT).modifyFlat(MOD_ID, 5f);
@@ -44,20 +46,20 @@ public class OperationsCenter extends BaseHullMod {
 		if (isForModSpec) {
 			tooltip.addSectionHeading("S-mod bonus", Misc.getGrayColor(), Misc.setAlpha(Misc.scaleColorOnly(Misc.getGrayColor(), 0.4f), 175), Alignment.MID, 10f);
 			tooltip.addPara("If flagship or neurally linked, gain %s ECM rating, %s Nav rating, and retain command point recovery.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "5%", "5%");
-			tooltip.addPara("If flagship, deployment point cost reduced by %s or %s points, whichever is less.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "15%", "10");
+			tooltip.addPara("If flagship, deployment point cost and supplies to recover and maintain are reduced by %s or %s points, whichever is less.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "15%", "10");
 			return;
 		} else if (ship.getVariant().getSMods().contains("operations_center")) {
 			tooltip.addSectionHeading("S-mod bonus", Misc.getStoryOptionColor(), Misc.getStoryDarkColor(), Alignment.MID, 10f);
 			tooltip.addPara("If flagship or neurally linked, gain %s ECM rating and %s Nav rating, and retain command point recovery.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "5%", "5%");
-			tooltip.addPara("If flagship, deployment point cost reduced by %s or %s points, whichever is less.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "15%", "10");
+			tooltip.addPara("If flagship, deployment point cost and supplies to recover and maintain are reduced by %s or %s points, whichever is less.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "15%", "10");
 		} else if (Global.getSettings().getBoolean("BuiltInSMod") && ship.getHullSpec().isBuiltInMod("operations_center")) {
 			tooltip.addSectionHeading("Built-in bonus", Misc.getStoryOptionColor(), Misc.getStoryDarkColor(), Alignment.MID, 10f);
 			tooltip.addPara("If flagship or neurally linked, gain %s ECM rating and %s Nav rating, and retain command point recovery.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "5%", "5%");
-			tooltip.addPara("If flagship, deployment point cost reduced by %s or %s points, whichever is less.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "15%", "10");
+			tooltip.addPara("If flagship, deployment point cost and supplies to recover and maintain are reduced by %s or %s points, whichever is less.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "15%", "10");
         } else if (!isForModSpec) {
 			tooltip.addSectionHeading("S-mod bonus", Misc.getGrayColor(), Misc.setAlpha(Misc.scaleColorOnly(Misc.getGrayColor(), 0.4f), 175), Alignment.MID, 10f);
 			tooltip.addPara("If flagship or neurally linked, gain %s ECM rating and %s Nav rating, and retain command point recovery.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "5%", "5%");
-			tooltip.addPara("If flagship, deployment point cost reduced by %s or %s points, whichever is less.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "15%", "10");
+			tooltip.addPara("If flagship, deployment point cost and supplies to recover and maintain arereduced by %s or %s points, whichever is less.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "15%", "10");
 		}
     }
 	

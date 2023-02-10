@@ -30,3 +30,5 @@ This modification allows the coils to handle higher levels of hard flux, increas
 ,,,,,,,,,,,,,,,,,,
 Shield Shunt,shield_shunt,1,,,"special, shields, merc","Special, Shields",3000,,,,3,5,7,10,data.hullmods.ShieldShunt,"Removes the ship's shields. The external emitter nodes are replaced with reinforced plating, increasing the ship's armor by %s.","Removes shields, increases armor.",graphics/hullmods/shield_shunt.png
 High Resolution Sensors,hiressensors,2,,,"req_spaceport, merc","Logistics, Requires Dock",9000,,,,4,6,9,15,data.hullmods.HighResSensors,"Increases sensor strength by %s points for frigates, destroyers, and cruisers, and by %s for capital ships.",Increases fleet's sensor range.,graphics/hullmods/high_res_sensors.png
+,,,,,,,,,,,,,,,,,,
+Converted Hangar,converted_hangar,1,,,"special, non_phase, merc",Fighters,5000,,,,0,10,15,20,data.hullmods.ConvertedHangar,<tooltip created in the script due to lots of highlighting>,Improvised fighter bay for non-carriers.,graphics/hullmods/converted_hangar.png

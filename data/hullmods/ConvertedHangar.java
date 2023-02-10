@@ -11,9 +11,13 @@ import com.fs.starfarer.api.combat.ShipAPI.HullSize;
 import com.fs.starfarer.api.impl.campaign.ids.HullMods;
 import com.fs.starfarer.api.impl.campaign.ids.Stats;
 import com.fs.starfarer.api.impl.hullmods.DefectiveManufactory;
+import static com.fs.starfarer.api.impl.hullmods.DefectiveManufactory.DAMAGE_INCREASE;
+import static com.fs.starfarer.api.impl.hullmods.DefectiveManufactory.SPEED_REDUCTION;
 import com.fs.starfarer.api.ui.Alignment;
+import com.fs.starfarer.api.ui.LabelAPI;
 import com.fs.starfarer.api.ui.TooltipMakerAPI;
 import com.fs.starfarer.api.util.Misc;
+import java.awt.Color;
 
 public class ConvertedHangar extends BaseHullMod {
 
@@ -21,8 +25,6 @@ public class ConvertedHangar extends BaseHullMod {
 	//public static final int CARGO_REQ = 80;
 	public static final int ALL_FIGHTER_COST_PERCENT = 50;
 	public static final int BOMBER_COST_PERCENT = 100;
-	public static float SPEED_REDUCTION = 0.1666f;
-	public static float DAMAGE_INCREASE = 0.2f;
 	
 	private static Map mag = new HashMap();
 	static {
@@ -35,19 +37,38 @@ public class ConvertedHangar extends BaseHullMod {
 	public void applyEffectsBeforeShipCreation(HullSize hullSize, MutableShipStatsAPI stats, String id) {
 		//stats.getFighterRefitTimeMult().modifyPercent(id, ((Float) mag.get(hullSize)));
 		stats.getNumFighterBays().modifyFlat(id, 1f);
-
 		stats.getMinCrewMod().modifyFlat(id, CREW_REQ);
 		//stats.getDynamic().getMod(Stats.ALL_FIGHTER_COST_MOD).modifyPercent(id, ALL_FIGHTER_COST_PERCENT);
-		if (stats.getVariant().getSMods().contains("converted_hangar") || (Global.getSettings().getBoolean("BuiltInSMod") && stats.getVariant().getHullSpec().isBuiltInMod("converted_hangar"))) {
-		stats.getDynamic().getMod(Stats.BOMBER_COST_MOD).modifyPercent(id, BOMBER_COST_PERCENT-20f);
-		stats.getDynamic().getMod(Stats.FIGHTER_COST_MOD).modifyPercent(id, ALL_FIGHTER_COST_PERCENT-10f);
-		stats.getDynamic().getMod(Stats.INTERCEPTOR_COST_MOD).modifyPercent(id, ALL_FIGHTER_COST_PERCENT-10f);
-		stats.getDynamic().getMod(Stats.SUPPORT_COST_MOD).modifyPercent(id, ALL_FIGHTER_COST_PERCENT-10f);} else {
-		stats.getDynamic().getMod(Stats.BOMBER_COST_MOD).modifyPercent(id, BOMBER_COST_PERCENT);
-		stats.getDynamic().getMod(Stats.FIGHTER_COST_MOD).modifyPercent(id, ALL_FIGHTER_COST_PERCENT);
-		stats.getDynamic().getMod(Stats.INTERCEPTOR_COST_MOD).modifyPercent(id, ALL_FIGHTER_COST_PERCENT);
-		stats.getDynamic().getMod(Stats.SUPPORT_COST_MOD).modifyPercent(id, ALL_FIGHTER_COST_PERCENT);
-		}
+                if (stats.getVariant().getHullSpec().isBuiltInMod("converted_hangar")) {
+                    stats.getDynamic().getMod(Stats.BOMBER_COST_MOD).modifyPercent(id, BOMBER_COST_PERCENT);
+                    stats.getDynamic().getMod(Stats.FIGHTER_COST_MOD).modifyPercent(id, ALL_FIGHTER_COST_PERCENT);
+                    stats.getDynamic().getMod(Stats.INTERCEPTOR_COST_MOD).modifyPercent(id, ALL_FIGHTER_COST_PERCENT);
+                    stats.getDynamic().getMod(Stats.SUPPORT_COST_MOD).modifyPercent(id, ALL_FIGHTER_COST_PERCENT);
+		} else {
+                    if (stats.getVariant().getSMods().contains("converted_hangar")) {
+                        stats.getDynamic().getMod(Stats.BOMBER_COST_MOD).modifyPercent(id, ALL_FIGHTER_COST_PERCENT);
+                        stats.getFighterRefitTimeMult().modifyMult(id, 1.25f);
+                        stats.getDynamic().getStat(Stats.REPLACEMENT_RATE_DECREASE_MULT).modifyMult(id, 1.25f);
+                        stats.getDynamic().getStat(Stats.REPLACEMENT_RATE_INCREASE_MULT).modifyMult(id, 1.25f);
+                        
+                    } else {
+                        stats.getDynamic().getMod(Stats.BOMBER_COST_MOD).modifyPercent(id, BOMBER_COST_PERCENT);
+                        stats.getFighterRefitTimeMult().modifyMult(id, 1.5f);
+                        stats.getDynamic().getStat(Stats.REPLACEMENT_RATE_DECREASE_MULT).modifyMult(id, 1.5f);
+                        stats.getDynamic().getStat(Stats.REPLACEMENT_RATE_INCREASE_MULT).modifyMult(id, 1.5f);
+                    }
+                    float penalty = 0;
+                    if (!stats.getVariant().getWings().isEmpty()) {
+                        for (String wingid: stats.getVariant().getWings()) {
+                            if (wingid != null && Global.getSettings().getFighterWingSpec(wingid) != null) {
+                                penalty += Math.round(Global.getSettings().getFighterWingSpec(wingid).getOpCost(stats)/5);
+                            }
+                        }
+                        if (penalty != 0) {penalty = Math.max(1, penalty);}
+                    }
+                    stats.getDynamic().getMod(Stats.DEPLOYMENT_POINTS_MOD).modifyFlat(id, penalty);
+                    stats.getSuppliesToRecover().modifyFlat(id, penalty);
+                }
 		//stats.getCargoMod().modifyFlat(id, -CARGO_REQ);
 	}
 	
@@ -70,63 +91,62 @@ public class ConvertedHangar extends BaseHullMod {
 	}
 	
 	public void applyEffectsToFighterSpawnedByShip(ShipAPI fighter, ShipAPI ship, String id) {
-		float effect = ship.getMutableStats().getDynamic().getValue(Stats.DMOD_EFFECT_MULT);
-		if (ship.getVariant().getSMods().contains("converted_hangar") || (Global.getSettings().getBoolean("BuiltInSMod") && ship.getVariant().getHullSpec().isBuiltInMod("converted_hangar"))) {
-			MutableShipStatsAPI stats = fighter.getMutableStats();
-			stats.getMaxSpeed().modifyMult(id, 1f - SPEED_REDUCTION * effect);
-			stats.getArmorDamageTakenMult().modifyPercent(id, DAMAGE_INCREASE * 100f * effect);
-			stats.getShieldDamageTakenMult().modifyPercent(id, DAMAGE_INCREASE * 100f * effect);
-			stats.getHullDamageTakenMult().modifyPercent(id, DAMAGE_INCREASE * 100f * effect);
-			fighter.setHeavyDHullOverlay();
-		} else {
-			new DefectiveManufactory().applyEffectsToFighterSpawnedByShip(fighter, ship, id);
+		if (ship.getVariant().getHullSpec().isBuiltInMod("converted_hangar")) {
+                    new DefectiveManufactory().applyEffectsToFighterSpawnedByShip(fighter, ship, id);
 		}
-		
 	}
 	
 	public String getDescriptionParam(int index, HullSize hullSize, ShipAPI ship) {
-		if (index == 2) return "" + CREW_REQ;
-		if (index == 3) return "" + BOMBER_COST_PERCENT + "%";
-		if (index == 4) return "" + ALL_FIGHTER_COST_PERCENT + "%";
-		return new DefectiveManufactory().getDescriptionParam(index, hullSize, ship);
+                //if (index == 2) return "" + BOMBER_COST_PERCENT + "%";
+		//if (index == 3) return "" + CREW_REQ;
+		//if (index == 4) return "" + ALL_FIGHTER_COST_PERCENT + "%";
+		//return new DefectiveManufactory().getDescriptionParam(index, hullSize, ship);
 //		if (index == 0) return "" + ((Float) mag.get(HullSize.DESTROYER)).intValue() + "%";
 //		if (index == 1) return "" + ((Float) mag.get(HullSize.CRUISER)).intValue() + "%";
 //		if (index == 2) return "" + ((Float) mag.get(HullSize.CAPITAL_SHIP)).intValue() + "%";
 //		if (index == 3) return "" + CREW_REQ;
 //		return null;
 		//if (index == 0) return "" + ((Float) mag.get(hullSize)).intValue();
-		//return null;
+		return null;
+	}
+	
+	@Override
+	public boolean shouldAddDescriptionToTooltip(HullSize hullSize, ShipAPI ship, boolean isForModSpec) {
+		return false;
 	}
 	
     public void addPostDescriptionSection(TooltipMakerAPI tooltip, ShipAPI.HullSize hullSize, ShipAPI ship, float width, boolean isForModSpec) {
-		float effect = 1f;
-		if (ship != null) effect = ship.getMutableStats().getDynamic().getValue(Stats.DMOD_EFFECT_MULT);
-		if (isForModSpec) {
-			tooltip.addSectionHeading("S-mod bonus", Misc.getGrayColor(), Misc.setAlpha(Misc.scaleColorOnly(Misc.getGrayColor(), 0.4f), 175), Alignment.MID, 10f);
-			tooltip.addPara("Fighter speed reduction reduced to %s", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), Math.round(effect * 17) + "%");
-			tooltip.addPara("Fighter increased damage taken reduced to %s", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), Math.round(effect * 20) + "%");
-			tooltip.addPara("Fighter OP Cost Penalty reduced to %s", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "40" + "%");
-			tooltip.addPara("Bomber OP Cost Penalty reduced to %s", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "80" + "%");
-			return;
-		} else if (ship.getVariant().getSMods().contains("converted_hangar")) {
-			tooltip.addSectionHeading("S-mod bonus", Misc.getStoryOptionColor(), Misc.getStoryDarkColor(), Alignment.MID, 10f);
-			tooltip.addPara("Fighter speed reduction reduced to %s", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), Math.round(effect * 17) + "%");
-			tooltip.addPara("Fighter increased damage taken reduced to %s", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), Math.round(effect * 20) + "%");
-			tooltip.addPara("Fighter OP Cost Penalty reduced to %s", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "40" + "%");
-			tooltip.addPara("Bomber OP Cost Penalty reduced to %s", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "80" + "%");
-		} else if (Global.getSettings().getBoolean("BuiltInSMod") && ship.getHullSpec().isBuiltInMod("converted_hangar")) {
-			tooltip.addSectionHeading("Built-in bonus", Misc.getStoryOptionColor(), Misc.getStoryDarkColor(), Alignment.MID, 10f);
-			tooltip.addPara("Fighter speed reduction reduced to %s", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), Math.round(effect * 17) + "%");
-			tooltip.addPara("Fighter increased damage taken reduced to %s", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), Math.round(effect * 20) + "%");
-			tooltip.addPara("Fighter OP Cost Penalty reduced to %s", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "40" + "%");
-			tooltip.addPara("Bomber OP Cost Penalty reduced to %s", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "80" + "%");
-        } else if (!isForModSpec) {
-			tooltip.addSectionHeading("S-mod bonus", Misc.getGrayColor(), Misc.setAlpha(Misc.scaleColorOnly(Misc.getGrayColor(), 0.4f), 175), Alignment.MID, 10f);
-			tooltip.addPara("Fighter speed reduction reduced to %s", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), Math.round(effect * 17) + "%");
-			tooltip.addPara("Fighter increased damage taken reduced to %s", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), Math.round(effect * 20) + "%");
-			tooltip.addPara("Fighter OP Cost Penalty reduced to %s", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "40" + "%");
-			tooltip.addPara("Bomber OP Cost Penalty reduced to %s", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "80" + "%");
-		}
+                Color h = Misc.getHighlightColor();
+                float opad = 10f;
+                if (ship != null && ship.getHullSpec().isBuiltInMod("converted_hangar")) {
+                    float effect = 1f;
+                    effect = ship.getMutableStats().getDynamic().getValue(Stats.DMOD_EFFECT_MULT);
+                    tooltip.addPara("Converts the ship's standard shuttle hangar to house a fighter bay. The improvised manufactory that produces fighter chassis is unreliable, and most components have minor defects. Fighter speed reduced by %s, and damage taken increased by %s.", opad, h, (int) Math.round(SPEED_REDUCTION * 100f * effect) + "%",(int) Math.round(DAMAGE_INCREASE * 100f * effect) + "%");
+                    tooltip.addPara("Increases the minimum crew required by %s to account for pilots and bay crews. Increases the ordnance point cost of bombers by %s, and of all other fighters by %s.", opad, h, "" + BOMBER_COST_PERCENT + "%", "" + CREW_REQ, "" + ALL_FIGHTER_COST_PERCENT + "%");
+                } else {
+                    tooltip.addPara("Converts the ship's standard shuttle hangar to house a fighter bay. The improvised flight deck, its crew, and the related machinery all lack the speed and precision found on a dedicated carrier.", opad);
+                    tooltip.addPara("Increases fighter refit time by %s, and the fighter replacement rate both decays and recovers %s more slowly. Increases the ordnance point cost of bombers by %s. Increases the minimum crew by %s to account for pilots and flight crews.", opad, h, "1.5x", "1.5x", BOMBER_COST_PERCENT + "%", "" + CREW_REQ);
+                    if (ship != null && ship.getMutableStats().getDynamic().getMod(Stats.DEPLOYMENT_POINTS_MOD).getFlatBonus("converted_hangar") != null) {
+                        tooltip.addPara("Increases the ship's deployment points and supply cost to recover from deployment by at least %s for every %s ordnance points spent on fighters (%s points for the currently installed fighter wing).", opad, h, "1", "5", Misc.getRoundedValue(ship.getMutableStats().getDynamic().getMod(Stats.DEPLOYMENT_POINTS_MOD).getFlatBonus("converted_hangar").getValue()));
+                    } else {
+                        tooltip.addPara("Increases the ship's deployment points and supply cost to recover from deployment by at least %s for every %s ordnance points spent on fighters.", opad, h, "1", "5");
+                    }
+                }
+                tooltip.addPara("Can not be installed on frigates, phase ships, or ships that already have proper fighter bays.", opad);
+                if (isForModSpec) {
+                    tooltip.addSectionHeading("S-mod bonus", Misc.getGrayColor(), Misc.setAlpha(Misc.scaleColorOnly(Misc.getGrayColor(), 0.4f), 175), Alignment.MID, 10f);
+                    tooltip.addPara("Bomber OP Cost Penalty reduced to %s", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), ALL_FIGHTER_COST_PERCENT + "%");
+                    tooltip.addPara("Mult penalty reduced to %s", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "1.25x");
+                    return;
+                } else if (ship.getVariant().getSMods().contains("converted_hangar")) {
+                    tooltip.addSectionHeading("S-mod bonus", Misc.getStoryOptionColor(), Misc.getStoryDarkColor(), Alignment.MID, 10f);
+                    tooltip.addPara("Bomber OP Cost Penalty reduced to %s", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), ALL_FIGHTER_COST_PERCENT + "%");
+                    tooltip.addPara("Mult penalty reduced to %s", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "1.25x");
+                } else if (!isForModSpec) {
+                    tooltip.addSectionHeading("S-mod bonus", Misc.getGrayColor(), Misc.setAlpha(Misc.scaleColorOnly(Misc.getGrayColor(), 0.4f), 175), Alignment.MID, 10f);
+                    tooltip.addPara("Bomber OP Cost Penalty reduced to %s", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), ALL_FIGHTER_COST_PERCENT + "%");
+                    tooltip.addPara("Mult penalty reduced to %s", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "1.25x");
+                }   
     }
 	
 	@Override
