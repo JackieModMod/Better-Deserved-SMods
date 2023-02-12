@@ -5,8 +5,8 @@
 	"modVersion":
 	{
 		"major":1,
-		"minor":7,
-		#"patch":2,
+		"minor":6,
+		"patch":2,
 	},
 	"starsectorVersion":"0.95.1a-RC6",
 	"directDownloadURL":"https://github.com/JackieModMod/Better-Deserved-SMods/releases/download/1.62/Better.Deserved.S-Mods.zip",
