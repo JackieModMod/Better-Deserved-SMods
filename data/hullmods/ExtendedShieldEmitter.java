@@ -22,8 +22,8 @@ public class ExtendedShieldEmitter extends BaseHullMod {
             //float SHIELD_MODIFIED_ARC = stats.getShieldArcBonus().computeEffective(stats.getVariant().getHullSpec().getShieldSpec().getArc());
 			//if (SHIELD_MODIFIED_ARC > SHIELD_EXCESS_ARC) {
             //float FLUX_CAPACITY_SHIELD_ARC_BONUS = (SHIELD_MODIFIED_ARC-SHIELD_EXCESS_ARC)/SHIELD_EXCESS_ARC_DIVISOR*stats.getVariant().getHullSpec().getShieldSpec().getUpkeepCost();
-			//if (FLUX_CAPACITY_SHIELD_ARC_BONUS > 12f*stats.getVariant().getHullSpec().getShieldSpec().getUpkeepCost()) {
-			//	FLUX_CAPACITY_SHIELD_ARC_BONUS = 12f*stats.getVariant().getHullSpec().getShieldSpec().getUpkeepCost();
+			//if (FLUX_CAPACITY_SHIELD_ARC_BONUS > 20f*stats.getVariant().getHullSpec().getShieldSpec().getUpkeepCost()) {
+			//	FLUX_CAPACITY_SHIELD_ARC_BONUS = 20f*stats.getVariant().getHullSpec().getShieldSpec().getUpkeepCost();
 			//	stats.getFluxCapacity().modifyFlat(id, Math.round(FLUX_CAPACITY_SHIELD_ARC_BONUS));
 			//} else {
             //    stats.getFluxCapacity().modifyFlat(id, Math.round(FLUX_CAPACITY_SHIELD_ARC_BONUS));
@@ -38,8 +38,8 @@ public class ExtendedShieldEmitter extends BaseHullMod {
             float SHIELD_MODIFIED_ARC = ship.getMutableStats().getShieldArcBonus().computeEffective(ship.getHullSpec().getShieldSpec().getArc());
 			if (SHIELD_MODIFIED_ARC > SHIELD_EXCESS_ARC) {
             float FLUX_CAPACITY_SHIELD_ARC_BONUS = (SHIELD_MODIFIED_ARC-SHIELD_EXCESS_ARC)/SHIELD_EXCESS_ARC_DIVISOR*ship.getHullSpec().getShieldSpec().getUpkeepCost();
-			if (FLUX_CAPACITY_SHIELD_ARC_BONUS > 12f*ship.getHullSpec().getShieldSpec().getUpkeepCost()) {
-				FLUX_CAPACITY_SHIELD_ARC_BONUS = 12f*ship.getHullSpec().getShieldSpec().getUpkeepCost();
+			if (FLUX_CAPACITY_SHIELD_ARC_BONUS > 20f*ship.getHullSpec().getShieldSpec().getUpkeepCost()) {
+				FLUX_CAPACITY_SHIELD_ARC_BONUS = 20f*ship.getHullSpec().getShieldSpec().getUpkeepCost();
 			}
                 ship.getMutableStats().getFluxCapacity().modifyFlat(id, Math.round(FLUX_CAPACITY_SHIELD_ARC_BONUS));
             }
@@ -63,8 +63,8 @@ public class ExtendedShieldEmitter extends BaseHullMod {
 			float SHIELD_MODIFIED_ARC = ship.getMutableStats().getShieldArcBonus().computeEffective(ship.getVariant().getHullSpec().getShieldSpec().getArc());
             if (SHIELD_MODIFIED_ARC > SHIELD_EXCESS_ARC) {
             float FLUX_CAPACITY_SHIELD_ARC_BONUS = (SHIELD_MODIFIED_ARC-SHIELD_EXCESS_ARC)/SHIELD_EXCESS_ARC_DIVISOR*ship.getMutableStats().getVariant().getHullSpec().getShieldSpec().getUpkeepCost();
-				if (FLUX_CAPACITY_SHIELD_ARC_BONUS > 12f*ship.getHullSpec().getShieldSpec().getUpkeepCost()) {
-					FLUX_CAPACITY_SHIELD_ARC_BONUS = 12f*ship.getHullSpec().getShieldSpec().getUpkeepCost();
+				if (FLUX_CAPACITY_SHIELD_ARC_BONUS > 20f*ship.getHullSpec().getShieldSpec().getUpkeepCost()) {
+					FLUX_CAPACITY_SHIELD_ARC_BONUS = 20f*ship.getHullSpec().getShieldSpec().getUpkeepCost();
 				}
 				tooltip.addPara("Increased flux capacity from excessive shield arc: %s", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), ""+Misc.	getRoundedValue(FLUX_CAPACITY_SHIELD_ARC_BONUS));
             } else {
@@ -77,8 +77,8 @@ public class ExtendedShieldEmitter extends BaseHullMod {
 			float SHIELD_MODIFIED_ARC = ship.getMutableStats().getShieldArcBonus().computeEffective(ship.getVariant().getHullSpec().getShieldSpec().getArc());
             if (SHIELD_MODIFIED_ARC > SHIELD_EXCESS_ARC) {
             float FLUX_CAPACITY_SHIELD_ARC_BONUS = (SHIELD_MODIFIED_ARC-SHIELD_EXCESS_ARC)/SHIELD_EXCESS_ARC_DIVISOR*ship.getMutableStats().getVariant().getHullSpec().getShieldSpec().getUpkeepCost();
-				if (FLUX_CAPACITY_SHIELD_ARC_BONUS > 12f*ship.getHullSpec().getShieldSpec().getUpkeepCost()) {
-					FLUX_CAPACITY_SHIELD_ARC_BONUS = 12f*ship.getHullSpec().getShieldSpec().getUpkeepCost();
+				if (FLUX_CAPACITY_SHIELD_ARC_BONUS > 20f*ship.getHullSpec().getShieldSpec().getUpkeepCost()) {
+					FLUX_CAPACITY_SHIELD_ARC_BONUS = 20f*ship.getHullSpec().getShieldSpec().getUpkeepCost();
 				}
 				tooltip.addPara("Increased flux capacity from excessive shield arc: %s", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), ""+Misc.	getRoundedValue(FLUX_CAPACITY_SHIELD_ARC_BONUS));
             } else {

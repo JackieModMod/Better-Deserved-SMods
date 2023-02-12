@@ -14,7 +14,6 @@ import com.fs.starfarer.api.impl.hullmods.DefectiveManufactory;
 import static com.fs.starfarer.api.impl.hullmods.DefectiveManufactory.DAMAGE_INCREASE;
 import static com.fs.starfarer.api.impl.hullmods.DefectiveManufactory.SPEED_REDUCTION;
 import com.fs.starfarer.api.ui.Alignment;
-import com.fs.starfarer.api.ui.LabelAPI;
 import com.fs.starfarer.api.ui.TooltipMakerAPI;
 import com.fs.starfarer.api.util.Misc;
 import java.awt.Color;
@@ -26,12 +25,19 @@ public class ConvertedHangar extends BaseHullMod {
 	public static final int ALL_FIGHTER_COST_PERCENT = 50;
 	public static final int BOMBER_COST_PERCENT = 100;
 	
-	private static Map mag = new HashMap();
+	//private static Map mag = new HashMap();
+        private static Map RATE_INCREASE_MODIFIER = new HashMap();
 	static {
-		mag.put(HullSize.FRIGATE, 0f);
+		/*mag.put(HullSize.FRIGATE, 0f);
 		mag.put(HullSize.DESTROYER, 75f);
 		mag.put(HullSize.CRUISER, 50f);
-		mag.put(HullSize.CAPITAL_SHIP, 25f);
+		mag.put(HullSize.CAPITAL_SHIP, 25f);*/
+                RATE_INCREASE_MODIFIER.put(HullSize.DEFAULT, 0f);
+                RATE_INCREASE_MODIFIER.put(HullSize.FIGHTER, 0f);
+                RATE_INCREASE_MODIFIER.put(HullSize.FRIGATE, 0f);
+		RATE_INCREASE_MODIFIER.put(HullSize.DESTROYER, 0f);
+		RATE_INCREASE_MODIFIER.put(HullSize.CRUISER, 10f);
+		RATE_INCREASE_MODIFIER.put(HullSize.CAPITAL_SHIP, 25f);
 	}
 	
 	public void applyEffectsBeforeShipCreation(HullSize hullSize, MutableShipStatsAPI stats, String id) {
@@ -47,24 +53,22 @@ public class ConvertedHangar extends BaseHullMod {
 		} else {
                     if (stats.getVariant().getSMods().contains("converted_hangar")) {
                         stats.getDynamic().getMod(Stats.BOMBER_COST_MOD).modifyPercent(id, ALL_FIGHTER_COST_PERCENT);
-                        stats.getFighterRefitTimeMult().modifyMult(id, 1.25f);
-                        stats.getDynamic().getStat(Stats.REPLACEMENT_RATE_DECREASE_MULT).modifyMult(id, 1.25f);
-                        stats.getDynamic().getStat(Stats.REPLACEMENT_RATE_INCREASE_MULT).modifyMult(id, 1.25f);
-                        
+                        stats.getDynamic().getStat(Stats.REPLACEMENT_RATE_INCREASE_MULT).modifyPercent(id, (Float) RATE_INCREASE_MODIFIER.get(hullSize));
                     } else {
                         stats.getDynamic().getMod(Stats.BOMBER_COST_MOD).modifyPercent(id, BOMBER_COST_PERCENT);
-                        stats.getFighterRefitTimeMult().modifyMult(id, 1.5f);
-                        stats.getDynamic().getStat(Stats.REPLACEMENT_RATE_DECREASE_MULT).modifyMult(id, 1.5f);
-                        stats.getDynamic().getStat(Stats.REPLACEMENT_RATE_INCREASE_MULT).modifyMult(id, 1.5f);
                     }
+                    stats.getFighterRefitTimeMult().modifyMult(id, 1.5f);
+                    float mult = 1f / ((100f + 50f) / 100f);
+                    stats.getDynamic().getStat(Stats.REPLACEMENT_RATE_DECREASE_MULT).modifyMult(id, mult);
+                    stats.getDynamic().getStat(Stats.REPLACEMENT_RATE_INCREASE_MULT).modifyMult(id, mult);
                     float penalty = 0;
-                    if (!stats.getVariant().getWings().isEmpty()) {
-                        for (String wingid: stats.getVariant().getWings()) {
+                    if (!stats.getVariant().getFittedWings().isEmpty()) {
+                        for (String wingid: stats.getVariant().getFittedWings()) {
                             if (wingid != null && Global.getSettings().getFighterWingSpec(wingid) != null) {
                                 penalty += Math.round(Global.getSettings().getFighterWingSpec(wingid).getOpCost(stats)/5);
                             }
                         }
-                        if (penalty != 0) {penalty = Math.max(1, penalty);}
+                        penalty = Math.max(1, penalty);
                     }
                     stats.getDynamic().getMod(Stats.DEPLOYMENT_POINTS_MOD).modifyFlat(id, penalty);
                     stats.getSuppliesToRecover().modifyFlat(id, penalty);
@@ -135,17 +139,17 @@ public class ConvertedHangar extends BaseHullMod {
                 tooltip.addPara("Can not be installed on frigates, phase ships, or ships that already have proper fighter bays.", opad);
                 if (isForModSpec) {
                     tooltip.addSectionHeading("S-mod bonus", Misc.getGrayColor(), Misc.setAlpha(Misc.scaleColorOnly(Misc.getGrayColor(), 0.4f), 175), Alignment.MID, 10f);
+                    tooltip.addPara("Increases the rate at which the fighter replacement rate recovers by %s for cruisers, and by %s for capital ships. No added effects for destroyers.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "10%", "25%");
                     tooltip.addPara("Bomber OP Cost Penalty reduced to %s", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), ALL_FIGHTER_COST_PERCENT + "%");
-                    tooltip.addPara("Mult penalty reduced to %s", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "1.25x");
                     return;
                 } else if (ship.getVariant().getSMods().contains("converted_hangar")) {
                     tooltip.addSectionHeading("S-mod bonus", Misc.getStoryOptionColor(), Misc.getStoryDarkColor(), Alignment.MID, 10f);
+                    tooltip.addPara("Increases the rate at which the fighter replacement rate recovers by %s for cruisers, and by %s for capital ships. No added effects for destroyers.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "10%", "25%");
                     tooltip.addPara("Bomber OP Cost Penalty reduced to %s", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), ALL_FIGHTER_COST_PERCENT + "%");
-                    tooltip.addPara("Mult penalty reduced to %s", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "1.25x");
                 } else if (!isForModSpec) {
                     tooltip.addSectionHeading("S-mod bonus", Misc.getGrayColor(), Misc.setAlpha(Misc.scaleColorOnly(Misc.getGrayColor(), 0.4f), 175), Alignment.MID, 10f);
+                    tooltip.addPara("Increases the rate at which the fighter replacement rate recovers by %s for cruisers, and by %s for capital ships. No added effects for destroyers.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "10%", "25%");
                     tooltip.addPara("Bomber OP Cost Penalty reduced to %s", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), ALL_FIGHTER_COST_PERCENT + "%");
-                    tooltip.addPara("Mult penalty reduced to %s", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "1.25x");
                 }   
     }
 	

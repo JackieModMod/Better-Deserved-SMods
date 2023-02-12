@@ -77,64 +77,8 @@ public class BallisticRangefinder extends BaseHullMod {
 			max = BONUS_MAX_1;
 			break;
 		} We can't use switch statements!*/
-		if (ship.getVariant().getSMods().contains("ballistic_rangefinder") || (Global.getSettings().getBoolean("BuiltInSMod") && ship.getVariant().getHullSpec().isBuiltInMod("ballistic_rangefinder"))) {
-            ship.addListener(new SRangefinderRangeModifier(small, medium, max));
-		} else {
-			ship.addListener(new RangefinderRangeModifier(small, medium, max));
-		}
+                ship.addListener(new RangefinderRangeModifier(small, medium, max));
 		
-	}
-	
-	public static class SRangefinderRangeModifier implements WeaponBaseRangeModifier {
-		public float small, medium, max;
-		public SRangefinderRangeModifier(float small, float medium, float max) {
-			this.small = small;
-			this.medium = medium;
-			this.max = max;
-		}
-		
-		public float getWeaponBaseRangePercentMod(ShipAPI ship, WeaponAPI weapon) {
-			return 0;
-		}
-		public float getWeaponBaseRangeMultMod(ShipAPI ship, WeaponAPI weapon) {
-			return 1f;
-		}
-		public float getWeaponBaseRangeFlatMod(ShipAPI ship, WeaponAPI weapon) {
-			if (weapon.getSlot() == null) {
-				return 0f;
-			}
-			
-			if (weapon.getSlot().getWeaponType() != WeaponType.BALLISTIC) {
-				if (!(weapon.getSpec().getMountType() == WeaponType.BALLISTIC /*|| weapon.getSpec().getMountType() == WeaponType.HYBRID*/)) {
-					return 0f; //If the slot is not a ballistic, check if the weapon is ballistic. If not, no bonus range. We don't care about hybrid weapons in non-ballistic slots.
-				}
-			}
-			
-			if (weapon.hasAIHint(AIHints.PD)) {
-				return 0f;
-			}
-			
-			float bonus = 0;
-			if (weapon.getSize() == WeaponSize.SMALL) {
-				bonus = small;
-			} else if (weapon.getSize() == WeaponSize.MEDIUM) {
-				bonus = medium;
-			}
-			if (weapon.getSpec().getMountType() == WeaponType.HYBRID) {
-				bonus *= HYBRID_MULT;
-				if (bonus < HYBRID_BONUS_MIN) {
-					bonus = HYBRID_BONUS_MIN;
-				}
-			}
-			if (bonus == 0f) return 0f;
-			
-			float base = weapon.getSpec().getMaxRange();
-			if (base + bonus > max) {
-				bonus = max - base;
-			}
-			if (bonus < 0) bonus = 0;
-			return bonus;
-		}
 	}
 	
 	public static class RangefinderRangeModifier implements WeaponBaseRangeModifier {
@@ -152,25 +96,28 @@ public class BallisticRangefinder extends BaseHullMod {
 			return 1f;
 		}
 		public float getWeaponBaseRangeFlatMod(ShipAPI ship, WeaponAPI weapon) {
-			if (weapon.getSlot() == null || weapon.getSlot().getWeaponType() != WeaponType.BALLISTIC) {
+			if (weapon.getSlot() == null) {
 				return 0f;
 			}
 			if (weapon.hasAIHint(AIHints.PD)) {
 				return 0f;
 			}
+                        
+                        float bonus = 0;
+			if (weapon.getSpec().getMountType() == WeaponType.BALLISTIC || weapon.getSpec().getMountType() == WeaponType.HYBRID) {
+                            if (weapon.getSize() == WeaponSize.SMALL) {
+                                    bonus = small;
+                            } else if (weapon.getSize() == WeaponSize.MEDIUM) {
+                                    bonus = medium;
+                            }
+                            if (weapon.getSpec().getMountType() == WeaponType.HYBRID) {
+                                    bonus *= HYBRID_MULT;
+                                    if (bonus < HYBRID_BONUS_MIN) {
+                                            bonus = HYBRID_BONUS_MIN;
+                                    }
+                            }
+                        }
 			
-			float bonus = 0;
-			if (weapon.getSize() == WeaponSize.SMALL) {
-				bonus = small;
-			} else if (weapon.getSize() == WeaponSize.MEDIUM) {
-				bonus = medium;
-			}
-			if (weapon.getSpec().getMountType() == WeaponType.HYBRID) {
-				bonus *= HYBRID_MULT;
-				if (bonus < HYBRID_BONUS_MIN) {
-					bonus = HYBRID_BONUS_MIN;
-				}
-			}
 			if (bonus == 0f) return 0f;
 			
 			float base = weapon.getSpec().getMaxRange();
@@ -194,79 +141,74 @@ public class BallisticRangefinder extends BaseHullMod {
 
 	@Override
 	public void addPostDescriptionSection(TooltipMakerAPI tooltip, HullSize hullSize, ShipAPI ship, float width, boolean isForModSpec) {
-		float pad = 3f;
 		float opad = 10f;
 		Color h = Misc.getHighlightColor();
-		Color bad = Misc.getNegativeHighlightColor();
+		Color gray = Misc.getGrayColor();
 		
-		LabelAPI label = tooltip.addPara("If the largest Ballistic slot on the ship is large:"
-				+ " increases the base range of small weapons in Ballistic slots by %s,"
-				+ " and of medium weapons by %s, up to %s maximum.", opad, h,
-				"" + (int)BONUS_SMALL_3, "" + (int)BONUS_MEDIUM_3, "" + (int)BONUS_MAX_3);
-//		label.setHighlight("Ballistic", "base", "Ballistic", "" + (int)BONUS_SMALL_3, "" + (int)BONUS_MEDIUM_3, "" + (int)BONUS_MAX_3);
-//		label.setHighlightColors(Misc.MOUNT_BALLISTIC, h, Misc.MOUNT_BALLISTIC, h, h, h);
-		label.setHighlight("" + (int)BONUS_SMALL_3, "" + (int)BONUS_MEDIUM_3, "" + (int)BONUS_MAX_3);
-		label.setHighlightColors(h, h, h);
-		
-		label = tooltip.addPara("Otherwise:"
-				+ " increases the base range of small weapons in Ballistic slots by %s,"
-				+ " up to %s maximum.", opad, h,
-				"" + (int)BONUS_SMALL_1, "" + (int)BONUS_MAX_1);
-//		label.setHighlight("base", "Ballistic", "" + (int)BONUS_SMALL_1, "" + (int)BONUS_MAX_1);
-//		label.setHighlightColors(h, Misc.MOUNT_BALLISTIC, h, h);
-		label.setHighlight("" + (int)BONUS_SMALL_1, "" + (int)BONUS_MAX_1);
-		label.setHighlightColors(h, h);	
+                LabelAPI label = tooltip.addPara("Utilizes targeting data from the ship's largest ballistic slot to benefit certain weapons, extending the base range of typical ballistic weapons to match similar but larger weapons. Also benefits hybrid weapons. Point-defense weapons are unaffected.", opad, h);
+                label.setHighlight("ship's largest ballistic slot", "base range");
+                label.setHighlightColors(h, h);
+                
+                tooltip.addPara("The increase to base range is capped, based on the largest slot.", opad);
 
-		tooltip.addSectionHeading("Exceptions", Alignment.MID, opad);
-		if (isForModSpec) {
-			label = tooltip.addPara("Does not affect point-defense weapons, "
-						+ "or Ballistic weapons in Composite, Hybrid, and Universal slots.", opad);
-			label.setHighlight("Composite", "Hybrid", "Universal");
-			label.setHighlightColors(Misc.MOUNT_COMPOSITE, Misc.MOUNT_HYBRID, Misc.MOUNT_UNIVERSAL);
-			return;
-		} else if (ship.getVariant().getSMods().contains("ballistic_rangefinder")) {
-			label = tooltip.addPara("Does not affect point-defense weapons.", opad);
-		} else if (Global.getSettings().getBoolean("BuiltInSMod") && ship.getHullSpec().isBuiltInMod("ballistic_rangefinder")) {
-			label = tooltip.addPara("Does not affect point-defense weapons.", opad);
-        } else if (!isForModSpec) {
-			label = tooltip.addPara("Does not affect point-defense weapons, "
-						+ "or Ballistic weapons in Composite, Hybrid, and Universal slots.", opad);
-			label.setHighlight("Composite", "Hybrid", "Universal");
-			label.setHighlightColors(Misc.MOUNT_COMPOSITE, Misc.MOUNT_HYBRID, Misc.MOUNT_UNIVERSAL);
-		}	
-//		label.setHighlight("Ballistic", "Composite", "Hybrid", "Universal");
-//		label.setHighlightColors(Misc.MOUNT_BALLISTIC, Misc.MOUNT_COMPOSITE, Misc.MOUNT_HYBRID, Misc.MOUNT_UNIVERSAL);
-		
-		
-		label = tooltip.addPara("Hybrid weapons in Ballistic slots receive %s the bonus. "
-//				+ "In addition, the bonus will be at least %s for all Hybrid weapons in Ballistic slots, including large ones,"
-//				+ " subject to the maximum.", opad, h,
-				+ "In addition, non-PD Hybrid weapons in Ballistic slots, including large ones, will receive %s bonus range,"
-						+ " subject to the maximum, in cases where other weapons of the same size would receive no bonus.", opad, h,
-				"" + (int)Math.round(HYBRID_MULT) + Strings.X, "" + (int)Math.round(HYBRID_BONUS_MIN));
-//		label.setHighlight("Hybrid", "Ballistic", "" + (int)Math.round(HYBRID_MULT) + Strings.X);
-//		label.setHighlightColors(Misc.MOUNT_HYBRID, Misc.MOUNT_BALLISTIC, h);
-		label.setHighlight("Hybrid", "" + (int)Math.round(HYBRID_MULT) + Strings.X, "Hybrid", "" + (int)Math.round(HYBRID_BONUS_MIN));
-		label.setHighlightColors(Misc.MOUNT_HYBRID, h, Misc.MOUNT_HYBRID, h);
-		
+                if (!isForModSpec && ship != null) {
+                    WeaponSize largest = null;
+                    for (WeaponSlotAPI slot : ship.getHullSpec().getAllWeaponSlotsCopy()) {
+                            if (slot.isDecorative() ) continue;
+                            if (slot.getWeaponType() == WeaponType.BALLISTIC) {
+                                    if (largest == null || largest.ordinal() < slot.getSlotSize().ordinal()) {
+                                            largest = slot.getSlotSize();
+                                            if (largest == WeaponSize.LARGE) break;
+                                    }
+                            }
+                    }
+                    if (largest == WeaponSize.LARGE) {
+                        tooltip.addSectionHeading("Ballistic weapon range", Alignment.MID, opad);
+                        tooltip.beginTable(Misc.getBasePlayerColor(), Misc.getDarkPlayerColor(), Misc.getBrightPlayerColor(), 20, "Largest b. slot", 115, "Small wpn", 85, "Medium wpn", 85, "Range cap", 75);
+                        tooltip.addRow(Alignment.MID, gray, "Small / Medium", Alignment.MID, gray, "+100", Alignment.MID, gray, "---", Alignment.MID, gray, "800");
+                        tooltip.addRow(Alignment.MID, h, "Large", Alignment.MID, h, "+200", Alignment.MID, h, "+100", Alignment.MID, h, "900");
+                        tooltip.addTable("", 0, opad);
+
+                        tooltip.addSectionHeading("Hybrid weapon range", Alignment.MID, opad);
+                        tooltip.addPara("Affects hybrid weapons (those that can fit into both ballistic and energy slots) of all size.", opad);
+                        tooltip.beginTable(Misc.getBasePlayerColor(), Misc.getDarkPlayerColor(), Misc.getBrightPlayerColor(), 20, "Largest b. slot", 115, "Small", 55, "Medium", 55, "Large", 55, "Range cap", 75);
+                        tooltip.addRow(Alignment.MID, gray, "Small / Medium", Alignment.MID, gray, "+200", Alignment.MID, gray, "+100", Alignment.MID, gray, "+100", Alignment.MID, gray, "800");
+                        tooltip.addRow(Alignment.MID, h, "Large", Alignment.MID, h, "+400", Alignment.MID, h, "+200", Alignment.MID, h, "+100", Alignment.MID, h, "900");
+                        tooltip.addTable("", 0, opad);
+                    } else if (largest == WeaponSize.MEDIUM || largest == WeaponSize.SMALL) {
+                        tooltip.addSectionHeading("Ballistic weapon range", Alignment.MID, opad);
+                        tooltip.beginTable(Misc.getBasePlayerColor(), Misc.getDarkPlayerColor(), Misc.getBrightPlayerColor(), 20, "Largest b. slot", 115, "Small wpn", 85, "Medium wpn", 85, "Range cap", 75);
+                        tooltip.addRow(Alignment.MID, h, "Small / Medium", Alignment.MID, h, "+100", Alignment.MID, h, "---", Alignment.MID, h, "800");
+                        tooltip.addRow(Alignment.MID, gray, "Large", Alignment.MID, gray, "+200", Alignment.MID, gray, "+100", Alignment.MID, gray, "900");
+                        tooltip.addTable("", 0, opad);
+
+                        tooltip.addSectionHeading("Hybrid weapon range", Alignment.MID, opad);
+                        tooltip.addPara("Affects hybrid weapons (those that can fit into both ballistic and energy slots) of all size.", opad);
+                        tooltip.beginTable(Misc.getBasePlayerColor(), Misc.getDarkPlayerColor(), Misc.getBrightPlayerColor(), 20, "Largest b. slot", 115, "Small", 55, "Medium", 55, "Large", 55, "Range cap", 75);
+                        tooltip.addRow(Alignment.MID, h, "Small / Medium", Alignment.MID, h, "+200", Alignment.MID, h, "+100", Alignment.MID, h, "+100", Alignment.MID, h, "800");
+                        tooltip.addRow(Alignment.MID, gray, "Large", Alignment.MID, gray, "+400", Alignment.MID, gray, "+200", Alignment.MID, gray, "+100", Alignment.MID, gray, "900");
+                        tooltip.addTable("", 0, opad);
+                    } else {
+                        tooltip.addSectionHeading("Ballistic weapon range", Alignment.MID, opad);
+                        tooltip.beginTable(Misc.getBasePlayerColor(), Misc.getDarkPlayerColor(), Misc.getBrightPlayerColor(), 20, "Largest b. slot", 115, "Small wpn", 85, "Medium wpn", 85, "Range cap", 75);
+                        tooltip.addRow(Alignment.MID, gray, "Small / Medium", Alignment.MID, gray, "+100", Alignment.MID, gray, "---", Alignment.MID, gray, "800");
+                        tooltip.addRow(Alignment.MID, gray, "Large", Alignment.MID, gray, "+200", Alignment.MID, gray, "+100", Alignment.MID, gray, "900");
+                        tooltip.addTable("", 0, opad);
+
+                        tooltip.addSectionHeading("Hybrid weapon range", Alignment.MID, opad);
+                        tooltip.addPara("Affects hybrid weapons (those that can fit into both ballistic and energy slots) of all sizes.", opad);
+                        tooltip.beginTable(Misc.getBasePlayerColor(), Misc.getDarkPlayerColor(), Misc.getBrightPlayerColor(), 20, "Largest b. slot", 115, "Small", 55, "Medium", 55, "Large", 55, "Range cap", 75);
+                        tooltip.addRow(Alignment.MID, gray, "Small / Medium", Alignment.MID, gray, "+200", Alignment.MID, gray, "+100", Alignment.MID, gray, "+100", Alignment.MID, gray, "800");
+                        tooltip.addRow(Alignment.MID, gray, "Large", Alignment.MID, gray, "+400", Alignment.MID, gray, "+200", Alignment.MID, gray, "+100", Alignment.MID, gray, "900");
+                        tooltip.addTable("", 0, opad);
+                    }
+                    
+                }
+                
 		tooltip.addSectionHeading("Interactions with other modifiers", Alignment.MID, opad);
 		tooltip.addPara("Since the base range is increased, this modifier"
 				+ " - unlike most other flat modifiers in the game - "
 				+ "is affected by percentage modifiers from other hullmods and skills.", opad);
-                		if (isForModSpec) {
-			tooltip.addSectionHeading("S-mod bonus", Misc.getGrayColor(), Misc.setAlpha(Misc.scaleColorOnly(Misc.getGrayColor(), 0.4f), 175), Alignment.MID, 10f);
-			tooltip.addPara("Allow small and medium %s weapons to receive the bonus regardless of slot type.", 10f, Misc.getGrayColor(), Misc.MOUNT_BALLISTIC, "Ballistic");
-			return;
-		} else if (ship.getVariant().getSMods().contains("ballistic_rangefinder")) {
-			tooltip.addSectionHeading("S-mod bonus", Misc.getStoryOptionColor(), Misc.getStoryDarkColor(), Alignment.MID, 10f);
-			tooltip.addPara("Allow small and medium %s weapons to receive the bonus regardless of slot type.", 10f, Misc.getPositiveHighlightColor(), Misc.MOUNT_BALLISTIC, "Ballistic");
-		} else if (Global.getSettings().getBoolean("BuiltInSMod") && ship.getHullSpec().isBuiltInMod("ballistic_rangefinder")) {
-			tooltip.addSectionHeading("Built-in bonus", Misc.getStoryOptionColor(), Misc.getStoryDarkColor(), Alignment.MID, 10f);
-			tooltip.addPara("Allow small and medium %s weapons to receive the bonus regardless of slot type.", 10f, Misc.getPositiveHighlightColor(), Misc.MOUNT_BALLISTIC, "Ballistic");
-        } else if (!isForModSpec) {
-			tooltip.addSectionHeading("S-mod bonus", Misc.getGrayColor(), Misc.setAlpha(Misc.scaleColorOnly(Misc.getGrayColor(), 0.4f), 175), Alignment.MID, 10f);
-			tooltip.addPara("Allow small and medium %s weapons to receive the bonus regardless of slot type.", 10f, Misc.getGrayColor(), Misc.MOUNT_BALLISTIC, "Ballistic");
-		}
 	}
 	
 	@Override
