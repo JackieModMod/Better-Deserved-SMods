@@ -67,20 +67,20 @@ public class FluxCoilAdjunct extends BaseHullMod {
 		if (isForModSpec) {
 			tooltip.addSectionHeading("S-mod bonus", Misc.getGrayColor(), Misc.setAlpha(Misc.scaleColorOnly(Misc.getGrayColor(), 0.4f), 175), Alignment.MID, 10f);
 			tooltip.addPara("Increases the ship's flux capacity by an additional %s/%s/%s/%s, based on hull size.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "400", "800", "1200", "2000");
-			tooltip.addPara("Increases the ship's flux dissipation rate while overloaded by %s", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "100%");
+			tooltip.addPara("Negates flux dissipation penalty when overloaded.", Misc.getGrayColor(), 10f);
 			return;
 		} else if (ship.getVariant().getSMods().contains("fluxcoil")) {
 			tooltip.addSectionHeading("S-mod bonus", Misc.getStoryOptionColor(), Misc.getStoryDarkColor(), Alignment.MID, 10f);
 			tooltip.addPara("Increases the ship's flux capacity by an additional %s/%s/%s/%s, based on hull size.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "400", "800", "1200", "2000");
-			tooltip.addPara("Increases the ship's flux dissipation rate while overloaded by %s", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "100%");
+			tooltip.addPara("Negates flux dissipation penalty when overloaded.", Misc.getPositiveHighlightColor(), 10f);
 		} else if (Global.getSettings().getBoolean("BuiltInSMod") && ship.getHullSpec().isBuiltInMod("fluxcoil")) {
 			tooltip.addSectionHeading("Built-in bonus", Misc.getStoryOptionColor(), Misc.getStoryDarkColor(), Alignment.MID, 10f);
 			tooltip.addPara("Increases the ship's flux capacity by an additional %s/%s/%s/%s, based on hull size.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "400", "800", "1200", "2000");
-			tooltip.addPara("Increases the ship's flux dissipation rate while overloaded by %s", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "100%");
+			tooltip.addPara("Negates flux dissipation penalty when overloaded.", Misc.getPositiveHighlightColor(), 10f);
         } else if (!isForModSpec) {
 			tooltip.addSectionHeading("S-mod bonus", Misc.getGrayColor(), Misc.setAlpha(Misc.scaleColorOnly(Misc.getGrayColor(), 0.4f), 175), Alignment.MID, 10f);
 			tooltip.addPara("Increases the ship's flux capacity by an additional %s/%s/%s/%s, based on hull size.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "400", "800", "1200", "2000");
-			tooltip.addPara("Increases the ship's flux dissipation rate while overloaded by %s", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "100%");
+			tooltip.addPara("Negates flux dissipation penalty when overloaded.", Misc.getGrayColor(), 10f);
 		}
     }
 

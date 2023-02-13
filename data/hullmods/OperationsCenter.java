@@ -59,7 +59,7 @@ public class OperationsCenter extends BaseHullMod {
         } else if (!isForModSpec) {
 			tooltip.addSectionHeading("S-mod bonus", Misc.getGrayColor(), Misc.setAlpha(Misc.scaleColorOnly(Misc.getGrayColor(), 0.4f), 175), Alignment.MID, 10f);
 			tooltip.addPara("If flagship or neurally linked, gain %s ECM rating and %s Nav rating, and retain command point recovery.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "5%", "5%");
-			tooltip.addPara("If flagship, deployment point cost and supplies to recover and maintain arereduced by %s or %s points, whichever is less.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "15%", "10");
+			tooltip.addPara("If flagship, deployment point cost and supplies to recover and maintain are reduced by %s or %s points, whichever is less.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "15%", "10");
 		}
     }
 	

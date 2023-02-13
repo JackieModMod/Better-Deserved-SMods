@@ -31,7 +31,7 @@ public class UnstableInjector extends BaseHullMod {
 	
 	public void applyEffectsBeforeShipCreation(HullSize hullSize, MutableShipStatsAPI stats, String id) {
 		if (stats.getVariant().getSMods().contains("unstable_injector") || (Global.getSettings().getBoolean("BuiltInSMod") && stats.getVariant().getHullSpec().isBuiltInMod("unstable_injector"))) {
-                    stats.getZeroFluxSpeedBoost().modifyFlat(id, 20f);
+                    stats.getZeroFluxSpeedBoost().modifyFlat(id, (Float) mag.get(hullSize));
 		}
 		stats.getMaxSpeed().modifyFlat(id, (Float) mag.get(hullSize));
 		stats.getFighterRefitTimeMult().modifyPercent(id, FIGHTER_RATE);
@@ -62,17 +62,17 @@ public class UnstableInjector extends BaseHullMod {
     public void addPostDescriptionSection(TooltipMakerAPI tooltip, ShipAPI.HullSize hullSize, ShipAPI ship, float width, boolean isForModSpec) {
 		if (isForModSpec) {
 			tooltip.addSectionHeading("S-mod bonus", Misc.getGrayColor(), Misc.setAlpha(Misc.scaleColorOnly(Misc.getGrayColor(), 0.4f), 175), Alignment.MID, 10f);
-			tooltip.addPara("Increase the ship's zero-flux engine boost to top speed by %s.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "20");
+			tooltip.addPara("Increase the ship's zero-flux engine boost to top speed by %s/%s/%s/%s, depending on hull size.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "25", "20", "15", "15");
 			return;
 		} else if (ship.getVariant().getSMods().contains("unstable_injector")) {
 			tooltip.addSectionHeading("S-mod bonus", Misc.getStoryOptionColor(), Misc.getStoryDarkColor(), Alignment.MID, 10f);
-			tooltip.addPara("Increase the ship's zero-flux engine boost to top speed by %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "20");
+			tooltip.addPara("Increase the ship's zero-flux engine boost to top speed by %s/%s/%s/%s, depending on hull size.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "25", "20", "15", "15");
 		} else if (Global.getSettings().getBoolean("BuiltInSMod") && ship.getHullSpec().isBuiltInMod("unstable_injector")) {
 			tooltip.addSectionHeading("Built-in bonus", Misc.getStoryOptionColor(), Misc.getStoryDarkColor(), Alignment.MID, 10f);
-			tooltip.addPara("Increase the ship's zero-flux engine boost to top speed by %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "20");
+			tooltip.addPara("Increase the ship's zero-flux engine boost to top speed by %s/%s/%s/%s, depending on hull size.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "25", "20", "15", "15");
         } else if (!isForModSpec) {
 			tooltip.addSectionHeading("S-mod bonus", Misc.getGrayColor(), Misc.setAlpha(Misc.scaleColorOnly(Misc.getGrayColor(), 0.4f), 175), Alignment.MID, 10f);
-			tooltip.addPara("Increase the ship's zero-flux engine boost to top speed by %s.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "20");
+			tooltip.addPara("Increase the ship's zero-flux engine boost to top speed by %s/%s/%s/%s, depending on hull size.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "25", "20", "15", "15");
 		}
     }
 

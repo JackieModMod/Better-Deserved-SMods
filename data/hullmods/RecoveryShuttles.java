@@ -56,20 +56,20 @@ public class RecoveryShuttles extends BaseHullMod {
 		if (isForModSpec) {
 			tooltip.addSectionHeading("S-mod bonus", Misc.getGrayColor(), Misc.setAlpha(Misc.scaleColorOnly(Misc.getGrayColor(), 0.4f), 175), Alignment.MID, 10f);
                         tooltip.addPara("Reduction of casualties suffered increased to %s.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "90" + "%");
-                        tooltip.addPara("Decreases the rate of fighter replacement rate is lost when engaging by %s.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "40" + "%");
+                        tooltip.addPara("Reduces the rate at which fighter replacement rate is lost when engaging by %s.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "40" + "%");
 			return;
 		} else if (ship.getVariant().getSMods().contains("recovery_shuttles")) {
 			tooltip.addSectionHeading("S-mod bonus", Misc.getStoryOptionColor(), Misc.getStoryDarkColor(), Alignment.MID, 10f);
                         tooltip.addPara("Reduction of casualties suffered increased to %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "90" + "%");
-                        tooltip.addPara("Decreases the rate of fighter replacement rate is lost when engaging by %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "40" + "%");
+                        tooltip.addPara("Reduces the rate at which fighter replacement rate is lost when engaging by %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "40" + "%");
 		} else if (Global.getSettings().getBoolean("BuiltInSMod") && ship.getHullSpec().isBuiltInMod("recovery_shuttles")) {
 			tooltip.addSectionHeading("Built-in bonus", Misc.getStoryOptionColor(), Misc.getStoryDarkColor(), Alignment.MID, 10f);
                         tooltip.addPara("Reduction of casualties suffered increased to %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "90" + "%");
-                        tooltip.addPara("Decreases the rate of fighter replacement rate is lost when engaging by %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "40" + "%");
+                        tooltip.addPara("Reduces the rate at which fighter replacement rate is lost when engaging by %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "40" + "%");
                 } else if (!isForModSpec) {
 			tooltip.addSectionHeading("S-mod bonus", Misc.getGrayColor(), Misc.setAlpha(Misc.scaleColorOnly(Misc.getGrayColor(), 0.4f), 175), Alignment.MID, 10f);
                         tooltip.addPara("Reduction of casualties suffered increased to %s.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "90" + "%");		
-                        tooltip.addPara("Decreases the rate of fighter replacement rate is lost when engaging by %s.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "40" + "%");
+                        tooltip.addPara("Reduces the rate at which fighter replacement rate is lost when engaging by %s.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "40" + "%");
 		}
     }
 	

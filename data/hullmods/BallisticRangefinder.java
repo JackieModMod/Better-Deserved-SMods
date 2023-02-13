@@ -206,9 +206,8 @@ public class BallisticRangefinder extends BaseHullMod {
                 }
                 
 		tooltip.addSectionHeading("Interactions with other modifiers", Alignment.MID, opad);
-		tooltip.addPara("Since the base range is increased, this modifier"
-				+ " - unlike most other flat modifiers in the game - "
-				+ "is affected by percentage modifiers from other hullmods and skills.", opad);
+		tooltip.addPara("The base range is increased, thus percentage and multiplicative modifiers - such as from Integrated Targeting Unit, "
+				+ "skills, or similar sources - apply to the increased base value.", opad);
 	}
 	
 	@Override

@@ -264,14 +264,14 @@ public class HighScatterAmp extends BaseHullMod {
 			tooltip.addPara("S-mod Bonus: Base range reduction reduced by %s", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "100");
 			return;*/
 		} else if (ship.getVariant().getSMods().contains("high_scatter_amp")) {
+                                            tooltip.addPara("Reduces the portion of the range of beam weapons that is above %s units by %s. The base range is affected.", opad, colors,
+                                        "" + (int)RANGE_THRESHOLD,
+                                        "" + (int)Math.round((1f - SRANGE_MULT) * 100f) + "%"
+                                        );
                     tooltip.addSectionHeading("Interactions with other modifiers", Alignment.MID, opad);
 		tooltip.addPara("The base range is reduced, thus percentage and multiplicative modifiers - such as from Integrated Targeting Unit, "
 				+ "skills, or similar sources - apply to the reduced base value.", opad);
 			tooltip.addSectionHeading("S-mod bonus", Misc.getStoryOptionColor(), Misc.getStoryDarkColor(), Alignment.MID, 10f);
-                        tooltip.addPara("Reduces the portion of the range of beam weapons that is above %s units by %s. The base range is affected.", opad, colors,
-                                        "" + (int)RANGE_THRESHOLD,
-                                        "" + (int)Math.round((1f - SRANGE_MULT) * 100f) + "%"
-                                        );
                         tooltip.addPara("Beam damage bonus increased to %s", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "15%");
                         tooltip.addPara("Base range reduction reduced to %s", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "25%");
                         /*tooltip.addPara("Reduces the base range of beam weapons to %s for frigates, %s for destroyers, "
@@ -282,14 +282,14 @@ public class HighScatterAmp extends BaseHullMod {
                                                                 );
 			tooltip.addPara("S-mod Bonus: Base range reduction reduced!", Misc.getPositiveHighlightColor(), 10f);*/
 		} else if (Global.getSettings().getBoolean("BuiltInSMod") && ship.getHullSpec().isBuiltInMod("high_scatter_amp")) {
-                    tooltip.addSectionHeading("Interactions with other modifiers", Alignment.MID, opad);
-		tooltip.addPara("The base range is reduced, thus percentage and multiplicative modifiers - such as from Integrated Targeting Unit, "
-				+ "skills, or similar sources - apply to the reduced base value.", opad);
-			tooltip.addSectionHeading("Built-in bonus", Misc.getStoryOptionColor(), Misc.getStoryDarkColor(), Alignment.MID, 10f);
                             tooltip.addPara("Reduces the portion of the range of beam weapons that is above %s units by %s. The base range is affected.", opad, colors,
                                         "" + (int)RANGE_THRESHOLD,
                                         "" + (int)Math.round((1f - SRANGE_MULT) * 100f) + "%"
                                         );
+                    tooltip.addSectionHeading("Interactions with other modifiers", Alignment.MID, opad);
+		tooltip.addPara("The base range is reduced, thus percentage and multiplicative modifiers - such as from Integrated Targeting Unit, "
+				+ "skills, or similar sources - apply to the reduced base value.", opad);
+			tooltip.addSectionHeading("Built-in bonus", Misc.getStoryOptionColor(), Misc.getStoryDarkColor(), Alignment.MID, 10f);
                             tooltip.addPara("Beam damage bonus increased to %s", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "15%");
                             tooltip.addPara("Base range reduction reduced to %s", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "25%");    
                             /*tooltip.addPara("Reduces the base range of beam weapons to %s for frigates, %s for destroyers, "
@@ -300,14 +300,14 @@ public class HighScatterAmp extends BaseHullMod {
                                                                 );
 			tooltip.addPara("Built-in Bonus: Base range reduction reduced!", Misc.getPositiveHighlightColor(), 10f);*/
                 } else if (!isForModSpec) {
+                    tooltip.addPara("Reduces the portion of the range of beam weapons that is above %s units by %s. The base range is affected.", opad, h,
+                                        "" + (int)RANGE_THRESHOLD,
+                                        "" + (int)Math.round((1f - RANGE_MULT) * 100f) + "%"
+                                        );
                     tooltip.addSectionHeading("Interactions with other modifiers", Alignment.MID, opad);
 		tooltip.addPara("The base range is reduced, thus percentage and multiplicative modifiers - such as from Integrated Targeting Unit, "
 				+ "skills, or similar sources - apply to the reduced base value.", opad);
 					tooltip.addSectionHeading("S-mod bonus", Misc.getGrayColor(), Misc.setAlpha(Misc.scaleColorOnly(Misc.getGrayColor(), 0.4f), 175), Alignment.MID, 10f);
-                        tooltip.addPara("Reduces the portion of the range of beam weapons that is above %s units by %s. The base range is affected.", opad, h,
-                                        "" + (int)RANGE_THRESHOLD,
-                                        "" + (int)Math.round((1f - RANGE_MULT) * 100f) + "%"
-                                        );
                         tooltip.addPara("Beam damage bonus increased to %s", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "15%");
                         tooltip.addPara("Base range reduction reduced to %s", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "25%");
                         /*tooltip.addPara("Reduces the base range of beam weapons to %s for frigates, %s for destroyers, "

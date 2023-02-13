@@ -14,15 +14,14 @@ public class ShieldShunt extends BaseHullMod {
 
 	public static float EMP_RESISTANCE = 50f;
 	//public static float VENT_RATE_BONUS = 50f;
-	public static float ARMOR_BONUS = 25f;
-        public static float HULL_BONUS = 15f;
+	public static float ARMOR_BONUS = 15f;
+        public static float SARMOR_BONUS = 30f;
 	
 	public void applyEffectsBeforeShipCreation(HullSize hullSize, MutableShipStatsAPI stats, String id) {
 		//stats.getVentRateMult().modifyPercent(id, VENT_RATE_BONUS);
 		stats.getArmorBonus().modifyPercent(id, ARMOR_BONUS);
 		if (stats.getVariant().getSMods().contains("shield_shunt") || (Global.getSettings().getBoolean("BuiltInSMod") && stats.getVariant().getHullSpec().isBuiltInMod("shield_shunt"))) {
-                    stats.getEmpDamageTakenMult().modifyMult(id, 1f - EMP_RESISTANCE * 0.01f);
-                    stats.getHullBonus().modifyPercent(id, HULL_BONUS);
+                    stats.getArmorBonus().modifyPercent(id, SARMOR_BONUS);
 		}
 		
 	}
