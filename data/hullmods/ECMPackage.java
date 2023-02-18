@@ -29,10 +29,10 @@ public class ECMPackage extends BaseHullMod {
 	public void applyEffectsBeforeShipCreation(HullSize hullSize, MutableShipStatsAPI stats, String id) {
 		if (stats.getVariant().getSMods().contains("ecm") || (Global.getSettings().getBoolean("BuiltInSMod") && stats.getVariant().getHullSpec().isBuiltInMod("ecm"))) {
 			stats.getAutofireAimAccuracy().modifyFlat(id, AIM_BONUS);
-			stats.getDynamic().getStat(Stats.ELECTRONIC_WARFARE_PENALTY_MULT).modifyMult(id, EW_PENALTY_MULT);
-			stats.getDynamic().getMod(Stats.ELECTRONIC_WARFARE_PENALTY_MOD).modifyMult(id, EW_PENALTY_MULT); ////Remove if this conflicts with any ECM changes!
-		}
-		stats.getDynamic().getMod(Stats.ELECTRONIC_WARFARE_FLAT).modifyFlat(id, (Float) mag.get(hullSize));
+                        stats.getDynamic().getMod(Stats.ELECTRONIC_WARFARE_FLAT).modifyFlat(id, (Float) mag.get(hullSize)+1f);
+		} else {
+                    stats.getDynamic().getMod(Stats.ELECTRONIC_WARFARE_FLAT).modifyFlat(id, (Float) mag.get(hullSize));
+                }
 	}
         
 	public void applyEffectsToFighterSpawnedByShip(ShipAPI fighter, ShipAPI ship, String id) {
@@ -53,20 +53,20 @@ public class ECMPackage extends BaseHullMod {
     public void addPostDescriptionSection(TooltipMakerAPI tooltip, ShipAPI.HullSize hullSize, ShipAPI ship, float width, boolean isForModSpec) {
 		if (isForModSpec) {
                         tooltip.addSectionHeading("S-mod bonus", Misc.getGrayColor(), Misc.setAlpha(Misc.scaleColorOnly(Misc.getGrayColor(), 0.4f), 175), Alignment.MID, 10f);
-			tooltip.addPara("Immune to weapon range reduction from superior enemy Electronic Warfare.", Misc.getGrayColor(), 10f);
+			tooltip.addPara("Grants an additional %s percent ECM rating.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "1%");
                         tooltip.addPara("Ship and Fighters gain %s target leading accuracy.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "+50" + "%");
 			return;
 		} else if (ship.getVariant().getSMods().contains("ecm")) {
                         tooltip.addSectionHeading("S-mod bonus", Misc.getStoryOptionColor(), Misc.getStoryDarkColor(), Alignment.MID, 10f);
-			tooltip.addPara("Immune to weapon range reduction from superior enemy Electronic Warfare.", Misc.getPositiveHighlightColor(), 10f);
+			tooltip.addPara("Grants an additional %s percent ECM rating.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "1%");
                         tooltip.addPara("Ship and Fighters gain %s target leading accuracy.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "+50" + "%");
 		} else if (Global.getSettings().getBoolean("BuiltInSMod") && ship.getHullSpec().isBuiltInMod("ecm")) {
                         tooltip.addSectionHeading("Built-in bonus", Misc.getStoryOptionColor(), Misc.getStoryDarkColor(), Alignment.MID, 10f);
-                        tooltip.addPara("Immune to weapon range reduction from superior enemy Electronic Warfare.", Misc.getPositiveHighlightColor(), 10f);
+                        tooltip.addPara("Grants an additional %s percent ECM rating.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "1%");
                         tooltip.addPara("Ship and Fighters gain %s target leading accuracy.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "+50" + "%");
                 } else if (!isForModSpec) {
                         tooltip.addSectionHeading("S-mod bonus", Misc.getGrayColor(), Misc.setAlpha(Misc.scaleColorOnly(Misc.getGrayColor(), 0.4f), 175), Alignment.MID, 10f);
-			tooltip.addPara("Immune to weapon range reduction from superior enemy Electronic Warfare.", Misc.getGrayColor(),10f);
+			tooltip.addPara("Grants an additional %s percent ECM rating.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "1%");
                         tooltip.addPara("Ship and Fighters gain %s target leading accuracy.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "+50" + "%");
 		}
     }

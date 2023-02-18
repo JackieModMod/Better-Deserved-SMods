@@ -52,3 +52,13 @@ Links the flagship with another ship, allowing switching between ships without u
 If the linked ship is destroyed or leaves the battlefield, the flagship will establish a neural link with another ship with a Neural Interface. If the flagship is destroyed or leaves the battlefield, command will have to be physically transferred to another ship with a Neural Interface before a new link can be established.
 
 Both linked ships benefit from your personal combat skills as if you'd transferred command to them, regardless of which one you're controlling personally. As with ""transfer command"", some skill effects - such as those increasing ammo capacity, or other fixed ship stats - do not apply.",Specialized Neural Interface for automated ships.,graphics/hullmods/neural_integrator.png
+,,,,,,,,,,,,,,,,,,
+Additional Berthing,additional_berthing,0,,,"req_spaceport, merc","Logistics, Requires Dock",3000,TRUE,,,5,10,15,25,data.hullmods.AdditionalBerthing,"Increases maximum crew capacity by %s/%s/%s/%s, depending on hull size, or by %s, whichever is higher.
+
+For civilian-grade hulls, also increases maintenance supply use by %s.",Increases crew capacity.,graphics/hullmods/berthing.png
+Auxiliary Fuel Tanks,auxiliary_fuel_tanks,0,,,"req_spaceport, merc","Logistics, Requires Dock",4000,TRUE,,,5,10,15,25,data.hullmods.AuxiliaryFuelTanks,"Increases maximum fuel capacity by %s/%s/%s/%s, depending on hull size, or by %s, whichever is higher.
+
+For civilian-grade hulls, also increases maintenance supply use by %s.",Increases fuel capacity.,graphics/hullmods/fuel_tanks.png
+Expanded Cargo Holds,expanded_cargo_holds,0,,,"req_spaceport, merc","Logistics, Requires Dock",4000,TRUE,,,5,10,15,25,data.hullmods.ExpandedCargoHolds,"Increases maximum cargo capacity by %s/%s/%s/%s, depending on hull size, or by %s, whichever is higher.
+
+For civilian-grade hulls, also increases maintenance supply use by %s.",Increases cargo capacity.,graphics/hullmods/expanded_cargo.png

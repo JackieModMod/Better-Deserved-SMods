@@ -60,7 +60,7 @@ public class ConvertedFighterBay extends BaseLogisticsHullMod {
             }
         }
 		if (builtIn <= 0 || bays > builtIn) return false;
-		if (logistic >= logisticMax) return false;
+		if (logistic >= ship.getMutableStats().getDynamic().getMod(Stats.MAX_LOGISTICS_HULLMODS_MOD).computeEffective(logisticMax)) return false;
 		return true;
 	}
 
@@ -74,7 +74,7 @@ public class ConvertedFighterBay extends BaseLogisticsHullMod {
             }
         }
 		if (builtIn <= 0 || bays > builtIn) return "Requires built-in fighter wings only";
-		if (logistic >= logisticMax) return "Maximum of " + String.valueOf(logisticMax) + " non-built-in \"Logistics\" hullmods per hull";
+		if (logistic >= ship.getMutableStats().getDynamic().getMod(Stats.MAX_LOGISTICS_HULLMODS_MOD).computeEffective(logisticMax)) return "Maximum of " + String.valueOf(ship.getMutableStats().getDynamic().getMod(Stats.MAX_LOGISTICS_HULLMODS_MOD).computeEffective(logisticMax)) + " non-built-in \"Logistics\" hullmods per hull";
 		return "";
 	}
 	

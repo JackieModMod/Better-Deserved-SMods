@@ -3,7 +3,7 @@
     "name": "Better Deserving Smods!",
     "author": "Jackie!",
     "utility": "false",
-    "version": "1.63",
-    "description": "Buff hullmods when they are smodded in to make them deserving of smodding!",
+    "version": "1.64",
+    "description": "Buff hullmods when they are smodded in to make them deserving of smodding! Check setting.json to make the built-in hullmods receive the s-mod bonuses as well!",
     "gameVersion": "0.95.1a-RC6",
 }

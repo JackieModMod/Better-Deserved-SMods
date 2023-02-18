@@ -10,7 +10,7 @@ import com.fs.starfarer.api.ui.Alignment;
 import com.fs.starfarer.api.ui.TooltipMakerAPI;
 import com.fs.starfarer.api.util.Misc;
 
-public class ECCMPackage extends BaseHullMod {
+public class ECCMPackageOld extends BaseHullMod {
 
 	// original values from MissileSpecialization
 //	public static final float MISSILE_SPEC_SPEED_BONUS = 25f;
@@ -32,7 +32,6 @@ public class ECCMPackage extends BaseHullMod {
 	public static final float MISSILE_TURN_ACCEL_BONUS = 150f;
 	
 	public static final float EW_PENALTY_MULT = 0.5f;
-        public static final float EW_PENALTY_SMULT = 0f;
 	public static final float EW_PENALTY_REDUCTION = 5f;
 	//public static final float MAX_EW_PENALTY_MOD = 5f;
 	
@@ -41,13 +40,9 @@ public class ECCMPackage extends BaseHullMod {
 	
 	public void applyEffectsBeforeShipCreation(HullSize hullSize, MutableShipStatsAPI stats, String id) {
 		if (stats.getVariant().getSMods().contains("eccm") || (Global.getSettings().getBoolean("BuiltInSMod") && stats.getVariant().getHullSpec().isBuiltInMod("eccm"))) {
-			stats.getEccmChance().modifyFlat(id, 1f);
-                        stats.getDynamic().getStat(Stats.ELECTRONIC_WARFARE_PENALTY_MULT).modifyMult(id, EW_PENALTY_SMULT);
-			stats.getDynamic().getMod(Stats.ELECTRONIC_WARFARE_PENALTY_MOD).modifyMult(id, EW_PENALTY_SMULT); ////Remove if this conflicts with any ECM changes!
+			stats.getEccmChance().modifyFlat(id, ECCM_CHANCE+0.25f);
 		} else {
 			stats.getEccmChance().modifyFlat(id, ECCM_CHANCE);
-                        stats.getDynamic().getStat(Stats.ELECTRONIC_WARFARE_PENALTY_MULT).modifyMult(id, EW_PENALTY_MULT);
-                        stats.getDynamic().getMod(Stats.ELECTRONIC_WARFARE_PENALTY_MOD).modifyMult(id, EW_PENALTY_MULT); //Remove if this conflicts with any ECM changes!
 		}
 		
 		stats.getMissileGuidance().modifyFlat(id, GUIDANCE_IMPROVEMENT);
@@ -62,26 +57,44 @@ public class ECCMPackage extends BaseHullMod {
 		stats.getMissileAccelerationBonus().modifyPercent(id, MISSILE_ACCEL_BONUS);
 		stats.getMissileMaxTurnRateBonus().modifyPercent(id, MISSILE_RATE_BONUS);
 		stats.getMissileTurnAccelerationBonus().modifyPercent(id, MISSILE_TURN_ACCEL_BONUS);
-
+		
+		
+		stats.getDynamic().getStat(Stats.ELECTRONIC_WARFARE_PENALTY_MULT).modifyMult(id, EW_PENALTY_MULT);
+		stats.getDynamic().getMod(Stats.ELECTRONIC_WARFARE_PENALTY_MOD).modifyMult(id, EW_PENALTY_MULT); //Remove if this conflicts with any ECM changes!
 		//stats.getDynamic().getMod(Stats.ELECTRONIC_WARFARE_PENALTY_MOD).modifyFlat(id, -EW_PENALTY_REDUCTION);
 		
 		//stats.getDynamic().getMod(Stats.ELECTRONIC_WARFARE_PENALTY_MAX_FOR_SHIP_MOD).modifyFlat(id, -MAX_EW_PENALTY_MOD);
 	}
 	
+	public void applyEffectsToFighterSpawnedByShip(ShipAPI fighter, ShipAPI ship, String id) {
+		if (fighter == null || ship == null) return;
+		MutableShipStatsAPI stats = fighter.getMutableStats();
+		if (!fighter.getVariant().hasHullMod("eccm") && (ship.getVariant().getSMods().contains("eccm") || (Global.getSettings().getBoolean("BuiltInSMod") && ship.getHullSpec().isBuiltInMod("eccm")))) {
+			stats.getMissileGuidance().modifyFlat(id, GUIDANCE_IMPROVEMENT);
+			stats.getMissileAccelerationBonus().modifyPercent(id, MISSILE_ACCEL_BONUS);
+			stats.getMissileMaxTurnRateBonus().modifyPercent(id, MISSILE_RATE_BONUS);
+			stats.getMissileTurnAccelerationBonus().modifyPercent(id, MISSILE_TURN_ACCEL_BONUS);			
+		}
+	}
+	
     public void addPostDescriptionSection(TooltipMakerAPI tooltip, ShipAPI.HullSize hullSize, ShipAPI ship, float width, boolean isForModSpec) {
 		if (isForModSpec) {
 			tooltip.addSectionHeading("S-mod bonus", Misc.getGrayColor(), Misc.setAlpha(Misc.scaleColorOnly(Misc.getGrayColor(), 0.4f), 175), Alignment.MID, 10f);
-			tooltip.addPara("Fully negates the effect of ECM and flares on missiles fired by this ship.", Misc.getGrayColor(), 10f);
+			tooltip.addPara("Reduced chance for missiles to be affected by electronic counter-measures and flares increased to %s.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "66" + "%");
+			tooltip.addPara("Applies to missiles fired by wings.", Misc.getGrayColor(), 10f);
 			return;
 		} else if (ship.getVariant().getSMods().contains("eccm")) {
 			tooltip.addSectionHeading("S-mod bonus", Misc.getStoryOptionColor(), Misc.getStoryDarkColor(), Alignment.MID, 10f);
-			tooltip.addPara("Fully negates the effect of ECM and flares on missiles fired by this ship.", Misc.getPositiveHighlightColor(), 10f);
+			tooltip.addPara("Reduced chance for missiles to be affected by electronic counter-measures and flares increased to %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "66" + "%");
+			tooltip.addPara("Applies to missiles fired by wings.", Misc.getPositiveHighlightColor(), 10f);
 		} else if (Global.getSettings().getBoolean("BuiltInSMod") && ship.getHullSpec().isBuiltInMod("eccm")) {
 			tooltip.addSectionHeading("Built-in bonus", Misc.getStoryOptionColor(), Misc.getStoryDarkColor(), Alignment.MID, 10f);
-			tooltip.addPara("Fully negates the effect of ECM and flares on missiles fired by this ship.", Misc.getPositiveHighlightColor(), 10f);
+			tooltip.addPara("Reduced chance for missiles to be affected by electronic counter-measures and flares increased to %s.", 10f, Misc.getPositiveHighlightColor(), Misc.getHighlightColor(), "66" + "%");
+			tooltip.addPara("Applies to missiles fired by wings.", Misc.getPositiveHighlightColor(), 10f);
         } else if (!isForModSpec) {
 			tooltip.addSectionHeading("S-mod bonus", Misc.getGrayColor(), Misc.setAlpha(Misc.scaleColorOnly(Misc.getGrayColor(), 0.4f), 175), Alignment.MID, 10f);
-			tooltip.addPara("Fully negates the effect of ECM and flares on missiles fired by this ship.", Misc.getGrayColor(), 10f);
+			tooltip.addPara("Reduced chance for missiles to be affected by electronic counter-measures and flares increased to %s.", 10f, Misc.getGrayColor(), Misc.getHighlightColor(), "66" + "%");
+			tooltip.addPara("Applies to missiles fired by wings.", Misc.getGrayColor(), 10f);
 		}
     }
 	
